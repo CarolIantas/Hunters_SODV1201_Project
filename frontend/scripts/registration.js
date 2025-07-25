@@ -5,29 +5,83 @@ function Registration() {
         const $registrationContainer = $("<div>");
         $registrationContainer.addClass("flex flex-col items-center gap-6 p-7");
 
-        const title = $("<h1>")
-            .addClass("text-lg font-semibold mb-4 text-gray-800")
-            .text("Registration");
-        $registrationContainer.append(title);
+        $(function () {
+            const $mainWrapper = $("<div>").addClass("flex min-h-full flex-col justify-center px-6 py-12 lg:px-8");
+            
+            // Form Section
+            const $formSection = $("<div>").addClass("mt-10 sm:mx-auto sm:w-full sm:max-w-sm");
+            const $form = $("<form>")
+                .attr({ action: "#", method: "POST" })
+                .addClass("space-y-6");
 
-        // Name input 
-        const name = $("<input>")
-            .attr({
-                type: "text",
-                placeholder: "Enter your name",
-                id: "name",
-                name: "name"
-            })
-            .addClass("w-full max-w-md px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-gray-900 placeholder-gray-400");
+            // Email input
+            const $emailGroup = $("<div>");
+            const $emailLabel = $("<label>")
+                .attr({ for: "email" })
+                .addClass("block text-sm/6 font-medium text-gray-900")
+                .text("Email address");
 
-        $registrationContainer.append(name);
-        
-        // register button
-        const submit = $("<button>")
-            .text("Register")
-            .addClass("mt-4 px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors");
+            const $emailInput = $("<input>")
+                .attr({
+                    id: "email",
+                    name: "email",
+                    type: "email",
+                    required: true,
+                    autocomplete: "email"
+                })
+                .addClass("block w-full rounded-md border border-gray-300 bg-white px-3 py-1.5 text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm")
 
-        $registrationContainer.append(submit);
+            $emailGroup.append($emailLabel, $("<div>").addClass("mt-2").append($emailInput));
+
+            // Password input with "Forgot password?"
+            const $passwordGroup = $("<div>");
+            const $passwordHeader = $("<div>").addClass("flex items-center justify-between");
+
+            const $passwordLabel = $("<label>")
+                .attr("for", "password")
+                .addClass("block text-sm/6 font-medium text-gray-900")
+                .text("Password");
+
+            const $forgotLink = $("<a>")
+                .attr("href", "#")
+                .addClass("font-semibold text-indigo-600 hover:text-indigo-500 text-sm")
+                .text("Forgot password?");
+
+            $passwordHeader.append($passwordLabel, $("<div>").addClass("text-sm").append($forgotLink));
+
+            const $passwordInput = $("<input>")
+                .attr({
+                    id: "password",
+                    name: "password",
+                    type: "password",
+                    required: true,
+                    autocomplete: "current-password"
+                })
+                .addClass("block w-full rounded-md border border-gray-300 bg-white px-3 py-1.5 text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm")
+
+            $passwordGroup.append($passwordHeader, $("<div>").addClass("mt-2").append($passwordInput));
+
+            // Submit Button
+            const $submitButton = $("<button>")
+                .attr("type", "submit")
+                .addClass("flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600")
+                .text("Sign in");
+
+            const $submitGroup = $("<div>").append($submitButton);
+
+            // Form assembly
+            $form.append($emailGroup, $passwordGroup, $submitGroup);
+            $formSection.append($form);
+
+            // Footer link
+            const $footerText = $("<p>")
+                .addClass("mt-10 text-center text-sm/6 text-gray-500")
+                .html(`Not a member? <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Start a 14 day free trial</a>`);
+
+            // Assemble all
+            $mainWrapper.append($formSection.append($footerText));
+            $registrationContainer.append($mainWrapper);
+        });
 
         // Append everything to #main
         $("#main").empty().append($registrationContainer);
