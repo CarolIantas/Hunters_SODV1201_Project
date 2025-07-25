@@ -32,8 +32,7 @@ function Registration() {
                 .addClass("block w-full rounded-md border border-gray-300 bg-white px-3 py-1.5 text-base text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm")
 
             $emailGroup.append($emailLabel, $("<div>").addClass("mt-2").append($emailInput));
-
-            // Password input with "Forgot password?"
+            
             const $passwordGroup = $("<div>");
             const $passwordHeader = $("<div>").addClass("flex items-center justify-between");
 
@@ -41,13 +40,8 @@ function Registration() {
                 .attr("for", "password")
                 .addClass("block text-sm/6 font-medium text-gray-900")
                 .text("Password");
-
-            const $forgotLink = $("<a>")
-                .attr("href", "#")
-                .addClass("font-semibold text-indigo-600 hover:text-indigo-500 text-sm")
-                .text("Forgot password?");
-
-            $passwordHeader.append($passwordLabel, $("<div>").addClass("text-sm").append($forgotLink));
+            
+            $passwordHeader.append($passwordLabel, $("<div>").addClass("text-sm"));
 
             const $passwordInput = $("<input>")
                 .attr({
@@ -65,21 +59,16 @@ function Registration() {
             const $submitButton = $("<button>")
                 .attr("type", "submit")
                 .addClass("flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600")
-                .text("Sign in");
+                .text("Sign up");
 
             const $submitGroup = $("<div>").append($submitButton);
 
             // Form assembly
             $form.append($emailGroup, $passwordGroup, $submitGroup);
             $formSection.append($form);
-
-            // Footer link
-            const $footerText = $("<p>")
-                .addClass("mt-10 text-center text-sm/6 text-gray-500")
-                .html(`Not a member? <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-500">Start a 14 day free trial</a>`);
-
+            
             // Assemble all
-            $mainWrapper.append($formSection.append($footerText));
+            $mainWrapper.append($formSection);
             $registrationContainer.append($mainWrapper);
         });
 
