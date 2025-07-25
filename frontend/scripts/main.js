@@ -1,16 +1,16 @@
 //function to clear the body
-function ClearBody(){
-    console.log(document.getElementsByTagName("body")[0].innerHTML = "");
+function ClearBodyMain(){
+    console.log(document.getElementById("main").innerHTML = "");
 }
 
 //add actions for sign in and get started button with JQuery
 $(() => {        
     $('#signInButton').on('click', () => {          
-        ClearBody()
+        ClearBodyMain()
         Login();
     }); 
     $('#getStartedButton').on('click', () => {        
-        ClearBody()
+        ClearBodyMain()
         Registration();
     }
     );
