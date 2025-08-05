@@ -12,6 +12,7 @@ app.use(express.json())
 const user = require('./routing/user')
 const properties = require('./routing/properties')
 const workspace = require('./routing/workspaces')
+const router = express.Router()
 console.log("Backend login here")
 
 
