@@ -1,0 +1,143 @@
+<!--Create with bolt.new base on the project requirements.-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorkSpace - Shared Workspace Web App</title>
+    
+    <!-- Tailwind CSS Configuration -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Tailwind CSS Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#0891b2',
+                        accent: '#ea580c'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- IMPORT JQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- Import scripts of this application -->
+    <script src="./scripts/main.js" defer></script>
+    <script src="./scripts/registration.js" defer></script>
+    
+
+</head>
+
+
+<header class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center">
+                <a href="index.html" class="flex items-center">
+                    <svg class="h-8 w-8 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                    <span class="text-2xl font-bold text-gray-900">WorkSpace</span>
+                </a>
+            </div>
+            <div class="flex items-center space-x-4 auth-buttons">
+                <!-- Dynamic buttons will be inserted here by main.js -->
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-md mx-auto py-12 px-4">
+  <h1 class="text-3xl font-bold mb-6">Create Account</h1>
+  <form id="registrationForm" class="space-y-4">
+    <!-- Input fields -->
+     <div>
+  <label class="block mb-1">Full Name</label>
+  <input type="text" id="fullName" class="w-full p-2 border rounded-md" required>
+</div>
+<div>
+  <label class="block mb-1">Email</label>
+  <input type="email" id="email" class="w-full p-2 border rounded-md" required>
+</div>
+<div>
+  <label class="block mb-1">Phone</label>
+  <input type="tel" id="phone" class="w-full p-2 border rounded-md">
+</div>
+    <div>
+      <label class="block mb-1">Role</label>
+      <div class="flex space-x-4">
+        <label class="flex items-center">
+          <input type="radio" name="role" value="owner" checked 
+                 class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+          <span class="ml-2">Workspace Owner</span>
+        </label>
+        <label class="flex items-center">
+          <input type="radio" name="role" value="coworker"
+                 class="h-4 w-4 text-blue-600 focus:ring-blue-500">
+          <span class="ml-2">Coworker</span>
+        </label>
+      </div>
+    </div>
+    <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">
+      Register
+    </button>
+  </form>
+</main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <svg class="h-8 w-8 text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        </svg>
+                        <span class="text-2xl font-bold">WorkSpace</span>
+                    </div>
+                    <p class="text-gray-400">
+                        Connecting coworkers with perfect workspace solutions worldwide.
+                    </p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">For Coworkers</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Find Workspace</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Browse Locations</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Reviews</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">For Owners</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">List Property</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Manage Listings</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Owner Resources</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Support</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-semibold mb-4">Company</h3>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2025 WorkSpace. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
