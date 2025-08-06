@@ -17,7 +17,7 @@
     "email": "bob@example.com",
     "password": "hashed_password_2",
     "phone": "234-567-8901",
-    "role": "seller"
+    "role": "owner"
   },
   {
     "user_id": 3,
@@ -27,7 +27,7 @@
     "email": "carol@example.com",
     "password": "hashed_password_3",
     "phone": "345-678-9012",
-    "role": "agent"
+    "role": "owner"
   },
   {
     "user_id": 4,

@@ -9,11 +9,11 @@ app.use(express.json())
 
 //Routing
 const userRoutes = require('./routing/user')
-app.use(userRoutes)
+app.use('/user', userRoutes)
 const propertiesRoutes = require('./routing/properties')
-app.use(propertiesRoutes)
+app.use('/porperties', propertiesRoutes)
 const workspaceRoutes = require('./routing/workspaces')
-app.use(workspaceRoutes)
+app.use('/workspaces', workspaceRoutes)
 
 //Port and listening for server
 const PORT = process.env.PORT || 3000;
