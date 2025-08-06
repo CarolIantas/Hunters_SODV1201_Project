@@ -55,8 +55,9 @@ router.post('/users/login', (req, res) => {
   }
 
   // Check for valid login
-  if (users.some(user => user.name === login.name && user.password === login.password)) {
-    return res.status(201).json({ message: "Authorized", user: login }); 
+  const index = users.findIndex(user => user.name === login.name && user.password === login.password)
+  if (index > -1) {
+    return res.status(201).json({ message: "Authorized", user: users[index] }); 
   }
 
   return res.status(401).json({ message: "Login not valid." });

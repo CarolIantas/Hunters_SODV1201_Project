@@ -7,7 +7,7 @@
     "email": "alice@example.com",
     "password": "hashed_password_1",
     "phone": "123-456-7890",
-    "role": "buyer"
+    "role": "coworker"
   },
   {
     "user_id": 2,
@@ -17,7 +17,7 @@
     "email": "bob@example.com",
     "password": "hashed_password_2",
     "phone": "234-567-8901",
-    "role": "seller"
+    "role": "owner"
   },
   {
     "user_id": 3,
@@ -27,7 +27,7 @@
     "email": "carol@example.com",
     "password": "hashed_password_3",
     "phone": "345-678-9012",
-    "role": "agent"
+    "role": "owner"
   },
   {
     "user_id": 4,
@@ -37,7 +37,7 @@
     "email": "david@example.com",
     "password": "hashed_password_4",
     "phone": "456-789-0123",
-    "role": "admin"
+    "role": "coworker"
   },
   {
     "user_id": 5,
@@ -47,6 +47,6 @@
     "email": "eva@example.com",
     "password": "hashed_password_5",
     "phone": "567-890-1234",
-    "role": "buyer"
+    "role": "owner"
   }
 ]

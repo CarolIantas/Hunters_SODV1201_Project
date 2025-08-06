@@ -19,9 +19,13 @@ $(document).ready(function () {
 
         try {
             const user = await loginUser(email, password);
-
-            if (user) {
+            if (user) {                
+                //get data base on user role and store all important data in local storage    
+                //get properties
+                const properties = await getPropertiesByUser(user);                                
+                //store user and properties on local storage
                 localStorage.setItem('currentUser', JSON.stringify(user));
+                localStorage.setItem('properties', JSON.stringify(properties));
                 const target = user.role === 'owner' ? 'dash.html' : 'search.html';
                 if (getCurrentPage() !== target) {
                     window.location.href = target;
@@ -57,6 +61,24 @@ async function loginUser(email, password) {
     return data.user;
 }
 
+//GET properties by user
+async function getPropertiesByUser(user) {
+    const jsonBody = JSON.stringify(user);    
+    const res = await fetch('http://localhost:3001/properties/user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: jsonBody,
+    });
+
+    if (!res.ok) {
+        if (res.status === 401) return null; // Unauthorized
+        throw new Error(`Get properties failed with status: ${res.status}`, res);
+    }
+
+    const data = await res.json();
+    return data;
+}
+
 function checkAuthState() {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     if (user) {
@@ -67,7 +89,7 @@ function checkAuthState() {
     }
 }
 
-function Logout() {
+function Logout() {    
     localStorage.removeItem('currentUser');
     if (getCurrentPage() !== 'index.html') {
         window.location.href = 'index.html';

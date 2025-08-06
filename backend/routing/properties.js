@@ -9,10 +9,20 @@ const FILENAME = "properties.json";
 const FILEPATH = path.join(__dirname.replace("routing","data"), FILENAME);
 
 // Helper: read properties from file
-function readProperties() {  
-  if (!fs.existsSync(FILEPATH)) return [];  
-  const data = fs.readFileSync(FILEPATH, 'utf8');  
-  return data ? JSON.parse(data) : [];
+function readProperties(user = null) {    
+  if (!fs.existsSync(FILEPATH)) return [];    
+  const properties = JSON.parse(fs.readFileSync(FILEPATH, 'utf8')); // Now it's an array  
+  
+  let data = properties;
+  
+  //check if is there any filter
+  if (user !== null ){        
+    if (user.role === "owner"){
+      data = properties.filter(f => f.user_id === user.user_id);
+    }    
+  };
+
+  return data;
 }
 
 // Helper: write properties to file
@@ -44,6 +54,13 @@ router.post('/properties', (req, res) => {
 // READ - Get all properties
 router.get('/properties', (req, res) => {
   const properties = readProperties();
+  res.json(properties);
+});
+
+// READ - Get all properties
+router.post('/properties/user', (req, res) => {
+  const user = req.body;
+  const properties = readProperties(user);
   res.json(properties);
 });
 
