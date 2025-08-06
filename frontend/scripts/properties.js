@@ -50,3 +50,19 @@ function confirmPropertyDelete() {
 }
 
 document.addEventListener('DOMContentLoaded', renderProperties);
+
+document.getElementById("addPropertyForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  const address = document.getElementById("newPropertyAddress").value.trim();
+  const neighborhood = document.getElementById("newPropertyNeighborhood").value.trim();
+
+  if (!address || !neighborhood) return alert("Both fields are required.");
+
+  const properties = JSON.parse(localStorage.getItem("properties")) || [];
+  properties.push({ address, neighborhood });
+  localStorage.setItem("properties", JSON.stringify(properties));
+
+  document.getElementById("addPropertyForm").reset();
+  renderProperties();
+});
+
