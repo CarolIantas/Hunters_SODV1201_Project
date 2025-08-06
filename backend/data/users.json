@@ -48,5 +48,13 @@
     "password": "hashed_password_5",
     "phone": "567-890-1234",
     "role": "owner"
+  },
+  {
+    "firstName": "Pedro",
+    "lastName": "Molina",
+    "email": "pedro.kuchak@gmail.com",
+    "phone": "3688896793",
+    "password": "123",
+    "role": "owner"
   }
 ]

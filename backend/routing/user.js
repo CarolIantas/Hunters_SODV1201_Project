@@ -26,7 +26,7 @@ router.post('/users', (req, res) => {
   const newUser = req.body;
 
   // Optional: Validate required fields
-  if (!newUser.password || !newUser.name || !newUser.email) {
+  if (!newUser.password || !newUser.firstName || !newUser.lastName || !newUser.email) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
