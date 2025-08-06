@@ -3,42 +3,40 @@ function getCurrentPage() {
     return window.location.pathname.split('/').pop().toLowerCase();
 }
 
-// login.js
-$(document).ready(function () {
-    // Handle login form submission
-    $('#loginForm').submit(async function (e) {
-        e.preventDefault();
-
-        const email = $('#loginEmail').val().trim();
-        const password = $('#loginPassword').val().trim();
-
-        if (!email || !password) {
-            alert('Please enter both email and password');
-            return;
+// Login form submit handler
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    
+    // Get login input values
+    const email = document.getElementById("loginEmail").value.trim();
+    const password = document.getElementById("loginPassword").value.trim();
+    
+    // Retrieve stored users from localStorage
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const user = users.find(u => u.email === email && u.password === password);
+    
+    if (user) {
+        // Store the currently logged-in user
+        localStorage.setItem("currentUser", JSON.stringify(user));
+        
+        alert(`Welcome, ${user.name}!`);
+        
+        // Navigate based on role
+        if (user.role === "owner") {
+            window.location.href = "dash.html";
+        } else {
+            window.location.href = "search.html";
         }
-
-        try {
-            const user = await loginUser(email, password);
-
-            if (user) {
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                const target = user.role === 'owner' ? 'dash.html' : 'search.html';
-                if (getCurrentPage() !== target) {
-                    window.location.href = target;
-                }
-            } else {
-                alert('Login failed. Please check your credentials or register.');
-                window.location.href = 'registration.html';
-            }
-        } catch (error) {
-            console.error('Login error:', error);
-            alert('Something went wrong while logging in.');
-        }
-    });
+    } else {
+        alert("Invalid email or password.");
+    }
 
     // Check auth state on page load
     checkAuthState();
 });
+
+
+    
 
 // POST login request
 async function loginUser(email, password) {    
