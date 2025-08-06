@@ -22,10 +22,18 @@ $(document).ready(function () {
             if (user) {                
                 //get data base on user role and store all important data in local storage    
                 //get properties
-                const properties = await getPropertiesByUser(user);                                
+                const properties = await getPropertiesByUser(user);                   
+                
                 //store user and properties on local storage
                 localStorage.setItem('currentUser', JSON.stringify(user));
-                localStorage.setItem('properties', JSON.stringify(properties));
+                localStorage.setItem('properties', JSON.stringify(properties));                                
+                
+                //get workspaces if the user is coworker
+                if (user.role === "coworker") {
+                    const workspaces = await getWorkspaces();
+                    localStorage.setItem('workspaces', JSON.stringify(workspaces));       
+                }                             
+
                 const target = user.role === 'owner' ? 'dash.html' : 'search.html';
                 if (getCurrentPage() !== target) {
                     window.location.href = target;
@@ -76,6 +84,19 @@ async function getPropertiesByUser(user) {
     if (!res.ok) {
         if (res.status === 401) return null; // Unauthorized
         throw new Error(`Get properties failed with status: ${res.status}`, res);
+    }
+
+    const data = await res.json();
+    return data;
+}
+
+//GET properties by user
+async function getWorkspaces() {    
+    const res = await fetch('http://localhost:3001/workspaces');
+
+    if (!res.ok) {
+        if (res.status === 401) return null; // Unauthorized
+        throw new Error(`Get workspaces failed with status: ${res.status}`, res);
     }
 
     const data = await res.json();
