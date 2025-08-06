@@ -50,10 +50,21 @@
     "role": "owner"
   },
   {
+    "id": 6,
     "firstName": "Pedro",
     "lastName": "Molina",
     "email": "pedro.kuchak@gmail.com",
     "phone": "3688896793",
+    "password": "123",
+    "role": "owner"
+  },
+  {
+    "id": 7,
+    "Fullname": "Hi boo",
+    "firstName": "Hi",
+    "lastName": "boo",
+    "email": "hiboo@email.com",
+    "phone": "1234568790",
     "password": "123",
     "role": "owner"
   }
