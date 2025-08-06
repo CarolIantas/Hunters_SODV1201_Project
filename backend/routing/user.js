@@ -56,9 +56,9 @@ router.post('/users/login', (req, res) => {
 
   // Check for valid login
   if (users.some(user => user.email === login.email && user.password === login.password)) {
-    return res.status(201).json({ message: "Authorized", user: login }); 
+    return res.status(201).json({ message: "Authorized", user: users }); 
   } else if (user => user.email === login.email) {
-    return res.status(201).json({ message: "Your Password is wrong", user: login }); 
+    return res.status(201).json({ message: "Your Password is wrong, Please Try again", user: login }); 
   }
 
   return res.status(401).json({ message: "Login not valid." });
