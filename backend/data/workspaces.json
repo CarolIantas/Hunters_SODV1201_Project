@@ -1,1 +1,50 @@
-[]
+[
+  {
+    "workspace_id": 1,
+    "property_id": 3,
+    "name": "Private Office A",
+    "decription": "Ideal for small teams",
+    "smoking": false,
+    "images": "workspace1.jpg",
+    "type_of_room": "private",
+    "price": 500.00,
+    "capacity": 4,
+    "availability_status": true
+  },
+  {
+    "workspace_id": 2,
+    "property_id": 3,
+    "name": "Meeting Room B",
+    "decription": "Conference setup",
+    "smoking": false,
+    "images": "workspace2.jpg",
+    "type_of_room": "meeting",
+    "price": 300.00,
+    "capacity": 10,
+    "availability_status": false
+  },
+  {
+    "workspace_id": 3,
+    "property_id": 1,
+    "name": "Co-Working Desk",
+    "decription": "Shared co-working space",
+    "smoking": false,
+    "images": "workspace3.jpg",
+    "type_of_room": "shared",
+    "price": 150.00,
+    "capacity": 1,
+    "availability_status": true
+  },
+  {
+    "workspace_id": 4,
+    "property_id": 2,
+    "name": "Creative Studio",
+    "decription": "Great for designers",
+    "smoking": true,
+    "images": "workspace4.jpg",
+    "type_of_room": "studio",
+    "price": 700.00,
+    "capacity": 2,
+    "availability_status": true
+  }
+]

@@ -4,28 +4,35 @@ function getCurrentPage() {
 }
 
 // login.js
-$(document).ready(function() {
+$(document).ready(function () {
     // Handle login form submission
-    $('#loginForm').submit(function(e) {
+    $('#loginForm').submit(async function (e) {
         e.preventDefault();
+
         const email = $('#loginEmail').val().trim();
-        
-        if (!email) {
-            alert('Please enter your email');
+        const password = $('#loginPassword').val().trim();
+
+        if (!email || !password) {
+            alert('Please enter both email and password');
             return;
         }
 
-        // Check against stored users
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-        const user = users.find(u => u.email === email);
+        try {
+            const user = await loginUser(email, password);
 
-        if (user) {
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            const target = user.role === 'owner' ? 'dash.html' : 'search.html';
-if (user && getCurrentPage() !== target) { window.location.href = target; }
-        } else {
-            alert('User not found. Please register first.');
-            window.location.href = 'registration.html';
+            if (user) {
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                const target = user.role === 'owner' ? 'dash.html' : 'search.html';
+                if (getCurrentPage() !== target) {
+                    window.location.href = target;
+                }
+            } else {
+                alert('Login failed. Please check your credentials or register.');
+                window.location.href = 'registration.html';
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            alert('Something went wrong while logging in.');
         }
     });
 
@@ -33,15 +40,36 @@ if (user && getCurrentPage() !== target) { window.location.href = target; }
     checkAuthState();
 });
 
+// POST login request
+async function loginUser(email, password) {    
+    const res = await fetch('http://localhost:3001/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+    });
+
+    if (!res.ok) {
+        if (res.status === 401) return null; // Unauthorized
+        throw new Error(`Login failed with status: ${res.status}`);
+    }
+
+    const data = await res.json();
+    return data.user;
+}
+
 function checkAuthState() {
     const user = JSON.parse(localStorage.getItem('currentUser'));
     if (user) {
         const target = user.role === 'owner' ? 'dash.html' : 'search.html';
-if (user && getCurrentPage() !== target) { window.location.href = target; }
+        if (getCurrentPage() !== target) {
+            window.location.href = target;
+        }
     }
 }
 
 function Logout() {
     localStorage.removeItem('currentUser');
-    if (getCurrentPage() !== 'index.html') { window.location.href = 'index.html'; }
+    if (getCurrentPage() !== 'index.html') {
+        window.location.href = 'index.html';
+    }
 }

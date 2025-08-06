@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "express-list-endpoints": "^7.1.1"
   },
   "name": "backend",
   "version": "1.0.0",

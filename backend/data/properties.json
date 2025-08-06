@@ -1,1 +1,44 @@
-[]
+[
+  {
+    "property_id": 1,
+    "user_id": 2,
+    "title": "Modern Apartment in Downtown",
+    "Public_transport": true,
+    "smoking": false,
+    "SQ_foot": 950,
+    "address": "123 Main St, Cityville",
+    "neighborhood": 4.2,
+    "images": "image1.jpg",
+    "type_of_properties": "apartment",
+    "parking": true,
+    "date": "2025-08-01"
+  },
+  {
+    "property_id": 2,
+    "user_id": 2,
+    "title": "Spacious Family House",
+    "Public_transport": false,
+    "smoking": true,
+    "SQ_foot": 2400,
+    "address": "456 Elm St, Suburbia",
+    "neighborhood": 3.8,
+    "images": "image2.jpg",
+    "type_of_properties": "house",
+    "parking": true,
+    "date": "2025-07-20"
+  },
+  {
+    "property_id": 3,
+    "user_id": 3,
+    "title": "Commercial Office Space",
+    "Public_transport": true,
+    "smoking": false,
+    "SQ_foot": 1200,
+    "address": "789 Market St, Business Park",
+    "neighborhood": 4.5,
+    "images": "image3.jpg",
+    "type_of_properties": "commercial",
+    "parking": false,
+    "date": "2025-08-05"
+  }
+]

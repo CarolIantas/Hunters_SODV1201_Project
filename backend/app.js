@@ -1,11 +1,10 @@
 const path = require('path')
+const cors = require('cors')
 const express = require('express')
+
 const app = express()
 
-
-
 app.use(cors())
-const cors = require('cors')
 app.use(express.json())
 
 //Routing
@@ -16,12 +15,9 @@ app.use(propertiesRoutes)
 const workspaceRoutes = require('./routing/workspaces')
 app.use(workspaceRoutes)
 
-console.log("Backend login here")
-
-
-
 //Port and listening for server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`)
+    
 })

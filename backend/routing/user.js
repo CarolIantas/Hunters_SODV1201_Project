@@ -1,19 +1,108 @@
-//SetUp getting the require thing for user routing
-const express = require('express')
-const fs = require('fs')
-const path = require('path')
-const router = express.Router()
+// SetUp getting the required things for user routing
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+const router = express.Router();
 
-//route method with function for each
-router.post('/user/sign_up', signUpUser())
+// File configuration
+const FILENAME = "users.json";
+const FILEPATH = path.join(__dirname.replace("routing","data"), FILENAME);
 
-router.get()
+// Helper: read users from file
+function readUsers() {  
+  if (!fs.existsSync(FILEPATH)) return [];  
+  const data = fs.readFileSync(FILEPATH, 'utf8');
+  return data ? JSON.parse(data) : [];
+}
 
-//pathing to file
-const FILENAME = "users.json"
-const FILEPATH = path.join(__direname, FILENAME)
+// Helper: write users to file
+function writeUsers(users) {
+  fs.writeFileSync(FILEPATH, JSON.stringify(users, null, 2), 'utf8');
+}
 
-//function
+// CREATE - Sign up a new user
+router.post('/users', (req, res) => {
+  const users = readUsers();
+  const newUser = req.body;
 
-//export the route method
-module.exports = router
+  // Optional: Validate required fields
+  if (!newUser.id || !newUser.name || !newUser.email) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  // Check for duplicate ID
+  if (users.some(user => user.id === newUser.id)) {
+    return res.status(409).json({ message: "User with this ID already exists" });
+  }
+
+  users.push(newUser);
+  writeUsers(users);
+
+  res.status(201).json({ message: "User created", user: newUser });
+});
+
+// CREATE - Sign up a new user
+router.post('/users/login', (req, res) => {
+  const users = readUsers();
+  const login = req.body;
+
+  if (!login) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  if (!login.password || !login.email) {
+    return res.status(400).json({ message: "Missing required fields" });
+  }
+
+  // Check for valid login
+  if (users.some(user => user.name === login.name && user.password === login.password)) {
+    return res.status(201).json({ message: "Authorized", user: login }); 
+  }
+
+  return res.status(401).json({ message: "Login not valid." });
+});
+
+// READ - Get all users
+router.get('/users', (req, res) => {  
+  const users = readUsers();
+  res.json(users);
+});
+
+// READ - Get a user by ID
+router.get('/users/:id', (req, res) => {
+  const users = readUsers();
+  const user = users.find(u => u.id == req.params.id);
+
+  if (!user) return res.status(404).json({ message: "User not found" });
+  res.json(user);
+});
+
+// UPDATE - Update a user by ID
+router.put('/users/:id', (req, res) => {
+  const users = readUsers();
+  const index = users.findIndex(u => u.id == req.params.id);
+
+  if (index === -1) return res.status(404).json({ message: "User not found" });
+
+  const updatedUser = { ...users[index], ...req.body };
+  users[index] = updatedUser;
+  writeUsers(users);
+
+  res.json({ message: "User updated", user: updatedUser });
+});
+
+// DELETE - Remove a user by ID
+router.delete('/users/:id', (req, res) => {
+  const users = readUsers();
+  const filteredUsers = users.filter(u => u.id != req.params.id);
+
+  if (users.length === filteredUsers.length) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  writeUsers(filteredUsers);
+  res.json({ message: "User deleted" });
+});
+
+// Export the route
+module.exports = router;
