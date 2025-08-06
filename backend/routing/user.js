@@ -26,13 +26,13 @@ router.post('/users', (req, res) => {
   const newUser = req.body;
 
   // Optional: Validate required fields
-  if (!newUser.id || !newUser.name || !newUser.email) {
+  if (!newUser.password || !newUser.name || !newUser.email) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
-  // Check for duplicate ID
-  if (users.some(user => user.id === newUser.id)) {
-    return res.status(409).json({ message: "User with this ID already exists" });
+  // Check for duplicate Email
+  if (users.some(user => user.email === newUser.email)) {
+    return res.status(409).json({ message: "User with this Email already exists" });
   }
 
   users.push(newUser);
@@ -55,8 +55,10 @@ router.post('/users/login', (req, res) => {
   }
 
   // Check for valid login
-  if (users.some(user => user.name === login.name && user.password === login.password)) {
+  if (users.some(user => user.email === login.email && user.password === login.password)) {
     return res.status(201).json({ message: "Authorized", user: login }); 
+  } else if (user => user.email === login.email) {
+    return res.status(201).json({ message: "Your Password is wrong", user: login }); 
   }
 
   return res.status(401).json({ message: "Login not valid." });

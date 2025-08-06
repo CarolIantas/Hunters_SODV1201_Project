@@ -1,6 +1,6 @@
-const path = require('path')
 const cors = require('cors')
 const express = require('express')
+const { MongoClient } = require('mongodb')
 
 const app = express()
 
@@ -9,11 +9,11 @@ app.use(express.json())
 
 //Routing
 const userRoutes = require('./routing/user')
-app.use('/user', userRoutes)
+app.use(userRoutes)
 const propertiesRoutes = require('./routing/properties')
-app.use('/porperties', propertiesRoutes)
+app.use(propertiesRoutes)
 const workspaceRoutes = require('./routing/workspaces')
-app.use('/workspaces', workspaceRoutes)
+app.use(workspaceRoutes)
 
 //Port and listening for server
 const PORT = process.env.PORT || 3000;
@@ -21,3 +21,4 @@ app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`)
     
 })
+
