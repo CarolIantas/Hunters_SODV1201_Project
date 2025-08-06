@@ -41,7 +41,7 @@ router.post('/users', (req, res) => {
   res.status(201).json({ message: "User created", user: newUser });
 });
 
-// CREATE - Sign up a new user
+// Login - user
 router.post('/users/login', (req, res) => {
   const users = readUsers();
   const login = req.body;
