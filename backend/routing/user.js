@@ -15,4 +15,5 @@ const FILEPATH = path.join(__direname, FILENAME)
 
 //function
 
+//export the route method
 module.exports = router
