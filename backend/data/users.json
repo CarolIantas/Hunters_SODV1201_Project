@@ -1,6 +1,6 @@
 [
   {
-    "user_id": 1,
+    "id": 1,
     "Fullname": "Alice Johnson",
     "first_name": "Alice",
     "last_name": "Johnson",
@@ -10,7 +10,7 @@
     "role": "coworker"
   },
   {
-    "user_id": 2,
+    "id": 2,
     "Fullname": "Bob Smith",
     "first_name": "Bob",
     "last_name": "Smith",
@@ -20,7 +20,7 @@
     "role": "owner"
   },
   {
-    "user_id": 3,
+    "id": 3,
     "Fullname": "Carol Davis",
     "first_name": "Carol",
     "last_name": "Davis",
@@ -30,7 +30,7 @@
     "role": "owner"
   },
   {
-    "user_id": 4,
+    "id": 4,
     "Fullname": "David Lee",
     "first_name": "David",
     "last_name": "Lee",
@@ -40,7 +40,7 @@
     "role": "coworker"
   },
   {
-    "user_id": 5,
+    "id": 5,
     "Fullname": "Eva Green",
     "first_name": "Eva",
     "last_name": "Green",
