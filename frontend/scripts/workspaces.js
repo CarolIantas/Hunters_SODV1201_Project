@@ -2,7 +2,7 @@ function Workspaces() {
     console.log("Workspace function called");
     // Add your workspace logic here
 }
-
+//still adjusting
 //Attempting to make updates render instead of refreshing
 
 function renderWorkspaces() {
