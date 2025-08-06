@@ -55,7 +55,7 @@ router.post('/users/login', (req, res) => {
   }
 
   // Check for valid login
-  const index = users.findIndex(user => user.name === login.name && user.password === login.password)
+  const index = users.findIndex(user => user.email === login.email && user.password === login.password)
   if (index > -1) {
     return res.status(201).json({ message: "Authorized", user: users[index] }); 
   }
