@@ -1,6 +1,6 @@
-const path = require('path')
 const cors = require('cors')
 const express = require('express')
+const { MongoClient } = require('mongodb')
 
 const app = express()
 
@@ -21,3 +21,4 @@ app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`)
     
 })
+

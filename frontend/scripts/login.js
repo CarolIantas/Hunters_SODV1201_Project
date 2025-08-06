@@ -44,6 +44,9 @@ $(document).ready(function () {
     checkAuthState();
 });
 
+
+    
+
 // POST login request
 async function loginUser(email, password) {    
     const res = await fetch('http://localhost:3001/users/login', {

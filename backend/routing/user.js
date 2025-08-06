@@ -26,13 +26,13 @@ router.post('/users', (req, res) => {
   const newUser = req.body;
 
   // Optional: Validate required fields
-  if (!newUser.id || !newUser.name || !newUser.email) {
+  if (!newUser.password || !newUser.name || !newUser.email) {
     return res.status(400).json({ message: "Missing required fields" });
   }
 
-  // Check for duplicate ID
-  if (users.some(user => user.id === newUser.id)) {
-    return res.status(409).json({ message: "User with this ID already exists" });
+  // Check for duplicate Email
+  if (users.some(user => user.email === newUser.email)) {
+    return res.status(409).json({ message: "User with this Email already exists" });
   }
 
   users.push(newUser);
