@@ -67,5 +67,15 @@
     "email": "pedro.kuchakcoworker@gmail.com",
     "password": "123",
     "role": "coworker"
+  },
+  {
+    "user_id": 8,
+    "Fullname": "MO MO",
+    "firstName": "MO",
+    "lastName": "MO",
+    "email": "bigboss333@gmail.com",
+    "phone": "44444444444444444444444",
+    "password": "D1XR4K1DZ",
+    "role": "owner"
   }
 ]

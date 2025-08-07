@@ -35,6 +35,12 @@ router.post('/users', (req, res) => {
     return res.status(409).json({ message: "User with this Email already exists" });
   }
 
+  //get maxid to add + 1
+  const sortedProp = users.sort((a, b) => a.user_id - b.users_id);
+  
+  let maxId = sortedProp[sortedProp.length-1]?.user_id;
+  maxId++;
+
   // Formatting data save to database
   const ObjectName = {
     firstName: newUser.firstName.replace(/[^\w\s]/gi, ''),
@@ -42,7 +48,7 @@ router.post('/users', (req, res) => {
   }
 
   const FormattedUser = {
-    user_id: users.length+1,
+    user_id: maxId,
     Fullname: `${ObjectName.firstName} ${ObjectName.lastName}`,
     firstName: ObjectName.firstName,
     lastName: ObjectName.lastName,
