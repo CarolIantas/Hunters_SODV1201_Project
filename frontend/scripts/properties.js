@@ -20,13 +20,13 @@ function renderProperties() {
         <div class="flex items-center justify-between mt-4">
           <!-- Edit + Delete Icons -->
           <div class="flex gap-2">
-            <button class="bg-gray-700 hover:bg-gray-800 text-white p-2 rounded-lg shadow transition duration-150" onclick="startEditProperty(${prop?.id})" title="Edit">
+            <button class="bg-gray-700 hover:bg-gray-800 text-white p-2 rounded-lg shadow transition duration-150" onclick="startEditProperty(${prop?.property_id})" title="Edit">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M15.232 5.232l3.536 3.536M9 13l6-6 3 3-6 6H9v-3z" />
               </svg>
             </button>
-            <button class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg shadow transition duration-150" onclick="startDeleteProperty(${prop?.id})" title="Delete">
+            <button class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg shadow transition duration-150" onclick="startDeleteProperty(${prop?.property_id})" title="Delete">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3m5 0H6" />
@@ -35,7 +35,7 @@ function renderProperties() {
           </div>
 
           <!-- Eye Icon -->
-          <button class="ml-auto text-blue-600 hover:text-blue-800 transition duration-150" onclick="viewPropertyDetails(${prop?.id})" title="View Details">
+          <button class="ml-auto text-blue-600 hover:text-blue-800 transition duration-150" onclick="viewPropertyDetails(${prop?.property_id})" title="View Details">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -126,7 +126,7 @@ async function confirmPropertyDelete() {
 
 document?.addEventListener('DOMContentLoaded', renderProperties);
 
-document?.getElementById("addPropertyForm")?.addEventListener("submit", async function (e) {
+document?.getElementById("addPropertyForm")?.addEventListener("submit", async function (e) {  
   e.preventDefault();
 
   //form fields

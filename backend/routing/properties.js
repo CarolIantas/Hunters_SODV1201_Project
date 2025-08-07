@@ -84,7 +84,7 @@ router.post('/properties/user', (req, res) => {
 // READ - Get a property by ID
 router.get('/properties/:id', (req, res) => {
   const properties = readProperties();
-  const property = properties.find(p => p.id == req.params.id);
+  const property = properties.find(p => p.property_id == req.params.id);
 
   if (!property) return res.status(404).json({ message: "Property not found" });
   res.json(property);
