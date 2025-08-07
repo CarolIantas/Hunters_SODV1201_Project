@@ -11,18 +11,5 @@
     "type_of_properties": "house",
     "parking": true,
     "date": "2025-08-07"
-  },
-  {
-    "property_id": 5,
-    "user_id": 6,
-    "title": "PEDRO 5",
-    "Public_transport": true,
-    "SQ_foot": "1",
-    "address": "PEDRO 5",
-    "neighborhood": "PEDRO 5",
-    "images": "Generic.jpg",
-    "type_of_properties": "house",
-    "parking": true,
-    "date": "2025-08-07"
   }
 ]

@@ -1,6 +1,10 @@
 //still adjusting
 //Attempting to make updates render instead of refreshing
 
+function addNewWorkspace() {
+  openModal('editWorkspaceModal');
+}
+
 function startEditWorkspace(index) {
   const workspaces = JSON.parse(localStorage.getItem('workspaces')) || [];
   const ws = workspaces[index];
@@ -33,3 +37,22 @@ function confirmWorkspaceDelete() {
   closeModal('deleteWorkspaceModal');
   renderWorkspaces();
 }
+
+document?.getElementById("addWorkspaceBtn").addEventListener("click", function (e) {
+  e.preventDefault();
+  addNewWorkspace();
+});
+
+
+document?.getElementById('workspacePhoto').addEventListener('change', function (event) {  
+  const file = event.target.files[0];
+  const preview = document.getElementById("imageWorkspacePreview");  
+
+  if (file) {
+    preview.src = URL.createObjectURL(file);
+    preview.classList.remove('hidden');
+  } else {
+    preview.src = '';
+    preview.classList.add('hidden');
+  }
+});

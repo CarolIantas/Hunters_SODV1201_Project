@@ -72,7 +72,7 @@
     <input type="text" id="newPropertyNeighborhood" class="w-full p-3 border border-gray-300 rounded"
       placeholder="Neighborhood..." required>
     <!-- Image upload area -->
-    <div class="flex-1 border-2 border-dashed border-gray-300 rounded p-8 text-center bg-gray-100">      
+    <div class="flex-1 border-2 border-dashed border-gray-300 rounded p-8 text-center bg-gray-100">
       <input type="file" id="propertyImage" accept="image/*" class="hidden">
       <label for="propertyImage" class="cursor-pointer text-gray-500 hover:text-gray-700">
         Click to upload image
@@ -105,8 +105,7 @@
     </select>
 
     <div class="flex justify-end gap-4 mt-6">
-      <button id="cancelButton"
-        type="button"
+      <button id="cancelButton" type="button"
         class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg shadow-sm hover:bg-gray-300 transition-colors">
         Cancel
       </button>
@@ -232,19 +231,95 @@
 
 <!-- Edit Workspace Modal -->
 <div id="editWorkspaceModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-  <div class="bg-white rounded-lg p-6 w-full max-w-md">
+  <div class="bg-white rounded-lg p-6 w-full max-w-2xl">
     <h2 class="text-xl font-bold mb-4">Edit Workspace</h2>
-    <input type="hidden" id="editWorkspaceId">
-    <div class="mb-3"><input id="editWorkspaceType" type="text" class="w-full p-2 border rounded" placeholder="Type">
+
+    <input type="hidden" id="editWorkspaceId" />
+
+    <!-- Workspace Name -->
+    <div class="mb-3">
+      <input id="workspaceName" type="text" class="w-full p-2 border rounded" placeholder="Workplace name..." />
     </div>
-    <div class="mb-3"><input id="editWorkspaceCapacity" type="number" class="w-full p-2 border rounded"
-        placeholder="Capacity"></div>
-    <div class="flex justify-end space-x-2">
-      <button onclick="closeModal('editWorkspaceModal')" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
-      <button onclick="saveWorkspaceEdit()" class="px-4 py-2 bg-blue-600 text-white rounded">Save</button>
+
+    <!-- Description -->
+    <div class="mb-3">
+      <input id="workspaceDescription" type="text" class="w-full p-2 border rounded" placeholder="Description..." />
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 mb-3">
+      <!-- Type of Room -->
+      <select id="workspaceType" class="w-full p-2 border rounded">
+        <option value="">Type of Room</option>
+        <option value="private">Private</option>
+        <option value="shared">Shared</option>
+      </select>
+
+      <!-- Capacity -->
+      <select id="workspaceCapacity" class="w-full p-2 border rounded">
+        <option value="">Capacity</option>
+        <option value="1">1 person</option>
+        <option value="2">2 people</option>
+        <option value="4">4 people</option>
+        <option value="6">6+ people</option>
+      </select>
+    </div>
+
+    <!-- Smoking -->
+    <div class="mb-3 flex items-center space-x-4">
+      <label class="font-medium">Smoking</label>
+      <label class="flex items-center">
+        <input type="radio" name="smoking" value="yes" class="mr-1" />
+        Yes
+      </label>
+      <label class="flex items-center">
+        <input type="radio" name="smoking" value="no" class="mr-1" />
+        No
+      </label>
+    </div>
+
+    <!-- Date Picker -->
+    <div class="mb-3 flex items-center space-x-2">
+      <span>📅</span>
+      <input type="date" id="workspaceDate" class="p-2 border rounded w-full" />
+    </div>
+
+    <!-- Lease Term -->
+    <div class="mb-3">
+      <input id="workspaceLeaseTerm" type="text" class="w-full p-2 border rounded" placeholder="Lease term" />
+    </div>
+
+    <!-- Price -->
+    <div class="mb-3">
+      <input id="workspacePrice" type="number" step="0.01" class="w-full p-2 border rounded" placeholder="Price $..." />
+    </div>
+
+    <!-- Photo Upload + Preview -->
+    <div class="mb-4">
+      <label class="block text-sm font-medium mb-1">Add photo</label>
+      <div class="border border-dashed border-gray-400 rounded-md p-4 flex flex-col items-center text-gray-500">
+        <label class="cursor-pointer mb-2">
+          <span class="block">📷 Click to upload</span>
+          <input type="file" id="workspacePhoto" accept="image/*" class="hidden" />
+        </label>
+        <img id="imageWorkspacePreview" src="" alt="Preview" class="hidden mt-2 max-h-40 rounded" />
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="flex justify-between items-center mt-6">
+      <select class="p-2 border rounded">
+        <option>Delete / Delist</option>
+        <option>Delete</option>
+        <option>Delist</option>
+      </select>
+      <div class="flex space-x-2">
+        <button onclick="closeModal('editWorkspaceModal')" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
+        <button onclick="saveWorkspaceEdit()" class="px-4 py-2 bg-blue-600 text-white rounded">Save</button>
+      </div>
     </div>
   </div>
 </div>
+
 
 <!-- Delete Workspace Modal -->
 <div id="deleteWorkspaceModal"

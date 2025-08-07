@@ -334,11 +334,6 @@ document?.getElementById("cancelWorkspaceBtn").addEventListener("click", functio
   workspaceConatiner.innerHTML = '';
 });
 
-document?.getElementById("addWorkspaceBtn").addEventListener("click", function (e) {
-  e.preventDefault();
-  alert("New workspace");
-});
-
 async function getWorkspaces(idProperty){  
   const res = await fetch(`http://localhost:3001/workspaces/property/${idProperty}`);
 
@@ -352,7 +347,7 @@ async function getWorkspaces(idProperty){
 }
 
 
-document.getElementById('propertyImage').addEventListener('change', function (event) {
+document?.getElementById('propertyImage')?.addEventListener('change', function (event) {
     const file = event.target.files[0];
     if (!file) return;
 
