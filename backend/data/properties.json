@@ -40,5 +40,17 @@
     "type_of_properties": "commercial",
     "parking": false,
     "date": "2025-08-05"
+  },
+  {
+    "property_id": 4,
+    "user_id": 6,
+    "Public_transport": "on",
+    "SQ_foot": "1",
+    "address": "123",
+    "neighborhood": "123",
+    "images": "Generic.jpg",
+    "type_of_properties": "house",
+    "parking": "on",
+    "date": "2025-08-07"
   }
 ]
