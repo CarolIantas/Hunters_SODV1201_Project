@@ -71,7 +71,7 @@ router.get('/workspaces/:id', (req, res) => {
 });
 
 // READ - Get a workspace by properties Id
-router.get('/workspaces/:propID', (req, res) => {
+router.get('/workspaces/property/:propID', (req, res) => {
   const workspaces = readWorkspaces();
   const workspace = workspaces.find(w => w.property_id == req.params.property_id);
 
