@@ -64,7 +64,8 @@
     "firstName": "pedro",
     "lastName": "coworker",
     "phone": "3688896793",
-    "password": "",
-    "role": "coworker"
+    "password": "123",
+    "role": "coworker",
+    "email": "pedro@coworker.com"
   }
 ]
