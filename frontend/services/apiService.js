@@ -22,13 +22,14 @@ async function request(url, method = 'GET', data) {
 const api_getUsers = () => request('/users');
 const api_getUserById = (id) => request(`/users/${id}`);
 const api_createUser = (user) => request('/users', 'POST', user);
-const api_login = (user) => request('/users', 'POST', user);
+const api_login = (user) => request('/users/login', 'POST', user);
 const api_updateUser = (id, user) => request(`/users/${id}`, 'PUT', user);
 const api_deleteUser = (id) => request(`/users/${id}`, 'DELETE');
 
 // PROPERTIES
 const api_getProperties = () => request('/properties');
 const api_getPropertyById = (id) => request(`/properties/${id}`);
+const api_getPropertiesByUser = (user) => request('/properties/user', 'POST', user);
 const api_createProperty = (property) => request('/properties', 'POST', property);
 const api_updateProperty = (id, property) => request(`/properties/${id}`, 'PUT', property);
 const api_deleteProperty = (id) => request(`/properties/${id}`, 'DELETE');

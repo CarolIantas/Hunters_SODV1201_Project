@@ -18,23 +18,24 @@ $(document).ready(function () {
         }
 
         try {
-            const user = await loginUser(email, password);
-            if (user) {                
+            const user_obj = { email: email, password: password };
+            const user = await api_login(user_obj);
+            if (user.user) {                
                 //get data base on user role and store all important data in local storage    
                 //get properties
-                const properties = await getPropertiesByUser(user);                         
+                const properties = await api_getPropertiesByUser(user.user);                         
                 
                 //store user and properties on local storage
-                localStorage.setItem('currentUser', JSON.stringify(user));
+                localStorage.setItem('currentUser', JSON.stringify(user.user));
                 localStorage.setItem('properties', JSON.stringify(properties));                                
                 
                 //get workspaces if the user is coworker
                 //if (user.role === "coworker") {
-                    const workspaces = await getWorkspaces();
+                    const workspaces = await api_getWorkspaces();
                     localStorage.setItem('workspaces', JSON.stringify(workspaces));       
                 //}                             
-
-                const target = user.role === 'owner' ? 'dash.html' : 'search.html';
+                
+                const target = user.user.role === 'owner' ? 'dash.html' : 'search.html';
                 if (getCurrentPage() !== target) {
                     window.location.href = target;
                 }
@@ -52,56 +53,6 @@ $(document).ready(function () {
     checkAuthState();
 });
 
-
-    
-
-// POST login request
-async function loginUser(email, password) {    
-    const res = await fetch('http://localhost:3001/users/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-    });
-
-    if (!res.ok) {
-        if (res.status === 401) return null; // Unauthorized
-        throw new Error(`Login failed with status: ${res.status}`);
-    }
-
-    const data = await res.json();
-    return data.user;
-}
-
-//GET properties by user
-async function getPropertiesByUser(user) {
-    const jsonBody = JSON.stringify(user);    
-    const res = await fetch('http://localhost:3001/properties/user', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: jsonBody,
-    });
-
-    if (!res.ok) {
-        if (res.status === 401) return null; // Unauthorized
-        throw new Error(`Get properties failed with status: ${res.status}`, res);
-    }
-
-    const data = await res.json();
-    return data;
-}
-
-//GET properties by user
-async function getWorkspaces() {    
-    const res = await fetch('http://localhost:3001/workspaces');
-
-    if (!res.ok) {
-        if (res.status === 401) return null; // Unauthorized
-        throw new Error(`Get workspaces failed with status: ${res.status}`, res);
-    }
-
-    const data = await res.json();
-    return data;
-}
 
 function checkAuthState() {
     const user = JSON.parse(localStorage.getItem('currentUser'));

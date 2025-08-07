@@ -19,7 +19,7 @@ document?.getElementById("registrationForm")?.addEventListener("submit", async f
         const newUser = { firstName, lastName, email, phone, password, role };
 
         // Save new user
-        userResp = await createUser(newUser)    
+        userResp = await api_createUser(newUser)    
                 
         alert("Registration successful!");
         // Redirect to login page
@@ -28,21 +28,3 @@ document?.getElementById("registrationForm")?.addEventListener("submit", async f
         alert(`Registration error: ${e}`);
     }    
 });
-
-//POST Create user
-async function createUser(user) {  
-    e.preventDefault();  
-    const res = await fetch('http://localhost:3001/users', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(user),
-    });
-
-    if (!res.ok) {
-        if (res.status === 401) return null; // Unauthorized        
-        throw new Error(`Login failed with status: ${res.status}`);        
-    }
-
-    const data = await res.json();
-    return data.user;
-}
