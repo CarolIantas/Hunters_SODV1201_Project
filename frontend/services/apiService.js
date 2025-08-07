@@ -36,6 +36,7 @@ const api_deleteProperty = (id) => request(`/properties/${id}`, 'DELETE');
 // WORKSPACES
 const api_getWorkspaces = () => request('/workspaces');
 const api_getWorkspaceById = (id) => request(`/workspaces/${id}`);
+const api_getWorkspaceByPropertyId = (id) => request(`/workspaces/property/${id}`);
 const api_createWorkspace = (workspace) => request('/workspaces', 'POST', workspace);
 const api_updateWorkspace = (id, workspace) => request(`/workspaces/${id}`, 'PUT', workspace);
 const api_deleteWorkspace = (id) => request(`/workspaces/${id}`, 'DELETE');

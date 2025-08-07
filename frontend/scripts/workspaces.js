@@ -14,8 +14,8 @@ async function startEditWorkspace(index) {
   let ws = workspaces.filter(f => f.workspace_id == index);
 
   if (ws.length === 0) {
-    //retrive from database
-    ws = await getWorkspaceById(index);
+    //retrive from database    
+    ws = await api_getWorkspaceById(index);
     console.log(ws);
   }
 
@@ -46,19 +46,6 @@ async function startEditWorkspace(index) {
   
 
   openModal('editWorkspaceModal');
-}
-
-async function getWorkspaceById(index) {
-
-  const res = await fetch(`http://localhost:3001/workspaces/${index}`);
-
-  if (!res.ok) {
-    if (res.status === 401) return null; // Unauthorized        
-    throw new Error(`get property's workspaces failed with status: ${res.status}`);
-  }
-
-  const data = await res.json();
-  return data;
 }
 
 function saveWorkspaceEdit() {

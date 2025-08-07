@@ -66,15 +66,7 @@ async function startEditProperty(index) {
   } else {
     //get from database
     //GET property by id
-    const res = await fetch(`http://localhost:3001/properties/${index}`);
-
-    if (!res.ok) {
-        if (res.status === 401) return null; // Unauthorized
-        throw new Error(`Get property failed with status: ${res.status}`, res);
-    }
-
-    property = await res.json();        
-    
+    property = await api_getPropertyById(index);
   }
 
   //form fields
@@ -111,7 +103,7 @@ async function confirmPropertyDelete() {
   const idProperty = document.getElementById('deletePropertyId').value;  
     
   //delete from database
-  const resDel = await deleteProperty(idProperty);
+  const resDel = await api_deleteProperty(idProperty);
 
   if (!resDel.ok) {
     //get item in the local storage and delete it
@@ -165,11 +157,11 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
     //insert in the database
     const maxPropertyId = JSON.parse(localStorage.getItem("properties")).length + 1;
     propertyObj.property_id = maxPropertyId;
-    newOrUpdateProperty = await createProperty(propertyObj);    
+    newOrUpdateProperty = await api_createProperty(propertyObj);    
   } else {
     //update in the database
     propertyObj.property_id = property_id;
-    newOrUpdateProperty = await updateProperty(propertyObj); 
+    newOrUpdateProperty = await api_updateProperty(propertyObj); 
   };
 
   //update local storage
@@ -195,55 +187,6 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
 
   renderProperties();
 });
-
-async function createProperty(property) {      
-    console.log(property);    
-    const res = await fetch('http://localhost:3001/properties', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(property),
-    });
-
-    if (!res.ok) {
-        if (res.status === 401) return null; // Unauthorized        
-        throw new Error(`Create property failed with status: ${res.status}`);        
-    }
-
-    const data = await res.json();
-    return data.property;
-}
-
-async function updateProperty(property) {
-  console.log(property);    
-    const res = await fetch(`http://localhost:3001/properties/${property.property_id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(property),
-    });
-
-    if (!res.ok) {
-        if (res.status === 401) return null; // Unauthorized        
-        throw new Error(`Update property failed with status: ${res.status}`);        
-    }
-
-    const data = await res.json();
-    return data.property;
-}
-
-async function deleteProperty(id) {
-  console.log(id)      
-    const res = await fetch(`http://localhost:3001/properties/${id}`, {
-        method: 'DELETE'        
-    });
-
-    if (!res.ok) {
-        if (res.status === 401) return null; // Unauthorized        
-        throw new Error(`Delete property failed with status: ${res.status}`);        
-    }
-
-    const data = await res.json();
-    return data;
-}
 
 document?.getElementById("addNewPropertyButton").addEventListener("click", function (e) {
   showForm();
@@ -278,7 +221,7 @@ async function viewPropertyDetails(index){
   const workspaceConatiner = document?.getElementById("workspaceList");
 
   //get workspaces from database  
-  const workspaces = await getWorkspaces(index);  
+  const workspaces = await api_getWorkspaceByPropertyId(index);  
 
   workspaces.forEach((work, index) => {
     const card = document.createElement('div');
@@ -332,19 +275,6 @@ document?.getElementById("cancelWorkspaceBtn").addEventListener("click", functio
   workspaceModal.classList.add("hidden"); 
   workspaceConatiner.innerHTML = '';
 });
-
-async function getWorkspaces(idProperty){  
-  const res = await fetch(`http://localhost:3001/workspaces/property/${idProperty}`);
-
-  if (!res.ok) {
-      if (res.status === 401) return null; // Unauthorized        
-      throw new Error(`get property's workspaces failed with status: ${res.status}`);        
-  }
-
-  const data = await res.json();
-  return data;
-}
-
 
 document?.getElementById('propertyImage')?.addEventListener('change', function (event) {
     const file = event.target.files[0];
