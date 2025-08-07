@@ -18,3 +18,7 @@ https://dbdiagram.io/d/687b346df413ba3508a452ee
 3. run npm install express
 4. run npm install cors
 
+## frontend
+1. select index.html
+2. Click on Go Live
+

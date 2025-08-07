@@ -42,14 +42,21 @@ router.post('/properties', (req, res) => {
     return res.status(400).json({ message: "Missing required fields" });
   }*/
 
+  //get maxid to add + 1
+  const sortedProp = properties.sort((a, b) => a.property_id - b.property_id);
+  
+  let maxId = sortedProp[sortedProp.length-1]?.property_id;
+  maxId++;
+
   // Check for duplicate ID
-  if (properties.some(p => p.property_id === newProperty.property_id)) {
+  if (properties.some(p => p.property_id === maxId)) {
     return res.status(409).json({ message: "Property with this ID already exists" });
   }
 
+  console.log(maxId);
   // Formatting data save to database
   const FormattedProperties = {
-    property_id: properties.length+1,
+    property_id: maxId,
     user_id: newProperty.user_id,
     title: newProperty.title,
     Public_transport: newProperty.Public_transport,
