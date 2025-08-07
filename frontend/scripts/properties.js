@@ -264,7 +264,7 @@ function showForm(){
 
 }
 
-function viewPropertyDetails(index){
+async function viewPropertyDetails(index){
   //show modal
   const workspaceModal = document?.getElementById("workspaceModal");
   workspaceModal.classList.remove("hidden");
@@ -272,7 +272,9 @@ function viewPropertyDetails(index){
 
   //get workspace list container
   const workspaceConatiner = document?.getElementById("workspaceList");
-  const workspaces = JSON.parse(localStorage.getItem('workspaces')) || [];  
+
+  //get workspaces from database  
+  const workspaces = getWorkspaces(index);
 
   workspaces.forEach((work, index) => {
     const card = document.createElement('div');
@@ -331,3 +333,15 @@ document?.getElementById("addWorkspaceBtn").addEventListener("click", function (
   e.preventDefault();
   alert("New workspace");
 });
+
+async function getWorkspaces(idProperty){  
+  const res = await fetch(`http://localhost:3001/wprkspaces/property/${idProperty}`);
+
+  if (!res.ok) {
+      if (res.status === 401) return null; // Unauthorized        
+      throw new Error(`get property's workspaces failed with status: ${res.status}`);        
+  }
+
+  const data = await res.json();
+  return data;
+}
