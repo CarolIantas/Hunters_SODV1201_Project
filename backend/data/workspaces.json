@@ -60,20 +60,6 @@
     "availability_status": true
   },
   {
-    "workspace_id": "6",
-    "property_id": "6",
-    "name": "Creative Studio",
-    "decription": "Great for designers",
-    "smoking": true,
-    "images": "workspace4.jpg",
-    "type_of_room": "",
-    "price": "900",
-    "capacity": "2",
-    "availability_status": true,
-    "date": "2025-08-07T19:33:30.589Z",
-    "term": ""
-  },
-  {
     "workspace_id": 7,
     "name": "WORKSPACE 1",
     "decription": "Great for designers",
@@ -98,5 +84,16 @@
     "type_of_room": "private",
     "price": "12",
     "capacity": "1"
+  },
+  {
+    "workspace_id": "10",
+    "property_id": "6",
+    "name": "WORKSPACE 12",
+    "decription": "Great for designers",
+    "type_of_room": "private",
+    "price": "12",
+    "capacity": "1",
+    "date": "2025-08-07T20:20:14.907Z",
+    "term": ""
   }
 ]

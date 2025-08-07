@@ -99,7 +99,7 @@ router.put('/workspaces/:id', (req, res) => {
 // DELETE - Remove a workspace by ID
 router.delete('/workspaces/:id', (req, res) => {
   const workspaces = readWorkspaces();
-  const filteredWorkspaces = workspaces.filter(w => w.id != req.params.id);
+  const filteredWorkspaces = workspaces.filter(w => w.workspace_id != req.params.id);
 
   if (workspaces.length === filteredWorkspaces.length) {
     return res.status(404).json({ message: "Workspace not found" });

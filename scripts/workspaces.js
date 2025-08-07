@@ -90,6 +90,11 @@ async function saveWorkspaceEdit() {
   localStorage.setItem('workspaces', JSON.stringify(workspaces));
   
   //clear form
+
+  //close modal
+  closeModal('editWorkspaceModal');
+
+  //update workspaces
   viewPropertyDetails(document?.getElementById("addPropertyForm").getAttribute("property_id"));
 }
 
@@ -98,12 +103,24 @@ function startDeleteWorkspace(index) {
   openModal('deleteWorkspaceModal');
 }
 
-function confirmWorkspaceDelete() {
-  const index = document.getElementById('deleteWorkspaceId').value;
-  const workspaces = JSON.parse(localStorage.getItem('workspaces')) || [];
-  workspaces.splice(index, 1);
+async function confirmWorkspaceDelete() {  
+  const workspaceId = document.getElementById('deleteWorkspaceId').value;
+  const workspaces = JSON.parse(localStorage.getItem('workspaces')) || []
+
+  //delete from database
+  await api_deleteWorkspace(workspaceId);
+  
+  //delete from localstorage
+  const indWS = workspaces.findIndex(f => f.workspace_id == workspaceId);
+  if (indWS > -1){
+    workspaces.splice(indWS, 1);  
+  };
   localStorage.setItem('workspaces', JSON.stringify(workspaces));
+  
+  //close delete modal
   closeModal('deleteWorkspaceModal');
+  
+  //update workspaces
   viewPropertyDetails(document?.getElementById("addPropertyForm").getAttribute("property_id"));
 }
 
