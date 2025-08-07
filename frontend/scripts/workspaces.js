@@ -8,7 +8,7 @@ function Workspaces() {
 function renderWorkspaces() {
   const workspaces = JSON.parse(localStorage.getItem('workspaces')) || [];
   const container = document.getElementById('workspaceList');
-  container?.innerHTML = '';
+  //container.innerHTML = '';
   workspaces.forEach((ws, index) => {
     const div = document.createElement('div');
     div.className = 'p-4 border rounded mb-2';

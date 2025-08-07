@@ -61,57 +61,64 @@
 <main class="max-w-7xl mx-auto px-4 py-8">
   <div class="flex justify-between items-center mb-8">
     <h1 class="text-2xl font-bold">My Properties</h1>
-    <button id="addNewProperty" class="px-4 py-2 bg-green-600 text-white rounded">New Property</button>
+    <button id="addNewPropertyButton" class="px-4 py-2 bg-green-600 text-white rounded">New Property</button>
   </div>
 
+  <form id="addPropertyForm" class="space-y-4 mb-4 hidden">
+    <input type="text" id="newWorkspaceName" class="w-full p-3 border border-gray-300 rounded"
+      placeholder="Workspace name..." required>
+    <input type="text" id="newPropertyAddress" class="w-full p-3 border border-gray-300 rounded"
+      placeholder="Address..." required>
+    <input type="text" id="newPropertyNeighborhood" class="w-full p-3 border border-gray-300 rounded"
+      placeholder="Neighborhood..." required>
+    <div class="flex gap-4">
+      <!-- Image upload area -->
+      <div class="flex-1 border-2 border-dashed border-gray-300 rounded p-8 text-center bg-gray-100">
+        <div class="text-gray-400 text-4xl mb-2">🖼️</div>
+        <input type="file" id="propertyImage" accept="image/*" class="hidden">
+        <label for="propertyImage" class="cursor-pointer text-gray-500 hover:text-gray-700">
+          Click to upload image
+        </label>
+      </div>
+    </div>
+    <!-- Checkboxes -->
+    <div class="space-y-4">
+      <input type="number" id="newSqft" class="w-32 p-3 border border-gray-300 rounded" placeholder="Sqft" required>
+      <div class="flex items-center space-x-2">
+        <input type="checkbox" id="parking" class="h-4 w-4">
+        <label for="parking" class="text-sm">Parking</label>
+      </div>
 
+      <div class="flex items-center space-x-2">
+        <input type="checkbox" id="publicTransportation" class="h-4 w-4">
+        <label for="publicTransportation" class="text-sm">Public transportation</label>
+      </div>
+    </div>
 
-  <div id="propertiesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Dropdown -->
+    <select id="listingStatus" class="w-48 p-3 border border-gray-300 rounded">
+      <option value="">Listed/ Not Listed</option>
+      <option value="listed">Listed</option>
+      <option value="not-listed">Not Listed</option>
+    </select>
+
+    <div class="flex justify-end gap-4 mt-6">
+      <button id="cancelButton"
+        class="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg shadow-sm hover:bg-gray-300 transition-colors">
+        Cancel
+      </button>
+
+      <button type="submit"
+        class="px-6 py-2 bg-green-600 text-white rounded-lg shadow-sm hover:bg-green-700 transition-colors">
+        Save
+      </button>
+    </div>
+  </form>
+
+  
     <!-- Properties will be dynamically inserted here -->
-    <form id="addPropertyForm" class="space-y-4 mb-4 hidden">
-      <input type="text" id="newWorkspaceName" class="w-full p-3 border border-gray-300 rounded"
-        placeholder="Workspace name..." required>
-      <input type="text" id="newPropertyAddress" class="w-full p-3 border border-gray-300 rounded"
-        placeholder="Address..." required>
-      <input type="text" id="newPropertyNeighborhood" class="w-full p-3 border border-gray-300 rounded"
-        placeholder="Neighborhood..." required>        
-      <div class="flex gap-4">        
-        <!-- Image upload area -->
-        <div class="flex-1 border-2 border-dashed border-gray-300 rounded p-8 text-center bg-gray-100">
-          <div class="text-gray-400 text-4xl mb-2">🖼️</div>
-          <input type="file" id="propertyImage" accept="image/*" class="hidden">
-          <label for="propertyImage" class="cursor-pointer text-gray-500 hover:text-gray-700">
-            Click to upload image
-          </label>
-        </div>
-      </div>      
-      <!-- Checkboxes -->
-      <div class="space-y-4">
-        <input type="number" id="newSqft" class="w-32 p-3 border border-gray-300 rounded" placeholder="Sqft" required>
-        <div class="flex items-center space-x-2">
-          <input type="checkbox" id="parking" class="h-4 w-4">
-          <label for="parking" class="text-sm">Parking</label>          
-        </div>
-
-        <div class="flex items-center space-x-2">
-          <input type="checkbox" id="publicTransportation" class="h-4 w-4">
-          <label for="publicTransportation" class="text-sm">Public transportation</label>          
-        </div>
-      </div>
-
-      <!-- Dropdown -->
-      <select id="listingStatus" class="w-48 p-3 border border-gray-300 rounded">
-        <option value="">Listed/ Not Listed</option>
-        <option value="listed">Listed</option>
-        <option value="not-listed">Not Listed</option>
-      </select>
-
-      <div class="flex justify-end">
-        <button type="submit" class="px-6 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Save</button>
-      </div>
-    </form>    
-    <div id="propertyList">
-      <div id="workspaceList"></div>
+    <div id="propertyList" class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      
     </div>
     <div id="workspaceModal"
       class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -131,8 +138,8 @@
           </form>
         </div>
       </div>
-    </div>    
-  </div>  
+    </div>
+  
 </main>
 
 <!-- Footer -->
