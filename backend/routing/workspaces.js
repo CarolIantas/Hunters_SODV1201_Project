@@ -44,18 +44,18 @@ router.post('/workspaces', (req, res) => {
   // Formatting data save to database
   const FormattedWorkSpaces = {
     workspace_id: maxId,
-    property_id: 2,
-    name: "Creative Studio",
-    decription: "Great for designers",
-    smoking: true,
-    images: "workspace4.jpg",
-    type_of_room: "studio",
-    price: 700.00,
-    capacity: 2,
-    availability_status: true
+    property_id: newWorkspace.property_id,
+    name: newWorkspace.name,
+    decription: newWorkspace.decription,
+    smoking: newWorkspace.smoking,
+    images: newWorkspace.images,
+    type_of_room: newWorkspace.type_of_room,
+    price: newWorkspace.price,
+    capacity: newWorkspace.capacity,
+    availability_status: newWorkspace.availability_status
   };
 
-  workspaces.push(newWorkspace);
+  workspaces.push(FormattedWorkSpaces);
   writeWorkspaces(workspaces);
 
   res.status(201).json({ message: "Workspace created", workspace: newWorkspace });
