@@ -2,6 +2,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const { title } = require('process');
 const router = express.Router();
 
 // File configuration
@@ -46,7 +47,23 @@ router.post('/properties', (req, res) => {
     return res.status(409).json({ message: "Property with this ID already exists" });
   }
 
-  properties.push(newProperty);
+  // Formatting data save to database
+  const FormattedProperties = {
+    property_id: properties.length+1,
+    user_id: test,
+    title: newProperty.name,
+    Public_transport: true,
+    smoking: false,
+    SQ_foot: 950,
+    address: "123 Main St, Cityville",
+    neighborhood: 4.2,
+    images: "image1.jpg",
+    type_of_properties: "apartment",
+    parking: true,
+    date: "2025-08-01"
+  };
+
+  properties.push(FormattedProperties);
   writeProperties(properties);
 
   res.status(201).json({ message: "Property created", property: newProperty });
