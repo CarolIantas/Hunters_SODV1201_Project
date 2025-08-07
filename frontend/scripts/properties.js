@@ -15,7 +15,7 @@ function renderProperties() {
         </svg>
       </div>
       <div class="p-4">
-        <h3 class="font-semibold text-gray-800 mb-2">${prop?.title || 'No Address'}</h3>
+        <h3 class="font-semibold text-gray-800 mb-2">${prop?.title}</h3>
         <p class="text-sm text-gray-600 mb-4">${prop?.address} - ${prop?.neighborhood || 'No Neighborhood'}</p>
         <div class="flex items-center justify-between mt-4">
           <!-- Edit + Delete Icons -->
@@ -96,27 +96,28 @@ async function startEditProperty(index) {
   publicTransportation.value = property.Public_transport;
   listingStatus.value = 1;
 
-  document?.getElementById("addPropertyForm").setAttribute("property_id", property.id);
+  document?.getElementById("addPropertyForm").setAttribute("property_id", property.property_id);
 
   showForm();
 }
 
-function startDeleteProperty(index) {
-  document.getElementById('deletePropertyId').value = index;
+function startDeleteProperty(idProperty) {
+  document.getElementById('deletePropertyId').value = idProperty;
   openModal('deletePropertyModal');
 }
 
 async function confirmPropertyDelete() {
 
-  const index = document.getElementById('deletePropertyId').value;  
+  const idProperty = document.getElementById('deletePropertyId').value;  
     
   //delete from database
-  const resDel = await deleteProperty(index);
+  const resDel = await deleteProperty(idProperty);
 
   if (!resDel.ok) {
     //get item in the local storage and delete it
     const properties = JSON.parse(localStorage.getItem('properties')) || [];
-    properties.splice(index-1, 1);
+    const indexProperty = properties.findIndex(f => f.property_id == idProperty);
+    properties.splice(indexProperty, 1);
 
     localStorage.setItem('properties', JSON.stringify(properties));
     closeModal('deletePropertyModal');
@@ -139,8 +140,6 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
   const publicTransportation = document?.getElementById("publicTransportation");
   const listingStatus = document?.getElementById("listingStatus");
 
-  console.log(propertyImage.files[0]);
-
   //Set the object:
   const propertyObj = {    
     "user_id": JSON.parse(localStorage.getItem("currentUser")).user_id,
@@ -160,21 +159,22 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
 
   //check if it is an update or an insert
   const property_id = this.getAttribute("property_id");  
+  console.log(property_id)
   let newOrUpdateProperty;
   if (property_id === null) {
     //insert in the database
     const maxPropertyId = JSON.parse(localStorage.getItem("properties")).length + 1;
-    propertyObj.id = maxPropertyId;
+    propertyObj.property_id = maxPropertyId;
     newOrUpdateProperty = await createProperty(propertyObj);    
   } else {
     //update in the database
-    propertyObj.id = property_id;
+    propertyObj.property_id = property_id;
     newOrUpdateProperty = await updateProperty(propertyObj); 
   };
 
   //update local storage
   const propertyLS = JSON.parse(localStorage.getItem("properties"));
-  const indexPropLS = propertyLS?.findIndex(f => f.id == propertyObj.id);
+  const indexPropLS = propertyLS?.findIndex(f => f.property_id == propertyObj.id);
   if (indexPropLS > -1) {
     propertyLS[indexPropLS] = newOrUpdateProperty;
   } else {
@@ -214,8 +214,8 @@ async function createProperty(property) {
 }
 
 async function updateProperty(property) {
-  
-    const res = await fetch(`http://localhost:3001/properties/${property.id}`, {
+  console.log(property);    
+    const res = await fetch(`http://localhost:3001/properties/${property.property_id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(property),

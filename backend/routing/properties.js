@@ -43,7 +43,7 @@ router.post('/properties', (req, res) => {
   }*/
 
   // Check for duplicate ID
-  if (properties.some(p => p.id === newProperty.id)) {
+  if (properties.some(p => p.property_id === newProperty.property_id)) {
     return res.status(409).json({ message: "Property with this ID already exists" });
   }
 
@@ -51,7 +51,7 @@ router.post('/properties', (req, res) => {
   const FormattedProperties = {
     property_id: properties.length+1,
     user_id: newProperty.user_id,
-    title: newProperty.name,
+    title: newProperty.title,
     Public_transport: newProperty.Public_transport,
     SQ_foot: newProperty.SQ_foot,
     address: newProperty.address,
@@ -93,7 +93,7 @@ router.get('/properties/:id', (req, res) => {
 // UPDATE - Update a property by ID
 router.put('/properties/:id', (req, res) => {
   const properties = readProperties();
-  const index = properties.findIndex(p => p.id == req.params.id);
+  const index = properties.findIndex(p => p.property_id == req.params.id);
 
   if (index === -1) return res.status(404).json({ message: "Property not found" });
 
@@ -107,7 +107,7 @@ router.put('/properties/:id', (req, res) => {
 // DELETE - Remove a property by ID
 router.delete('/properties/:id', (req, res) => {
   const properties = readProperties();
-  const filteredProperties = properties.filter(p => p.id != req.params.id);
+  const filteredProperties = properties.filter(p => p.property_id != req.params.id);
 
   if (properties.length === filteredProperties.length) {
     return res.status(404).json({ message: "Property not found" });
