@@ -17,10 +17,8 @@ app.use(workspaceRoutes)
 
 
 //Port and listening for server
-const URL = process.env.URL || 'https://caroliantas.github.io/Hunters_SODV1201_Project/';
-app.listen(URL, () => {
-
-    console.log(`Server is running on ${URL}`)
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
     
 })
 
