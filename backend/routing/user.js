@@ -46,9 +46,9 @@ router.post('/users', (req, res) => {
     Fullname: `${ObjectName.firstName} ${ObjectName.lastName}`,
     firstName: ObjectName.firstName,
     lastName: ObjectName.lastName,
-    email: newUser.email.replace,
-    phone: newUser.phone.replace(/[^\w\s]/gi, ''),
-    password: newUser.password.replace(/[^\s]/gi, ''),
+    email: newUser.email,
+    phone: newUser.phone,
+    password: newUser.password,
     role: newUser.role
   };
 
