@@ -278,8 +278,7 @@ async function viewPropertyDetails(index){
   const workspaceConatiner = document?.getElementById("workspaceList");
 
   //get workspaces from database  
-  const workspaces = await getWorkspaces(index);
-  console.log(workspaces);
+  const workspaces = await getWorkspaces(index);  
 
   workspaces.forEach((work, index) => {
     const card = document.createElement('div');

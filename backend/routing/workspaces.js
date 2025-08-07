@@ -64,7 +64,7 @@ router.get('/workspaces', (req, res) => {
 // READ - Get a workspace by ID
 router.get('/workspaces/:id', (req, res) => {
   const workspaces = readWorkspaces();
-  const workspace = workspaces.find(w => w.id == req.params.id);
+  const workspace = workspaces.find(w => w.workspace_id == req.params.id);
 
   if (!workspace) return res.status(404).json({ message: "Workspace not found" });
   res.json(workspace);
