@@ -52,18 +52,5 @@
     "date": "2025-08-07T19:33:54.027Z",
     "smoking": true,
     "status": ""
-  },
-  {
-    "property_id": 7,
-    "user_id": 6,
-    "title": "NEW  PROPERTY 3",
-    "Public_transport": true,
-    "SQ_foot": "1200",
-    "address": "234 5 St SE",
-    "neighborhood": "Stampede",
-    "images": "Generic.jpg",
-    "type_of_properties": "house",
-    "parking": true,
-    "date": "2025-08-07"
   }
 ]

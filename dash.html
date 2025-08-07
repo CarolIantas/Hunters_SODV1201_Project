@@ -126,26 +126,32 @@
   <div id="workspaceModal"
     class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
 
-    <div class="bg-white rounded-lg shadow-xl w-[90%] lg:w-[80%] max-h-[90vh] overflow-y-auto">
+    <div class="bg-white rounded-lg shadow-xl w-[90%] lg:w-[80%] max-h-[90vh] overflow-y-auto relative">
       <div class="p-6">
-        <h3 class="text-xl font-bold mb-4">Workspaces</h3>
 
+        <!-- Title and Buttons Row -->
+        <div class="flex items-center justify-between mb-6">
+          <h3 class="text-xl font-bold">Workspaces</h3>
+
+          <div class="flex gap-2">
+            <button id="cancelWorkspaceBtn" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded">
+              Cancel
+            </button>
+            <button id="addWorkspaceBtn" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">
+              Add New
+            </button>
+          </div>
+        </div>
+
+        <!-- Workspace Cards Grid -->
         <div id="workspaceList" class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-          <!-- Long content will go here -->
+          <!-- Cards will be dynamically injected here -->
         </div>
 
-        <!-- Buttons -->
-        <div class="flex justify-end gap-2">
-          <button id="cancelWorkspaceBtn" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded">
-            Cancel
-          </button>
-          <button id="addWorkspaceBtn" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">
-            Add New
-          </button>
-        </div>
       </div>
     </div>
   </div>
+
 
 
 </main>

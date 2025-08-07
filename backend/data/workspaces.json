@@ -87,13 +87,49 @@
   },
   {
     "workspace_id": "10",
-    "property_id": "6",
-    "name": "WORKSPACE 12",
+    "property_id": "5",
+    "name": "NEW WORKSPACE",
+    "decription": "",
+    "type_of_room": "private",
+    "price": "120",
+    "capacity": "1",
+    "date": "2025-08-07T20:22:27.858Z",
+    "term": ""
+  },
+  {
+    "workspace_id": 11,
+    "property_id": "5",
+    "name": "NEW WORKSPACE2",
     "decription": "Great for designers",
     "type_of_room": "private",
     "price": "12",
-    "capacity": "1",
-    "date": "2025-08-07T20:20:14.907Z",
-    "term": ""
+    "capacity": "1"
+  },
+  {
+    "workspace_id": 12,
+    "property_id": "5",
+    "name": "NEW WORKSPACE2",
+    "decription": "Great for designers",
+    "type_of_room": "private",
+    "price": "12",
+    "capacity": "1"
+  },
+  {
+    "workspace_id": 13,
+    "property_id": "5",
+    "name": "NEW WORKSPACE2",
+    "decription": "Great for designers",
+    "type_of_room": "private",
+    "price": "12",
+    "capacity": "1"
+  },
+  {
+    "workspace_id": 14,
+    "property_id": "5",
+    "name": "NEW WORKSPACE2",
+    "decription": "Great for designers",
+    "type_of_room": "private",
+    "price": "12",
+    "capacity": "1"
   }
 ]
