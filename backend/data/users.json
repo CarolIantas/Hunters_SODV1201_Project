@@ -57,14 +57,5 @@
     "phone": "3688896793",
     "password": "123",
     "role": "owner"
-  },
-  {
-    "user_id": 7,
-    "Fullname": "hi www",
-    "firstName": "hi",
-    "lastName": "www",
-    "phone": "1235648798",
-    "password": "123",
-    "role": "owner"
   }
 ]
