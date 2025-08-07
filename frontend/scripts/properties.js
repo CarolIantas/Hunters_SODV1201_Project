@@ -139,11 +139,14 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
   const publicTransportation = document?.getElementById("publicTransportation");
   const listingStatus = document?.getElementById("listingStatus");
 
+  console.log(propertyImage.files[0]);
+
   //Set the object:
   const propertyObj = {    
     "user_id": JSON.parse(localStorage.getItem("currentUser")).user_id,
     "title": newPropertyName.value,
     "Public_transport": publicTransportation.value === "on",
+    "image": propertyImage.files[0],
     "smoking": true,
     "SQ_foot": newSqft.value,
     "address": newPropertyAddress.value,
@@ -151,6 +154,7 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
     "images": "Generic.jpg",
     "type_of_properties": "house",
     "parking": parking.value === "on",
+    "status": listingStatus.value,
     "date": new Date(),    
   };
 
@@ -346,3 +350,21 @@ async function getWorkspaces(idProperty){
   const data = await res.json();
   return data;
 }
+
+
+document.getElementById('propertyImage').addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function (e) {
+      const previewImg = document.getElementById('imagePreview');
+      previewImg.src = e.target.result;
+
+      // Show the preview container
+      document.getElementById('imagePreviewContainer').classList.remove('hidden');
+    };
+
+    reader.readAsDataURL(file);
+  });
