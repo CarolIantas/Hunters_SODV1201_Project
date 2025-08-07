@@ -1,26 +1,5 @@
-function Workspaces() {
-    console.log("Workspace function called");
-    // Add your workspace logic here
-}
 //still adjusting
 //Attempting to make updates render instead of refreshing
-
-function renderWorkspaces() {
-  const workspaces = JSON.parse(localStorage.getItem('workspaces')) || [];
-  const container = document.getElementById('workspaceList');
-  //container.innerHTML = '';
-  workspaces.forEach((ws, index) => {
-    const div = document.createElement('div');
-    div.className = 'p-4 border rounded mb-2';
-    div.innerHTML = `
-      <p><strong>Type:</strong> ${ws.type}</p>
-      <p><strong>Capacity:</strong> ${ws.capacity}</p>
-      <button class="px-2 py-1 bg-blue-500 text-white rounded" onclick="startEditWorkspace(${index})">Edit</button>
-      <button class="px-2 py-1 bg-red-500 text-white rounded" onclick="startDeleteWorkspace(${index})">Delete</button>
-    `;
-    container.appendChild(div);
-  });
-}
 
 function startEditWorkspace(index) {
   const workspaces = JSON.parse(localStorage.getItem('workspaces')) || [];
@@ -54,5 +33,3 @@ function confirmWorkspaceDelete() {
   closeModal('deleteWorkspaceModal');
   renderWorkspaces();
 }
-
-document.addEventListener('DOMContentLoaded', renderWorkspaces);

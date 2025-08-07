@@ -141,7 +141,7 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
 
   //Set the object:
   const propertyObj = {    
-    "user_id": JSON.parse(localStorage.getItem("currentUser")).id,
+    "user_id": JSON.parse(localStorage.getItem("currentUser")).user_id,
     "title": newPropertyName.value,
     "Public_transport": publicTransportation.value,
     "smoking": true,
@@ -193,6 +193,7 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
 });
 
 async function createProperty(property) {      
+    console.log(property);    
     const res = await fetch('http://localhost:3001/properties', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -262,3 +263,71 @@ function showForm(){
   addNewPropertyButton.classList.add("hidden");
 
 }
+
+function viewPropertyDetails(index){
+  //show modal
+  const workspaceModal = document?.getElementById("workspaceModal");
+  workspaceModal.classList.remove("hidden");
+  
+
+  //get workspace list container
+  const workspaceConatiner = document?.getElementById("workspaceList");
+  const workspaces = JSON.parse(localStorage.getItem('workspaces')) || [];  
+
+  workspaces.forEach((work, index) => {
+    const card = document.createElement('div');
+    card.className = 'bg-white rounded-lg shadow-md overflow-hidden';
+
+    card.innerHTML = `
+      <div class="bg-gray-200 h-40 flex items-center justify-center">
+        <svg class="w-16 h-16 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+        </svg>
+      </div>
+      <div class="p-4">
+        <h3 class="font-semibold text-gray-800 mb-2">${work?.name || 'No Address'}</h3>
+        <p class="text-sm text-gray-600 mb-4">${work?.decription}</p>
+        <p class="text-sm text-gray-600 mb-4">${work?.type_of_room.toUpperCase()} (${work?.capacity})</p>
+        <p className="text-sm text-gray-600 mb-4">
+          ${work?.price != null ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'CAD' }).format(work.price) : '—'}
+        </p>
+        <div class="flex items-center justify-end  mt-4">
+          <!-- Edit + Delete Icons -->
+          <div class="flex gap-2">
+            <button class="bg-gray-700 hover:bg-gray-800 text-white p-2 rounded-lg shadow transition duration-150" onclick="startEditProperty(${work?.workspace_id})" title="Edit">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15.232 5.232l3.536 3.536M9 13l6-6 3 3-6 6H9v-3z" />
+              </svg>
+            </button>
+            <button class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg shadow transition duration-150" onclick="startDeleteProperty(${work?.workspace_id})" title="Delete">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3m5 0H6" />
+              </svg>
+            </button>
+          </div>
+          
+        </div>
+        
+        
+      </div>
+    `;
+
+    workspaceConatiner.appendChild(card);
+  });
+
+}
+
+document?.getElementById("cancelWorkspaceBtn").addEventListener("click", function (e) {
+  e.preventDefault();
+  const workspaceModal = document?.getElementById("workspaceModal");
+  const workspaceConatiner = document?.getElementById("workspaceList");
+  workspaceModal.classList.add("hidden"); 
+  workspaceConatiner.innerHTML = '';
+});
+
+document?.getElementById("addWorkspaceBtn").addEventListener("click", function (e) {
+  e.preventDefault();
+  alert("New workspace");
+});
