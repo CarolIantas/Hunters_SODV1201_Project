@@ -114,7 +114,13 @@ function checkAuthState() {
 }
 
 function Logout() {    
+    
+    //clean local storage
+    localStorage.removeItem('workspaces');
+    localStorage.removeItem('properties');
     localStorage.removeItem('currentUser');
+
+    //redirect to Landing page
     if (getCurrentPage() !== 'index.html') {
         window.location.href = 'index.html';
     }
