@@ -24,7 +24,7 @@ function writeUsers(users) {
 router.post('/users', (req, res) => {
   const users = readUsers();
   const newUser = req.body;
-
+  
   // Optional: Validate required fields
   if (!newUser.password || !newUser.firstName || !newUser.lastName || !newUser.email) {
     return res.status(400).json({ message: "Missing required fields" });
@@ -36,14 +36,19 @@ router.post('/users', (req, res) => {
   }
 
   // Formatting data save to database
+  const ObjectName = {
+    firstName: newUser.firstName.replace(/[^\w\s]/gi, ''),
+    lastName: newUser.lastName.replace(/[^\w\s]/gi, '')
+  }
+
   const FormattedUser = {
     id: users.length+1,
-    Fullname: `${newUser.firstName} ${newUser.lastName}`,
-    firstName: newUser.firstName,
-    lastName: newUser.lastName,
-    email: newUser.email,
-    phone: newUser.phone,
-    password: newUser.password,
+    Fullname: `${ObjectName.firstName} ${ObjectName.lastName}`,
+    firstName: ObjectName.firstName,
+    lastName: ObjectName.lastName,
+    email: newUser.email.replace,
+    phone: newUser.phone.replace(/[^\w\s]/gi, ''),
+    password: newUser.password.replace(/[^\s]/gi, ''),
     role: newUser.role
   };
 

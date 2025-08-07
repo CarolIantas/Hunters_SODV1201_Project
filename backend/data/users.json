@@ -60,11 +60,10 @@
   },
   {
     "id": 7,
-    "Fullname": "Hi boo",
-    "firstName": "Hi",
-    "lastName": "boo",
-    "email": "hiboo@email.com",
-    "phone": "1234568790",
+    "Fullname": "hi www",
+    "firstName": "hi",
+    "lastName": "www",
+    "phone": "1235648798",
     "password": "123",
     "role": "owner"
   }
