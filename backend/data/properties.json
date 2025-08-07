@@ -56,6 +56,7 @@
     "user_id": 6
   },
   {
+<<<<<<< Updated upstream
     "title": "Pedro 2",
     "Public_transport": "on",
     "smoking": true,
@@ -84,6 +85,8 @@
     "id": "3"
   },
   {
+=======
+>>>>>>> Stashed changes
     "user_id": 6,
     "title": "PEDRO 4",
     "Public_transport": "on",
@@ -96,20 +99,6 @@
     "parking": "on",
     "date": "2025-08-07T03:01:05.567Z",
     "id": "4"
-  },
-  {
-    "user_id": 6,
-    "title": "PEDRO 5",
-    "Public_transport": "on",
-    "smoking": true,
-    "SQ_foot": "2",
-    "address": "PEDRO 5",
-    "neighborhood": "PEDRO 5",
-    "images": "Generic.jpg",
-    "type_of_properties": "house",
-    "parking": "on",
-    "date": "2025-08-07T03:00:54.912Z",
-    "id": "5"
   },
   {
     "user_id": 6,
@@ -148,5 +137,49 @@
     "type_of_properties": "house",
     "parking": "on",
     "date": "2025-08-07T04:14:09.808Z"
+  },
+  {
+    "property_id": 12,
+    "Public_transport": "on",
+    "SQ_foot": "1",
+    "address": "123 street",
+    "neighborhood": "1",
+    "images": "Generic.jpg",
+    "type_of_properties": "house",
+    "parking": "on",
+    "date": "2025-08-07T04:23:21.419Z"
+  },
+  {
+    "property_id": 13,
+    "Public_transport": "on",
+    "SQ_foot": "7",
+    "address": "4",
+    "neighborhood": "4",
+    "images": "Generic.jpg",
+    "type_of_properties": "house",
+    "parking": "on",
+    "date": "2025-08-07T04:24:14.383Z"
+  },
+  {
+    "property_id": 14,
+    "Public_transport": "on",
+    "SQ_foot": "7",
+    "address": "7",
+    "neighborhood": "7",
+    "images": "Generic.jpg",
+    "type_of_properties": "house",
+    "parking": "on",
+    "date": "2025-08-07T04:25:31.648Z"
+  },
+  {
+    "property_id": 12,
+    "Public_transport": "on",
+    "SQ_foot": "8",
+    "address": "8",
+    "neighborhood": "8",
+    "images": "Generic.jpg",
+    "type_of_properties": "house",
+    "parking": "on",
+    "date": "2025-08-07T04:26:26.166Z"
   }
 ]
