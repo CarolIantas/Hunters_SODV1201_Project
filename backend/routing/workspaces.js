@@ -35,6 +35,20 @@ router.post('/workspaces', (req, res) => {
     return res.status(409).json({ message: "Workspace with this ID already exists" });
   }
 
+  // Formatting data save to database
+  const FormattedProperties = {
+    workspace_id: workspaces.length+1,
+    property_id: 2,
+    name: "Creative Studio",
+    decription: "Great for designers",
+    smoking: true,
+    images: "workspace4.jpg",
+    type_of_room: "studio",
+    price: 700.00,
+    capacity: 2,
+    availability_status: true
+  };
+
   workspaces.push(newWorkspace);
   writeWorkspaces(workspaces);
 
