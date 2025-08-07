@@ -35,9 +35,15 @@ router.post('/workspaces', (req, res) => {
     return res.status(409).json({ message: "Workspace with this ID already exists" });
   }
 
+   //get maxid to add + 1
+  const sortedProp = workspaces.sort((a, b) => a.workspace_id - b.workspace_id);
+  
+  let maxId = sortedProp[sortedProp.length-1]?.workspace_id;
+  maxId++;
+
   // Formatting data save to database
-  const FormattedProperties = {
-    workspace_id: workspaces.length+1,
+  const FormattedWorkSpaces = {
+    workspace_id: maxId,
     property_id: 2,
     name: "Creative Studio",
     decription: "Great for designers",

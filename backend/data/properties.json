@@ -11,5 +11,18 @@
     "type_of_properties": "house",
     "parking": true,
     "date": "2025-08-07"
+  },
+  {
+    "property_id": 4,
+    "user_id": 8,
+    "title": "RAM RANCH",
+    "Public_transport": true,
+    "SQ_foot": "2",
+    "address": "156 AVE",
+    "neighborhood": "FARMVILLE",
+    "images": "Generic.jpg",
+    "type_of_properties": "house",
+    "parking": true,
+    "date": "2025-08-07"
   }
 ]
