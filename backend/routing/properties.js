@@ -10,6 +10,7 @@ const FILEPATH = path.join(__dirname.replace("routing","data"), FILENAME);
 
 // Helper: read properties from file
 function readProperties(user = null) {    
+
   if (!fs.existsSync(FILEPATH)) return [];    
   const properties = JSON.parse(fs.readFileSync(FILEPATH, 'utf8')); // Now it's an array  
   
@@ -18,7 +19,7 @@ function readProperties(user = null) {
   //check if is there any filter
   if (user !== null ){        
     if (user.role === "owner"){
-      data = properties.filter(f => f.user_id === user.user_id);
+      data = properties.filter(f => f.user_id === user.id);      
     }    
   };
 
@@ -36,9 +37,9 @@ router.post('/properties', (req, res) => {
   const newProperty = req.body;
 
   // Optional: Validate required fields
-  if (!newProperty.id || !newProperty.name || !newProperty.location) {
+  /*if (!newProperty.id || !newProperty.name || !newProperty.location) {
     return res.status(400).json({ message: "Missing required fields" });
-  }
+  }*/
 
   // Check for duplicate ID
   if (properties.some(p => p.id === newProperty.id)) {
@@ -60,7 +61,7 @@ router.get('/properties', (req, res) => {
 // READ - Get all properties
 router.post('/properties/user', (req, res) => {
   const user = req.body;
-  const properties = readProperties(user);
+  const properties = readProperties(user);  
   res.json(properties);
 });
 

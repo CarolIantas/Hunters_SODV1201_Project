@@ -22,7 +22,7 @@ $(document).ready(function () {
             if (user) {                
                 //get data base on user role and store all important data in local storage    
                 //get properties
-                const properties = await getPropertiesByUser(user);                   
+                const properties = await getPropertiesByUser(user);                         
                 
                 //store user and properties on local storage
                 localStorage.setItem('currentUser', JSON.stringify(user));

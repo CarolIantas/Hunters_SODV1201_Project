@@ -1,3 +1,4 @@
+
 function renderProperties() {
   const properties = JSON.parse(localStorage.getItem('properties')) || [];
   const container = document.getElementById('propertyList');
@@ -14,18 +15,18 @@ function renderProperties() {
         </svg>
       </div>
       <div class="p-4">
-        <h3 class="font-semibold text-gray-800 mb-2">${prop.address || 'No Address'}</h3>
-        <p class="text-sm text-gray-600 mb-4">${prop.neighborhood || 'No Neighborhood'}</p>
+        <h3 class="font-semibold text-gray-800 mb-2">${prop?.title || 'No Address'}</h3>
+        <p class="text-sm text-gray-600 mb-4">${prop?.address} - ${prop?.neighborhood || 'No Neighborhood'}</p>
         <div class="flex items-center justify-between mt-4">
           <!-- Edit + Delete Icons -->
           <div class="flex gap-2">
-            <button class="bg-gray-700 hover:bg-gray-800 text-white p-2 rounded-lg shadow transition duration-150" onclick="startEditProperty(${index})" title="Edit">
+            <button class="bg-gray-700 hover:bg-gray-800 text-white p-2 rounded-lg shadow transition duration-150" onclick="startEditProperty(${prop?.id})" title="Edit">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M15.232 5.232l3.536 3.536M9 13l6-6 3 3-6 6H9v-3z" />
               </svg>
             </button>
-            <button class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg shadow transition duration-150" onclick="startDeleteProperty(${index})" title="Delete">
+            <button class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg shadow transition duration-150" onclick="startDeleteProperty(${prop?.id})" title="Delete">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3m5 0H6" />
@@ -34,7 +35,7 @@ function renderProperties() {
           </div>
 
           <!-- Eye Icon -->
-          <button class="ml-auto text-blue-600 hover:text-blue-800 transition duration-150" onclick="viewPropertyDetails(${index})" title="View Details">
+          <button class="ml-auto text-blue-600 hover:text-blue-800 transition duration-150" onclick="viewPropertyDetails(${prop?.id})" title="View Details">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -54,23 +55,50 @@ function renderProperties() {
 }
 
 
-function startEditProperty(index) {
-  const properties = JSON.parse(localStorage.getItem('properties')) || [];
-  const prop = properties[index];
-  document.getElementById('editPropertyId').value = index;
-  document.getElementById('editPropertyAddress').value = prop.address;
-  document.getElementById('editPropertyNeighborhood').value = prop.neighborhood;
-  openModal('editPropertyModal');
-}
+async function startEditProperty(index) {
+  //get the data from the property to update  
+  //try to get from cache
+  const properties = JSON.parse(localStorage.getItem("properties"));
+  const indexProp = properties.findIndex(f => f.id === index);
+  let property;
+  if (indexProp > -1) {
+    property = properties[indexProp];
+  } else {
+    //get from database
+    //GET property by id
+    const res = await fetch(`http://localhost:3001/properties/${index}`);
 
-function savePropertyEdit() {
-  const index = document.getElementById('editPropertyId').value;
-  const properties = JSON.parse(localStorage.getItem('properties')) || [];
-  properties[index].address = document.getElementById('editPropertyAddress').value;
-  properties[index].neighborhood = document.getElementById('editPropertyNeighborhood').value;
-  localStorage.setItem('properties', JSON.stringify(properties));
-  closeModal('editPropertyModal');
-  renderProperties();
+    if (!res.ok) {
+        if (res.status === 401) return null; // Unauthorized
+        throw new Error(`Get property failed with status: ${res.status}`, res);
+    }
+
+    property = await res.json();        
+    
+  }
+
+  //form fields
+  const newPropertyName = document?.getElementById("newPropertyName");
+  const newPropertyAddress = document?.getElementById("newPropertyAddress");
+  const newPropertyNeighborhood = document?.getElementById("newPropertyNeighborhood");
+  const propertyImage = document?.getElementById("propertyImage");
+  const newSqft = document?.getElementById("newSqft");
+  const parking = document?.getElementById("parking");
+  const publicTransportation = document?.getElementById("publicTransportation");
+  const listingStatus = document?.getElementById("listingStatus");
+
+  newPropertyName.value = property.title;
+  newPropertyAddress.value = property.address;
+  newPropertyNeighborhood.value = property.neighborhood;
+  //propertyImage.value = property.images;
+  newSqft.value = property.SQ_foot;
+  parking.value = property.parking;
+  publicTransportation.value = property.Public_transport;
+  listingStatus.value = 1;
+
+  document?.getElementById("addPropertyForm").setAttribute("property_id", property.id);
+
+  showForm();
 }
 
 function startDeleteProperty(index) {
@@ -78,46 +106,142 @@ function startDeleteProperty(index) {
   openModal('deletePropertyModal');
 }
 
-function confirmPropertyDelete() {
-  const index = document.getElementById('deletePropertyId').value;
-  const properties = JSON.parse(localStorage.getItem('properties')) || [];
-  properties.splice(index, 1);
-  localStorage.setItem('properties', JSON.stringify(properties));
-  closeModal('deletePropertyModal');
-  renderProperties();
+async function confirmPropertyDelete() {
+
+  const index = document.getElementById('deletePropertyId').value;  
+    
+  //delete from database
+  const resDel = await deleteProperty(index);
+
+  if (!resDel.ok) {
+    //get item in the local storage and delete it
+    const properties = JSON.parse(localStorage.getItem('properties')) || [];
+    properties.splice(index-1, 1);
+
+    localStorage.setItem('properties', JSON.stringify(properties));
+    closeModal('deletePropertyModal');
+    renderProperties();
+  }  
 }
 
 document?.addEventListener('DOMContentLoaded', renderProperties);
 
-document?.getElementById("addPropertyForm")?.addEventListener("submit", function (e) {
+document?.getElementById("addPropertyForm")?.addEventListener("submit", async function (e) {
   e.preventDefault();
-  const address = document.getElementById("newPropertyAddress").value.trim();
-  const neighborhood = document.getElementById("newPropertyNeighborhood").value.trim();
 
-  if (!address || !neighborhood) return alert("Both fields are required.");
+  //form fields
+  const newPropertyName = document?.getElementById("newPropertyName");
+  const newPropertyAddress = document?.getElementById("newPropertyAddress");
+  const newPropertyNeighborhood = document?.getElementById("newPropertyNeighborhood");
+  const propertyImage = document?.getElementById("propertyImage");
+  const newSqft = document?.getElementById("newSqft");
+  const parking = document?.getElementById("parking");
+  const publicTransportation = document?.getElementById("publicTransportation");
+  const listingStatus = document?.getElementById("listingStatus");
 
-  const properties = JSON.parse(localStorage.getItem("properties")) || [];
-  properties.push({ address, neighborhood });
-  localStorage.setItem("properties", JSON.stringify(properties));
+  //Set the object:
+  const propertyObj = {    
+    "user_id": JSON.parse(localStorage.getItem("currentUser")).id,
+    "title": newPropertyName.value,
+    "Public_transport": publicTransportation.value,
+    "smoking": true,
+    "SQ_foot": newSqft.value,
+    "address": newPropertyAddress.value,
+    "neighborhood": newPropertyNeighborhood.value,
+    "images": "Generic.jpg",
+    "type_of_properties": "house",
+    "parking": parking.value,
+    "date": new Date(),    
+  };
 
+  //check if it is an update or an insert
+  const property_id = this.getAttribute("property_id");  
+  let newOrUpdateProperty;
+  if (property_id === null) {
+    //insert in the database
+    const maxPropertyId = JSON.parse(localStorage.getItem("properties")).length + 1;
+    propertyObj.id = maxPropertyId;
+    newOrUpdateProperty = await createProperty(propertyObj);    
+  } else {
+    //update in the database
+    propertyObj.id = property_id;
+    newOrUpdateProperty = await updateProperty(propertyObj); 
+  };
+
+  //update local storage
+  const propertyLS = JSON.parse(localStorage.getItem("properties"));
+  const indexPropLS = propertyLS?.findIndex(f => f.id == propertyObj.id);
+  if (indexPropLS > -1) {
+    propertyLS[indexPropLS] = newOrUpdateProperty;
+  } else {
+    propertyLS.push(newOrUpdateProperty);    
+  };
+
+  localStorage.setItem('properties', JSON.stringify(propertyLS));
+    
+  //remove id attribute
+  this.removeAttribute("property_id");
+
+  //reset screen
   document?.getElementById("addPropertyForm").reset();
-
   document?.getElementById("addNewPropertyButton").classList.remove("hidden")
-
   const propertyList = document?.getElementById("propertyList");
   propertyList.classList.remove("hidden");
-
   this.classList.add("hidden")
 
   renderProperties();
 });
 
+async function createProperty(property) {      
+    const res = await fetch('http://localhost:3001/properties', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(property),
+    });
+
+    if (!res.ok) {
+        if (res.status === 401) return null; // Unauthorized        
+        throw new Error(`Create property failed with status: ${res.status}`);        
+    }
+
+    const data = await res.json();
+    return data.property;
+}
+
+async function updateProperty(property) {
+  
+    const res = await fetch(`http://localhost:3001/properties/${property.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(property),
+    });
+
+    if (!res.ok) {
+        if (res.status === 401) return null; // Unauthorized        
+        throw new Error(`Update property failed with status: ${res.status}`);        
+    }
+
+    const data = await res.json();
+    return data.property;
+}
+
+async function deleteProperty(id) {
+  console.log(id)      
+    const res = await fetch(`http://localhost:3001/properties/${id}`, {
+        method: 'DELETE'        
+    });
+
+    if (!res.ok) {
+        if (res.status === 401) return null; // Unauthorized        
+        throw new Error(`Delete property failed with status: ${res.status}`);        
+    }
+
+    const data = await res.json();
+    return data;
+}
+
 document?.getElementById("addNewPropertyButton").addEventListener("click", function (e) {
-  const propertyForm = document?.getElementById("addPropertyForm");
-  const propertyList = document?.getElementById("propertyList");
-  propertyForm.classList.remove("hidden");
-  propertyList.classList.add("hidden");
-  this.classList.add("hidden")
+  showForm();
 });
 
 document?.getElementById("cancelButton").addEventListener("click", function (e) {
@@ -128,3 +252,13 @@ document?.getElementById("cancelButton").addEventListener("click", function (e) 
   propertyList.classList.remove("hidden");
   addNewPropertyButton.classList.remove("hidden");
 });
+
+function showForm(){
+  const propertyForm = document?.getElementById("addPropertyForm");
+  const propertyList = document?.getElementById("propertyList");
+  const addNewPropertyButton = document?.getElementById("addNewPropertyButton");
+  propertyForm.classList.remove("hidden");
+  propertyList.classList.add("hidden");
+  addNewPropertyButton.classList.add("hidden");
+
+}
