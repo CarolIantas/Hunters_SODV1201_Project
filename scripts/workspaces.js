@@ -1,12 +1,23 @@
-//still adjusting
-//Attempting to make updates render instead of refreshing
+//fields
+//fill form
+const workspaceName = document?.getElementById('workspaceName');
+const workspaceDescription = document?.getElementById('workspaceDescription');
+const workspaceType = document?.getElementById('workspaceType');
+const workspaceCapacity = document?.getElementById('workspaceCapacity');
+const smoking = document?.getElementById('smoking');
+const workspaceDate = document?.getElementById('workspaceDate');
+const workspaceLeaseTerm = document?.getElementById('workspaceLeaseTerm');
+const workspacePrice = document?.getElementById('workspacePrice');
+const workspacePhoto = document?.getElementById('workspacePhoto');
+const imageWorkspacePreview = document?.getElementById('imageWorkspacePreview');
 
+//Attempting to make updates render instead of refreshing
 function addNewWorkspace() {
   openModal('editWorkspaceModal');
 }
 
-async function startEditWorkspace(index) {
-  console.log(index)
+async function startEditWorkspace(index, propertyId) {
+  editWorkspaceId = propertyId;
   //get workspace
   const workspaces = JSON.parse(localStorage.getItem('workspaces')) || [];
 
@@ -15,8 +26,7 @@ async function startEditWorkspace(index) {
 
   if (ws.length === 0) {
     //retrive from database    
-    ws = await api_getWorkspaceById(index);
-    console.log("AQUI", ws);
+    ws = await api_getWorkspaceById(index);    
   } else {
     ws = ws[0];
   }
@@ -24,18 +34,6 @@ async function startEditWorkspace(index) {
   //set id
   document.getElementById('editWorkspaceId').value = index;
 
-
-  //fill form
-  const workspaceName = document.getElementById('workspaceName');
-  const workspaceDescription = document.getElementById('workspaceDescription');
-  const workspaceType = document.getElementById('workspaceType');
-  const workspaceCapacity = document.getElementById('workspaceCapacity');
-  const smoking = document.getElementById('smoking');
-  const workspaceDate = document.getElementById('workspaceDate');
-  const workspaceLeaseTerm = document.getElementById('workspaceLeaseTerm');
-  const workspacePrice = document.getElementById('workspacePrice');
-  const workspacePhoto = document.getElementById('workspacePhoto');
-  const imageWorkspacePreview = document.getElementById('imageWorkspacePreview');
 
   workspaceName.value = ws.name ? ws.name : "";
   workspaceDescription.value = ws.decription ? ws.decription : "";
@@ -50,19 +48,49 @@ async function startEditWorkspace(index) {
   openModal('editWorkspaceModal');
 }
 
-function saveWorkspaceEdit() {
+async function saveWorkspaceEdit() {
+
+  //updated object 
+  wsObject = {    
+    property_id: document?.getElementById("addPropertyForm").getAttribute("property_id"),
+    name: workspaceName.value,
+    decription: workspaceDescription.value,
+    type_of_room: workspaceType.value,
+    capacity: workspaceCapacity.value,
+    //smoking: smoking.value,
+    date: workspaceDate.date,
+    term: workspaceLeaseTerm.value, 
+    price: workspacePrice.value
+  }
+
   //get workspaces id
-  const index = document.getElementById('editWorkspaceId').value;
+  const workspaceId = document.getElementById('editWorkspaceId').value;
+  let newWS;
+  //update/create database
+  if (workspaceId > 0){
+    wsObject.workspace_id = workspaceId;
+    newWS = await api_updateWorkspace(workspaceId, wsObject); 
+  } else {
+    newWS = await api_createWorkspace(wsObject);    
+  }
 
   //update local storage
-  const workspaces = JSON.parse(localStorage.getItem('workspaces')) || [];
+  const workspaces = JSON.parse(localStorage.getItem('workspaces')) || [];  
+  if (workspaces.length > 0) {
+    const indexWS = workspaces.findIndex(f => f.workspace_id === workspaceId);
+    if (indexWS > -1){
+      wsObject.workspace_id = workspaceId;
+      workspaces[indexWS] = wsObject;
+    } else {
+      workspaces.push(newWS);
+    }
+  };
 
-  
-  workspaces[index].type = document.getElementById('editWorkspaceType').value;
-  workspaces[index].capacity = parseInt(document.getElementById('editWorkspaceCapacity').value);
+  //update  
   localStorage.setItem('workspaces', JSON.stringify(workspaces));
-  closeModal('editWorkspaceModal');
-  renderWorkspaces();
+  
+  //clear form
+  viewPropertyDetails(document?.getElementById("addPropertyForm").getAttribute("property_id"));
 }
 
 function startDeleteWorkspace(index) {
@@ -76,7 +104,7 @@ function confirmWorkspaceDelete() {
   workspaces.splice(index, 1);
   localStorage.setItem('workspaces', JSON.stringify(workspaces));
   closeModal('deleteWorkspaceModal');
-  renderWorkspaces();
+  viewPropertyDetails(document?.getElementById("addPropertyForm").getAttribute("property_id"));
 }
 
 document?.getElementById("addWorkspaceBtn").addEventListener("click", function (e) {

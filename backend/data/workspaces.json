@@ -7,7 +7,7 @@
     "smoking": false,
     "images": "workspace1.jpg",
     "type_of_room": "private",
-    "price": 500.00,
+    "price": 500,
     "capacity": 4,
     "availability_status": true
   },
@@ -19,7 +19,7 @@
     "smoking": false,
     "images": "workspace2.jpg",
     "type_of_room": "meeting",
-    "price": 300.00,
+    "price": 300,
     "capacity": 10,
     "availability_status": false
   },
@@ -31,7 +31,7 @@
     "smoking": false,
     "images": "workspace3.jpg",
     "type_of_room": "shared",
-    "price": 150.00,
+    "price": 150,
     "capacity": 1,
     "availability_status": true
   },
@@ -43,7 +43,7 @@
     "smoking": true,
     "images": "workspace4.jpg",
     "type_of_room": "studio",
-    "price": 700.00,
+    "price": 700,
     "capacity": 2,
     "availability_status": true
   },
@@ -55,20 +55,48 @@
     "smoking": true,
     "images": "workspace4.jpg",
     "type_of_room": "studio",
-    "price": 700.00,
+    "price": 700,
     "capacity": 2,
     "availability_status": true
   },
-    {
-    "workspace_id": 6,
+  {
+    "workspace_id": "6",
     "property_id": "6",
     "name": "Creative Studio",
     "decription": "Great for designers",
     "smoking": true,
     "images": "workspace4.jpg",
-    "type_of_room": "studio",
-    "price": 700.00,
-    "capacity": 2,
-    "availability_status": true
+    "type_of_room": "",
+    "price": "900",
+    "capacity": "2",
+    "availability_status": true,
+    "date": "2025-08-07T19:33:30.589Z",
+    "term": ""
+  },
+  {
+    "workspace_id": 7,
+    "name": "WORKSPACE 1",
+    "decription": "Great for designers",
+    "type_of_room": "private",
+    "price": "100",
+    "capacity": "1"
+  },
+  {
+    "workspace_id": 8,
+    "property_id": null,
+    "name": "WORKSPACE 1",
+    "decription": "Great for designers",
+    "type_of_room": "private",
+    "price": "12",
+    "capacity": "1"
+  },
+  {
+    "workspace_id": 9,
+    "property_id": "7",
+    "name": "WORKSPACE 33",
+    "decription": "Great for designers",
+    "type_of_room": "private",
+    "price": "12",
+    "capacity": "1"
   }
 ]

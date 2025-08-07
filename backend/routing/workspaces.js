@@ -26,14 +26,9 @@ router.post('/workspaces', (req, res) => {
   const newWorkspace = req.body;
 
   // Optional: Validate required fields
-  if (!newWorkspace.id || !newWorkspace.name || !newWorkspace.type) {
+  /*if (!newWorkspace.id || !newWorkspace.name || !newWorkspace.type) {
     return res.status(400).json({ message: "Missing required fields" });
-  }
-
-  // Check for duplicate ID
-  if (workspaces.some(w => w.id === newWorkspace.id)) {
-    return res.status(409).json({ message: "Workspace with this ID already exists" });
-  }
+  }*/
 
    //get maxid to add + 1
   const sortedProp = workspaces.sort((a, b) => a.workspace_id - b.workspace_id);
@@ -89,7 +84,8 @@ router.get('/workspaces/property/:propID', (req, res) => {
 // UPDATE - Update a workspace by ID
 router.put('/workspaces/:id', (req, res) => {
   const workspaces = readWorkspaces();
-  const index = workspaces.findIndex(w => w.id == req.params.id);
+  
+  const index = workspaces.findIndex(w => w.workspace_id == req.params.id);  
 
   if (index === -1) return res.status(404).json({ message: "Workspace not found" });
 

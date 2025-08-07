@@ -1,4 +1,3 @@
-
 function renderProperties() {
   const properties = JSON.parse(localStorage.getItem('properties')) || [];
   const container = document.getElementById('propertyList');
@@ -209,18 +208,20 @@ function showForm(){
 
 }
 
-async function viewPropertyDetails(index){
+async function viewPropertyDetails(propertyId){
   //show modal
-  const workspaceModal = document?.getElementById("workspaceModal");
-  workspaceModal.classList.remove("hidden");
+  const workspaceModal = document?.getElementById("workspaceModal");  
   
+  document?.getElementById("addPropertyForm").setAttribute("property_id", propertyId);
 
   //get workspace list container
   const workspaceConatiner = document?.getElementById("workspaceList");
+  workspaceConatiner.innerHTML = "";
 
   //get workspaces from database  
-  const workspaces = await api_getWorkspaceByPropertyId(index);  
+  const workspaces = await api_getWorkspaceByPropertyId(propertyId);  
 
+  workspaceModal.classList.remove("hidden");
   workspaces.forEach((work, index) => {
     const card = document.createElement('div');
     card.className = 'bg-white rounded-lg shadow-md overflow-hidden';
@@ -241,7 +242,7 @@ async function viewPropertyDetails(index){
         <div class="flex items-center justify-end  mt-4">
           <!-- Edit + Delete Icons -->
           <div class="flex gap-2">
-            <button class="bg-gray-700 hover:bg-gray-800 text-white p-2 rounded-lg shadow transition duration-150" onclick="startEditWorkspace(${work?.workspace_id})" title="Edit">
+            <button class="bg-gray-700 hover:bg-gray-800 text-white p-2 rounded-lg shadow transition duration-150" onclick="startEditWorkspace(${work?.workspace_id}, ${work?.property_id})" title="Edit">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M15.232 5.232l3.536 3.536M9 13l6-6 3 3-6 6H9v-3z" />
@@ -260,7 +261,7 @@ async function viewPropertyDetails(index){
         
       </div>
     `;
-
+    
     workspaceConatiner.appendChild(card);
   });
 
