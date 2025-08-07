@@ -35,7 +35,19 @@ router.post('/users', (req, res) => {
     return res.status(409).json({ message: "User with this Email already exists" });
   }
 
-  users.push(newUser);
+  // Formatting data save to database
+  const FormattedUser = {
+    id: users.length+1,
+    Fullname: `${newUser.firstName} ${newUser.lastName}`,
+    firstName: newUser.firstName,
+    lastName: newUser.lastName,
+    email: newUser.email,
+    phone: newUser.phone,
+    password: newUser.password,
+    role: newUser.role
+  };
+
+  users.push(FormattedUser);
   writeUsers(users);
 
   res.status(201).json({ message: "User created", user: newUser });
