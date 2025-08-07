@@ -43,12 +43,12 @@ router.post('/properties', (req, res) => {
   }*/
 
   // Check for duplicate ID
-  if (properties.some(p => p.id === newProperty.id)) {
+  /*if (properties.some(p => p.id === newProperty.id)) {
     return res.status(409).json({ message: "Property with this ID already exists" });
-  }
+  }*/
 
   // Formatting data save to database
-  console.log(newProperty.user_id)
+  console.log(newProperty)
 
   const FormattedProperties = {
     property_id: properties.length+1,
