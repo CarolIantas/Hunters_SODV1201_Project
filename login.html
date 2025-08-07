@@ -1,0 +1,75 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | WorkSpace</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#0891b2',
+                        accent: '#ea580c'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    
+    <!-- Scripts -->
+    <script src="./scripts/login.js" defer></script>
+    <script src="./services/apiService.js" defer></script>
+</head>
+<body class="min-h-screen bg-gray-50">
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+            <div class="flex items-center">
+                <a href="index.html" class="flex items-center">
+                    <svg class="h-8 w-8 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                    <span class="text-2xl font-bold text-gray-900">WorkSpace</span>
+                </a>
+            </div>
+            <div class="flex items-center space-x-4 auth-buttons">
+                <!-- Dynamic buttons will be inserted here by main.js -->
+            </div>
+        </div>
+    </div>
+</header>
+    <!-- Main Content -->
+    <main class="max-w-md mx-auto py-12 px-4">
+        <div class="bg-white p-8 rounded-lg shadow-sm">
+            <h1 class="text-3xl font-bold mb-6">Sign In</h1>
+            <form id="loginForm" class="space-y-4">
+                <div>
+                    <label class="block mb-1">Email</label>
+                    <input type="email" id="loginEmail" class="w-full p-2 border rounded-md" required>                    
+                </div>
+                <div>
+                    <label class="block mb-1">Password</label>
+                    <input type="password" id="loginPassword" class="w-full p-2 border rounded-md" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700">
+                    Sign In
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- Footer (reused from other pages) -->
+    <footer class="bg-gray-900 text-white">
+        <!-- ... same footer content as other pages ... -->
+    </footer>
+</body>
+</html>
