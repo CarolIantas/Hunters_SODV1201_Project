@@ -143,14 +143,14 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
   const propertyObj = {    
     "user_id": JSON.parse(localStorage.getItem("currentUser")).user_id,
     "title": newPropertyName.value,
-    "Public_transport": publicTransportation.value,
+    "Public_transport": publicTransportation.value === "on",
     "smoking": true,
     "SQ_foot": newSqft.value,
     "address": newPropertyAddress.value,
     "neighborhood": newPropertyNeighborhood.value,
     "images": "Generic.jpg",
     "type_of_properties": "house",
-    "parking": parking.value,
+    "parking": parking.value === "on",
     "date": new Date(),    
   };
 
@@ -297,13 +297,13 @@ async function viewPropertyDetails(index){
         <div class="flex items-center justify-end  mt-4">
           <!-- Edit + Delete Icons -->
           <div class="flex gap-2">
-            <button class="bg-gray-700 hover:bg-gray-800 text-white p-2 rounded-lg shadow transition duration-150" onclick="startEditProperty(${work?.workspace_id})" title="Edit">
+            <button class="bg-gray-700 hover:bg-gray-800 text-white p-2 rounded-lg shadow transition duration-150" onclick="startEditWorkspace(${work?.workspace_id})" title="Edit">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M15.232 5.232l3.536 3.536M9 13l6-6 3 3-6 6H9v-3z" />
               </svg>
             </button>
-            <button class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg shadow transition duration-150" onclick="startDeleteProperty(${work?.workspace_id})" title="Delete">
+            <button class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg shadow transition duration-150" onclick="startDeleteWorkspace(${work?.workspace_id})" title="Delete">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3m5 0H6" />
