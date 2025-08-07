@@ -274,7 +274,8 @@ async function viewPropertyDetails(index){
   const workspaceConatiner = document?.getElementById("workspaceList");
 
   //get workspaces from database  
-  const workspaces = getWorkspaces(index);
+  const workspaces = await getWorkspaces(index);
+  console.log(workspaces);
 
   workspaces.forEach((work, index) => {
     const card = document.createElement('div');
@@ -335,7 +336,7 @@ document?.getElementById("addWorkspaceBtn").addEventListener("click", function (
 });
 
 async function getWorkspaces(idProperty){  
-  const res = await fetch(`http://localhost:3001/wprkspaces/property/${idProperty}`);
+  const res = await fetch(`http://localhost:3001/workspaces/property/${idProperty}`);
 
   if (!res.ok) {
       if (res.status === 401) return null; // Unauthorized        

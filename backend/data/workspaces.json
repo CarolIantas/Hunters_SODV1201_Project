@@ -46,5 +46,29 @@
     "price": 700.00,
     "capacity": 2,
     "availability_status": true
+  },
+  {
+    "workspace_id": 5,
+    "property_id": "6",
+    "name": "Creative Studio",
+    "decription": "Great for designers",
+    "smoking": true,
+    "images": "workspace4.jpg",
+    "type_of_room": "studio",
+    "price": 700.00,
+    "capacity": 2,
+    "availability_status": true
+  },
+    {
+    "workspace_id": 6,
+    "property_id": "6",
+    "name": "Creative Studio",
+    "decription": "Great for designers",
+    "smoking": true,
+    "images": "workspace4.jpg",
+    "type_of_room": "studio",
+    "price": 700.00,
+    "capacity": 2,
+    "availability_status": true
   }
 ]
