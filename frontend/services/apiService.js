@@ -1,5 +1,6 @@
 // src/services/apiService.js
-const API_BASE_URL = 'http://localhost:3001';
+//const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = 'https://hunters-sodv1201-project.onrender.com';
 
 async function request(url, method = 'GET', data) {
   const options = {
