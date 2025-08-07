@@ -16,11 +16,35 @@ function renderProperties() {
       <div class="p-4">
         <h3 class="font-semibold text-gray-800 mb-2">${prop.address || 'No Address'}</h3>
         <p class="text-sm text-gray-600 mb-4">${prop.neighborhood || 'No Neighborhood'}</p>
-        <div class="flex gap-2">
-          <button class="bg-gray-800 text-white px-3 py-1 text-sm rounded" onclick="startEditProperty(${index})">Edit</button>
-          <button class="bg-red-600 text-white px-3 py-1 text-sm rounded" onclick="startDeleteProperty(${index})">Delete</button>
-          <button class="text-blue-600 text-sm underline" onclick="viewPropertyDetails(${index})">Read more</button>
+        <div class="flex items-center justify-between mt-4">
+          <!-- Edit + Delete Icons -->
+          <div class="flex gap-2">
+            <button class="bg-gray-700 hover:bg-gray-800 text-white p-2 rounded-lg shadow transition duration-150" onclick="startEditProperty(${index})" title="Edit">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M15.232 5.232l3.536 3.536M9 13l6-6 3 3-6 6H9v-3z" />
+              </svg>
+            </button>
+            <button class="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg shadow transition duration-150" onclick="startDeleteProperty(${index})" title="Delete">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3m5 0H6" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Eye Icon -->
+          <button class="ml-auto text-blue-600 hover:text-blue-800 transition duration-150" onclick="viewPropertyDetails(${index})" title="View Details">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+          </button>
         </div>
+        
+        
       </div>
     `;
 
@@ -80,7 +104,7 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", function
 
   document?.getElementById("addNewPropertyButton").classList.remove("hidden")
 
-  const propertyList = document?.getElementById("propertyList");    
+  const propertyList = document?.getElementById("propertyList");
   propertyList.classList.remove("hidden");
 
   this.classList.add("hidden")
@@ -90,7 +114,7 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", function
 
 document?.getElementById("addNewPropertyButton").addEventListener("click", function (e) {
   const propertyForm = document?.getElementById("addPropertyForm");
-  const propertyList = document?.getElementById("propertyList");  
+  const propertyList = document?.getElementById("propertyList");
   propertyForm.classList.remove("hidden");
   propertyList.classList.add("hidden");
   this.classList.add("hidden")
@@ -98,9 +122,9 @@ document?.getElementById("addNewPropertyButton").addEventListener("click", funct
 
 document?.getElementById("cancelButton").addEventListener("click", function (e) {
   const propertyForm = document?.getElementById("addPropertyForm");
-  const propertyList = document?.getElementById("propertyList");  
+  const propertyList = document?.getElementById("propertyList");
   const addNewPropertyButton = document?.getElementById("addNewPropertyButton");
   propertyForm.classList.add("hidden");
   propertyList.classList.remove("hidden");
-  addNewPropertyButton.classList.remove("hidden");  
+  addNewPropertyButton.classList.remove("hidden");
 });
