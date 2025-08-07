@@ -56,7 +56,6 @@
     "user_id": 6
   },
   {
-<<<<<<< Updated upstream
     "title": "Pedro 2",
     "Public_transport": "on",
     "smoking": true,
@@ -85,8 +84,6 @@
     "id": "3"
   },
   {
-=======
->>>>>>> Stashed changes
     "user_id": 6,
     "title": "PEDRO 4",
     "Public_transport": "on",
