@@ -57,5 +57,14 @@
     "phone": "3688896793",
     "password": "123",
     "role": "owner"
+  },
+  {
+    "id": 7,
+    "Fullname": "pedro coworker",
+    "firstName": "pedro",
+    "lastName": "coworker",
+    "phone": "3688896793",
+    "password": "123",
+    "role": "coworker"
   }
 ]

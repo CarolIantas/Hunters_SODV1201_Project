@@ -19,8 +19,8 @@ function readProperties(user = null) {
   
   //check if is there any filter
   if (user !== null ){        
-    if (user.role === "owner"){
-      data = properties.filter(f => f.user_id === user.id);      
+    if (user.role === "owner"){      
+      data = properties.filter(f => f.user_id === user.user_id);      
     }    
   };
 
