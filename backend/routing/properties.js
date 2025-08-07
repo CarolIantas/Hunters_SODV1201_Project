@@ -2,6 +2,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const { title } = require('process');
 const router = express.Router();
 
 // File configuration
@@ -45,7 +46,20 @@ router.post('/properties', (req, res) => {
     return res.status(409).json({ message: "Property with this ID already exists" });
   }
 
-  properties.push(newProperty);
+  // Formatting data save to database
+  const FormattedProperties = {
+    property_id: properties.length+1,
+    user_id: test,
+    title: newProperty.name,
+    firstName: ObjectName.firstName,
+    lastName: ObjectName.lastName,
+    email: newUser.email.replace,
+    phone: newUser.phone.replace(/[^\w\s]/gi, ''),
+    password: newUser.password.replace(/[^\s]/gi, ''),
+    role: newUser.role
+  };
+
+  properties.push(FormattedProperties);
   writeProperties(properties);
 
   res.status(201).json({ message: "Property created", property: newProperty });

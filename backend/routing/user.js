@@ -42,7 +42,7 @@ router.post('/users', (req, res) => {
   }
 
   const FormattedUser = {
-    id: users.length+1,
+    user_id: users.length+1,
     Fullname: `${ObjectName.firstName} ${ObjectName.lastName}`,
     firstName: ObjectName.firstName,
     lastName: ObjectName.lastName,
