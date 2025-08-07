@@ -124,5 +124,29 @@
     "parking": "on",
     "date": "2025-08-07T03:14:20.095Z",
     "id": "6"
+  },
+  {
+    "property_id": 10,
+    "Public_transport": "on",
+    "smoking": false,
+    "SQ_foot": "23",
+    "address": "123 street",
+    "neighborhood": "123",
+    "images": "Generic.jpg",
+    "type_of_properties": "house",
+    "parking": "on",
+    "date": "2025-08-07T04:10:50.614Z"
+  },
+  {
+    "property_id": 11,
+    "Public_transport": "on",
+    "smoking": false,
+    "SQ_foot": "45",
+    "address": "1233",
+    "neighborhood": "456",
+    "images": "Generic.jpg",
+    "type_of_properties": "house",
+    "parking": "on",
+    "date": "2025-08-07T04:14:09.808Z"
   }
 ]

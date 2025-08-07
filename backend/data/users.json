@@ -59,13 +59,12 @@
     "role": "owner"
   },
   {
-    "id": 7,
+    "user_id": 7,
     "Fullname": "pedro coworker",
     "firstName": "pedro",
     "lastName": "coworker",
     "phone": "3688896793",
     "password": "123",
-    "role": "coworker",
-    "email": "pedro@coworker.com"
+    "role": "coworker"
   }
 ]

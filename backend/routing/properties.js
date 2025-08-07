@@ -48,19 +48,20 @@ router.post('/properties', (req, res) => {
   }
 
   // Formatting data save to database
+  console.log(newProperty.user_id)
+
   const FormattedProperties = {
     property_id: properties.length+1,
-    user_id: test,
+    user_id: newProperty.user_id,
     title: newProperty.name,
-    Public_transport: true,
-    smoking: false,
-    SQ_foot: 950,
-    address: "123 Main St, Cityville",
-    neighborhood: 4.2,
-    images: "image1.jpg",
-    type_of_properties: "apartment",
-    parking: true,
-    date: "2025-08-01"
+    Public_transport: newProperty.Public_transport,
+    SQ_foot: newProperty.SQ_foot,
+    address: newProperty.address,
+    neighborhood: newProperty.neighborhood,
+    images: newProperty.images,
+    type_of_properties: newProperty.type_of_properties,
+    parking: newProperty.parking,
+    date: newProperty.date
   };
 
   properties.push(FormattedProperties);
