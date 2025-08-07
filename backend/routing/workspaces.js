@@ -70,6 +70,16 @@ router.get('/workspaces/:id', (req, res) => {
   res.json(workspace);
 });
 
+// READ - Get a workspace by properties Id
+router.get('/workspaces/:propID', (req, res) => {
+  const workspaces = readWorkspaces();
+  const workspace = workspaces.find(w => w.property_id == req.params.property_id);
+
+  if (!workspace) return res.status(404).json({ message: "Workspace not found" });
+  res.json(workspace);
+});
+
+
 // UPDATE - Update a workspace by ID
 router.put('/workspaces/:id', (req, res) => {
   const workspaces = readWorkspaces();
