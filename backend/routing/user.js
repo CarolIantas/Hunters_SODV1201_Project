@@ -36,7 +36,7 @@ router.post('/users', (req, res) => {
   }
 
   // Formatting data save to database
-  const SavingUser = {
+  const FormattedUser = {
     id: users.length+1,
     Fullname: `${newUser.firstName} ${newUser.lastName}`,
     firstName: newUser.firstName,
@@ -47,7 +47,7 @@ router.post('/users', (req, res) => {
     role: newUser.role
   };
 
-  users.push(SavingUser);
+  users.push(FormattedUser);
   writeUsers(users);
 
   res.status(201).json({ message: "User created", user: newUser });
