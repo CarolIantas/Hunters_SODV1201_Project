@@ -1,8 +1,7 @@
-
 function renderProperties() {
   const properties = JSON.parse(localStorage.getItem('properties')) || [];
   const container = document.getElementById('propertyList');
-  container.innerHTML = '';
+  container?.innerHTML = '';
   properties.forEach((prop, index) => {
     const div = document.createElement('div');
     div.className = 'p-4 border rounded mb-2';
@@ -49,9 +48,9 @@ function confirmPropertyDelete() {
   renderProperties();
 }
 
-document.addEventListener('DOMContentLoaded', renderProperties);
+document?.addEventListener('DOMContentLoaded', renderProperties);
 
-document.getElementById("addPropertyForm").addEventListener("submit", function (e) {
+document?.getElementById("addPropertyForm")?.addEventListener("submit", function (e) {
   e.preventDefault();
   const address = document.getElementById("newPropertyAddress").value.trim();
   const neighborhood = document.getElementById("newPropertyNeighborhood").value.trim();
@@ -62,7 +61,7 @@ document.getElementById("addPropertyForm").addEventListener("submit", function (
   properties.push({ address, neighborhood });
   localStorage.setItem("properties", JSON.stringify(properties));
 
-  document.getElementById("addPropertyForm").reset();
+  document?.getElementById("addPropertyForm").reset();
   renderProperties();
 });
 

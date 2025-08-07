@@ -4,11 +4,10 @@ function getCurrentPage() {
 }
 
 // Registration form submit handler
-document.getElementById("registrationForm").addEventListener("submit", async function(e) {
+document?.getElementById("registrationForm")?.addEventListener("submit", async function(e) {
+    e.preventDefault();
     try 
-    {
-        e.preventDefault();
-    
+    {            
         // Collect form values
         const firstName = document.getElementById("firstName").value.trim();
         const lastName = document.getElementById("lastName").value.trim();
@@ -21,9 +20,7 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
 
         // Save new user
         userResp = await createUser(newUser)    
-
-        
-        localStorage.setItem("currentUser", JSON.stringify(userResp.user));
+                
         alert("Registration successful!");
         // Redirect to login page
         window.location.href = "login.html";    
@@ -33,7 +30,8 @@ document.getElementById("registrationForm").addEventListener("submit", async fun
 });
 
 //POST Create user
-async function createUser(user) {    
+async function createUser(user) {  
+    e.preventDefault();  
     const res = await fetch('http://localhost:3001/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

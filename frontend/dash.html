@@ -1,147 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WorkSpace - Shared Workspace Web App</title>
-    
-    <!-- Tailwind CSS Configuration -->
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WorkSpace - Shared Workspace Web App</title>
 
-    <!-- Custom Tailwind CSS Configuration -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#2563eb',
-                        secondary: '#0891b2',
-                        accent: '#ea580c'
-                    }
-                }
-            }
+  <!-- Tailwind CSS Configuration -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Custom Tailwind CSS Configuration -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2563eb',
+            secondary: '#0891b2',
+            accent: '#ea580c'
+          }
         }
-    </script>
+      }
+    }
+  </script>
 
-    <!-- IMPORT JQuery -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <!-- IMPORT JQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-    <!-- Import scripts of this application -->
-    <script src="./scripts/main.js" defer></script>
-    <script src="./scripts/login.js" defer></script>
-    <script src="./scripts/properties.js" defer></script>
-    <script src="./scripts/registration.js" defer></script>
-    <script src="./scripts/workspaces.js" defer></script>
+  <!-- Import scripts of this application -->
+  <script src="./scripts/main.js" defer></script>
+  <script src="./scripts/login.js" defer></script>
+  <script src="./scripts/properties.js" defer></script>
+  <script src="./scripts/registration.js" defer></script>
+  <script src="./scripts/workspaces.js" defer></script>
 
 </head>
 
 <!-- Reuse header -->
- <!-- In all HTML files, replace the header with this: -->
+<!-- In all HTML files, replace the header with this: -->
 <header class="bg-white shadow-sm sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-            <div class="flex items-center">
-                <a href="index.html" class="flex items-center">
-                    <svg class="h-8 w-8 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                    </svg>
-                    <span class="text-2xl font-bold text-gray-900">WorkSpace</span>
-                </a>
-            </div>
-            <div class="flex items-center space-x-4 auth-buttons">
-                <!-- Dynamic buttons will be inserted here by main.js -->
-            </div>
-        </div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <div class="flex items-center">
+        <a href="index.html" class="flex items-center">
+          <svg class="h-8 w-8 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+            </path>
+          </svg>
+          <span class="text-2xl font-bold text-gray-900">WorkSpace</span>
+        </a>
+      </div>
+      <div class="flex items-center space-x-4 auth-buttons">
+        <!-- Dynamic buttons will be inserted here by main.js -->
+      </div>
     </div>
+  </div>
 </header>
 
 <main class="max-w-7xl mx-auto px-4 py-8">
   <div class="flex justify-between items-center mb-8">
     <h1 class="text-2xl font-bold">My Properties</h1>
+    <button id="addNewProperty" class="px-4 py-2 bg-green-600 text-white rounded">New Property</button>
   </div>
 
-  
+
 
   <div id="propertiesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
     <!-- Properties will be dynamically inserted here -->
-     <form id="addPropertyForm" class="space-y-3 mb-4">
-      <input type="text" id="newPropertyAddress" class="w-full p-2 border rounded" placeholder="Address" required>
-      <input type="text" id="newPropertyNeighborhood" class="w-full p-2 border rounded" placeholder="Neighborhood" required>
-      <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">Add Property</button>
-      </form>
-     <div id="propertyList">        
-        <div id="workspaceList"></div>        
-     </div>
-    <div id="workspaceModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-  <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
-    <div class="p-6">
-      <h3 class="text-xl font-bold mb-4">Add Workspace</h3>
-      <form id="workspaceForm" class="space-y-3">
-        <select name="type" class="w-full p-2 border rounded-md">
-          <option value="meeting">Meeting Room</option>
-          <option value="private">Private Office</option>
-          <option value="desk">Hot Desk</option>
-        </select>
-        <input type="number" name="capacity" placeholder="Capacity" class="w-full p-2 border rounded-md">
-        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md">
-          Save Workspace
-        </button>
-      </form>
-    </div>
-  </div>
-</div>
+    <form id="addPropertyForm" class="space-y-4 mb-4 hidden">
+      <input type="text" id="newWorkspaceName" class="w-full p-3 border border-gray-300 rounded"
+        placeholder="Workspace name..." required>
+      <input type="text" id="newPropertyAddress" class="w-full p-3 border border-gray-300 rounded"
+        placeholder="Address..." required>
+      <input type="text" id="newPropertyNeighborhood" class="w-full p-3 border border-gray-300 rounded"
+        placeholder="Neighborhood..." required>        
+      <div class="flex gap-4">        
+        <!-- Image upload area -->
+        <div class="flex-1 border-2 border-dashed border-gray-300 rounded p-8 text-center bg-gray-100">
+          <div class="text-gray-400 text-4xl mb-2">🖼️</div>
+          <input type="file" id="propertyImage" accept="image/*" class="hidden">
+          <label for="propertyImage" class="cursor-pointer text-gray-500 hover:text-gray-700">
+            Click to upload image
+          </label>
+        </div>
+      </div>      
+      <!-- Checkboxes -->
+      <div class="space-y-4">
+        <input type="number" id="newSqft" class="w-32 p-3 border border-gray-300 rounded" placeholder="Sqft" required>
+        <div class="flex items-center space-x-2">
+          <input type="checkbox" id="parking" class="h-4 w-4">
+          <label for="parking" class="text-sm">Parking</label>          
+        </div>
 
-  </div>
+        <div class="flex items-center space-x-2">
+          <input type="checkbox" id="publicTransportation" class="h-4 w-4">
+          <label for="publicTransportation" class="text-sm">Public transportation</label>          
+        </div>
+      </div>
+
+      <!-- Dropdown -->
+      <select id="listingStatus" class="w-48 p-3 border border-gray-300 rounded">
+        <option value="">Listed/ Not Listed</option>
+        <option value="listed">Listed</option>
+        <option value="not-listed">Not Listed</option>
+      </select>
+
+      <div class="flex justify-end">
+        <button type="submit" class="px-6 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400">Save</button>
+      </div>
+    </form>    
+    <div id="propertyList">
+      <div id="workspaceList"></div>
+    </div>
+    <div id="workspaceModal"
+      class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-4">Add Workspace</h3>
+          <form id="workspaceForm" class="space-y-3">
+            <select name="type" class="w-full p-2 border rounded-md">
+              <option value="meeting">Meeting Room</option>
+              <option value="private">Private Office</option>
+              <option value="desk">Hot Desk</option>
+            </select>
+            <input type="number" name="capacity" placeholder="Capacity" class="w-full p-2 border rounded-md">
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded-md">
+              Save Workspace
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>    
+  </div>  
 </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <div class="flex items-center mb-4">
-                        <svg class="h-8 w-8 text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                        </svg>
-                        <span class="text-2xl font-bold">WorkSpace</span>
-                    </div>
-                    <p class="text-gray-400">
-                        Connecting coworkers with perfect workspace solutions worldwide.
-                    </p>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">For Coworkers</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors">Find Workspace</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Browse Locations</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Pricing</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Reviews</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">For Owners</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors">List Property</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Manage Listings</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Owner Resources</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Support</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3 class="text-lg font-semibold mb-4">Company</h3>
-                    <ul class="space-y-2 text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-                <p>&copy; 2025 WorkSpace. All rights reserved.</p>
-            </div>
+<!-- Footer -->
+<footer class="bg-gray-900 text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div>
+        <div class="flex items-center mb-4">
+          <svg class="h-8 w-8 text-blue-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+            </path>
+          </svg>
+          <span class="text-2xl font-bold">WorkSpace</span>
         </div>
-    </footer>
+        <p class="text-gray-400">
+          Connecting coworkers with perfect workspace solutions worldwide.
+        </p>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-4">For Coworkers</h3>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="#" class="hover:text-white transition-colors">Find Workspace</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Browse Locations</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Pricing</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Reviews</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-4">For Owners</h3>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="#" class="hover:text-white transition-colors">List Property</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Manage Listings</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Owner Resources</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Support</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="text-lg font-semibold mb-4">Company</h3>
+        <ul class="space-y-2 text-gray-400">
+          <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Privacy Policy</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+      <p>&copy; 2025 WorkSpace. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
 
 <!-- ===== CRUD Modals ===== -->
 <!-- Edit Property Modal -->
@@ -149,8 +192,10 @@
   <div class="bg-white rounded-lg p-6 w-full max-w-md">
     <h2 class="text-xl font-bold mb-4">Edit Property</h2>
     <input type="hidden" id="editPropertyId">
-    <div class="mb-3"><input id="editPropertyAddress" type="text" class="w-full p-2 border rounded" placeholder="Address"></div>
-    <div class="mb-3"><input id="editPropertyNeighborhood" type="text" class="w-full p-2 border rounded" placeholder="Neighborhood"></div>
+    <div class="mb-3"><input id="editPropertyAddress" type="text" class="w-full p-2 border rounded"
+        placeholder="Address"></div>
+    <div class="mb-3"><input id="editPropertyNeighborhood" type="text" class="w-full p-2 border rounded"
+        placeholder="Neighborhood"></div>
     <div class="flex justify-end space-x-2">
       <button onclick="closeModal('editPropertyModal')" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
       <button onclick="savePropertyEdit()" class="px-4 py-2 bg-blue-600 text-white rounded">Save</button>
@@ -175,8 +220,10 @@
   <div class="bg-white rounded-lg p-6 w-full max-w-md">
     <h2 class="text-xl font-bold mb-4">Edit Workspace</h2>
     <input type="hidden" id="editWorkspaceId">
-    <div class="mb-3"><input id="editWorkspaceType" type="text" class="w-full p-2 border rounded" placeholder="Type"></div>
-    <div class="mb-3"><input id="editWorkspaceCapacity" type="number" class="w-full p-2 border rounded" placeholder="Capacity"></div>
+    <div class="mb-3"><input id="editWorkspaceType" type="text" class="w-full p-2 border rounded" placeholder="Type">
+    </div>
+    <div class="mb-3"><input id="editWorkspaceCapacity" type="number" class="w-full p-2 border rounded"
+        placeholder="Capacity"></div>
     <div class="flex justify-end space-x-2">
       <button onclick="closeModal('editWorkspaceModal')" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
       <button onclick="saveWorkspaceEdit()" class="px-4 py-2 bg-blue-600 text-white rounded">Save</button>
@@ -185,7 +232,8 @@
 </div>
 
 <!-- Delete Workspace Modal -->
-<div id="deleteWorkspaceModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+<div id="deleteWorkspaceModal"
+  class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
   <div class="bg-white rounded-lg p-6 w-full max-w-sm text-center">
     <input type="hidden" id="deleteWorkspaceId">
     <p class="mb-6">Are you sure you want to delete this workspace?</p>
@@ -197,13 +245,14 @@
 </div>
 
 <script>
-function openModal(id) {
-  document.getElementById(id).classList.remove('hidden');
-}
-function closeModal(id) {
-  document.getElementById(id).classList.add('hidden');
-}
+  function openModal(id) {
+    document.getElementById(id).classList.remove('hidden');
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.add('hidden');
+  }
 </script>
 
 </body>
+
 </html>
