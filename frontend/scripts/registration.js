@@ -30,7 +30,8 @@ document?.getElementById("registrationForm")?.addEventListener("submit", async f
 });
 
 //POST Create user
-async function createUser(user) {      
+async function createUser(user) {  
+    e.preventDefault();  
     const res = await fetch('http://localhost:3001/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
