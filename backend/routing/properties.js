@@ -38,9 +38,9 @@ router.post('/properties', (req, res) => {
   const newProperty = req.body;
 
   // Optional: Validate required fields
-  if (!newProperty.id || !newProperty.name || !newProperty.location) {
+  /*if (!newProperty.id || !newProperty.name || !newProperty.location) {
     return res.status(400).json({ message: "Missing required fields" });
-  }
+  }*/
 
   //get maxid to add + 1
   const sortedProp = properties.sort((a, b) => a.property_id - b.property_id);
@@ -72,7 +72,7 @@ router.post('/properties', (req, res) => {
   properties.push(FormattedProperties);
   writeProperties(properties);
 
-  res.status(201).json({ message: "Property created", property: newProperty });
+  res.status(201).json({ message: "Property created", property: FormattedProperties });
 });
 
 // READ - Get all properties

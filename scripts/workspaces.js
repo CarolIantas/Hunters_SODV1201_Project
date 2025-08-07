@@ -11,12 +11,14 @@ async function startEditWorkspace(index) {
   const workspaces = JSON.parse(localStorage.getItem('workspaces')) || [];
 
   //try to get from localStorage
-  let ws = workspaces.filter(f => f.workspace_id == index);
+  let ws = workspaces.filter(f => f.workspace_id == index);    
 
   if (ws.length === 0) {
     //retrive from database    
     ws = await api_getWorkspaceById(index);
-    console.log(ws);
+    console.log("AQUI", ws);
+  } else {
+    ws = ws[0];
   }
 
   //set id
@@ -49,8 +51,13 @@ async function startEditWorkspace(index) {
 }
 
 function saveWorkspaceEdit() {
+  //get workspaces id
   const index = document.getElementById('editWorkspaceId').value;
+
+  //update local storage
   const workspaces = JSON.parse(localStorage.getItem('workspaces')) || [];
+
+  
   workspaces[index].type = document.getElementById('editWorkspaceType').value;
   workspaces[index].capacity = parseInt(document.getElementById('editWorkspaceCapacity').value);
   localStorage.setItem('workspaces', JSON.stringify(workspaces));

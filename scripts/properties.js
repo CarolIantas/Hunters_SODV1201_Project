@@ -154,23 +154,21 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
   console.log(property_id)
   let newOrUpdateProperty;
   if (property_id === null) {
-    //insert in the database
-    const maxPropertyId = JSON.parse(localStorage.getItem("properties")).length + 1;
-    propertyObj.property_id = maxPropertyId;
+    //insert in the database    
     newOrUpdateProperty = await api_createProperty(propertyObj);    
   } else {
     //update in the database
     propertyObj.property_id = property_id;
-    newOrUpdateProperty = await api_updateProperty(propertyObj); 
+    newOrUpdateProperty = await api_updateProperty(property_id, propertyObj); 
   };
 
   //update local storage
   const propertyLS = JSON.parse(localStorage.getItem("properties"));
-  const indexPropLS = propertyLS?.findIndex(f => f.property_id == propertyObj.id);
+  const indexPropLS = propertyLS?.findIndex(f => f.property_id == propertyObj.property_id);
   if (indexPropLS > -1) {
-    propertyLS[indexPropLS] = newOrUpdateProperty;
+    propertyLS[indexPropLS] = newOrUpdateProperty.property;
   } else {
-    propertyLS.push(newOrUpdateProperty);    
+    propertyLS.push(newOrUpdateProperty.property);    
   };
 
   localStorage.setItem('properties', JSON.stringify(propertyLS));
