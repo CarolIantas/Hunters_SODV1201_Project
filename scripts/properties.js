@@ -7,7 +7,6 @@ const propertyImage = document?.getElementById("propertyImage");
 const newSqft = document?.getElementById("newSqft");
 const parking = document?.getElementById("parking");
 const publicTransportation = document?.getElementById("publicTransportation");
-const listingStatus = document?.getElementById("listingStatus");
 
 //FUNCTIONS
 function renderProperties() {
@@ -115,7 +114,6 @@ async function startEditProperty(index) {
   const newSqft = document?.getElementById("newSqft");
   const parking = document?.getElementById("parking");
   const publicTransportation = document?.getElementById("publicTransportation");
-  const listingStatus = document?.getElementById("listingStatus");
 
   newPropertyName.value = property.title;
   newPropertyAddress.value = property.address;
@@ -128,7 +126,6 @@ async function startEditProperty(index) {
   newSqft.value = property.SQ_foot;
   parking.checked = property.parking;
   publicTransportation.checked = property.Public_transport;
-  listingStatus.value = property.status;
 
   document?.getElementById("addPropertyForm").setAttribute("property_id", property.property_id);
 }
@@ -167,7 +164,6 @@ function showForm() {
   $("#newSqft").val("");
   $("#parking").val("");
   $("#publicTransportation").val("");
-  $("#listingStatus").val("");
 
   const propertyForm = document?.getElementById("addPropertyForm");
   const propertyList = document?.getElementById("propertyList");
@@ -317,7 +313,6 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
     "SQ_foot": newSqft.value,
     "parking": parking.checked,
     "public_transport": publicTransportation.checked,            
-    "status": listingStatus.value,
     "create_date": new Date(),
   };
 

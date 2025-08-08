@@ -213,7 +213,7 @@ async function showOwnerContact() {
 // Make functions available globally for HTML onclick attributes
 window.Logout = Logout;
 window.viewWorkspaceDetail = function (workspaceId) {
-    
+
     const workspace = JSON.parse(localStorage.getItem('workspaces')).find(ws => ws.workspace_id == workspaceId);
     const property = JSON.parse(localStorage.getItem('properties')).find(p => p.property_id == workspace.property_id);
 
@@ -223,7 +223,7 @@ window.viewWorkspaceDetail = function (workspaceId) {
     $('#workspacePrice').text(workspace.price + "/" + workspace.term);
     $('#workspaceDescription').text(workspace.description || 'No description provided.');
     const imgUrl = workspace.image || property.image || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=600&q=80';
-    
+
     $('#workspaceImage').attr('src', imgUrl);
 
     $("#contactOwnerBtn").attr("userId", property.user_id);
@@ -244,6 +244,7 @@ function applyFilters(e) {
     const smoking = $("#smokingFilter").is(":checked");
     const sortBy = $("#sortFilter").val(); // <-- NEW
 
+    let filteredProps = [];
     const filteredWS = allWorkspaces.filter(ws => {
         const prop = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == ws.property_id);
         if (!prop) return false;
@@ -259,14 +260,15 @@ function applyFilters(e) {
         if (!isNaN(price) && parseFloat(ws.price) > price) return false;
         if (smoking && !prop.smoking_allowed) return false;
 
+        filteredProps.push(prop);
         return true;
     });
-    
+
     // Sort results
     if (sortBy) {
         filteredWS.sort((a, b) => {
             const propA = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == a.property_id);
-            const propB = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == b.property_id);            
+            const propB = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == b.property_id);
             if (sortBy === "name") {
                 return a.name.localeCompare(b.name);
             } else if (sortBy === "address") {
@@ -277,70 +279,74 @@ function applyFilters(e) {
                 const dateA = new Date(a.date || "2100-01-01"); // fallback to far future
                 const dateB = new Date(b.date || "2100-01-01");
                 return dateA - dateB;
-            }            
+            }
             return 0;
         });
     }
 
     localStorage.setItem("filteredWorkspaces", JSON.stringify(filteredWS));
+    localStorage.setItem("filteredProperties", JSON.stringify(filteredProps));
     loadSearchResults(filteredWS);
+    renderMap();
 }
 
 
+let mapInstance = null;
+let markersLayer = null; // Layer group for markers
 
-
-//MAP
-
-$(document).ready(() => {
+async function renderMap() {
     const mapContainer = $('#map');
-    if (!mapContainer.length) return; // Exit if there's no map div on the page
+    if (!mapContainer.length) return; // No map element present
 
-    const map = L.map('map').setView([51.0447, -114.0719], 10); // Default to Calgary
+    // Initialize the map only once
+    if (!mapInstance) {
+        mapInstance = L.map('map').setView([51.0447, -114.0719], 10); // Calgary default
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(mapInstance);
 
-    // Add OpenStreetMap tiles
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+        // Create a layer group for markers so we can clear them later
+        markersLayer = L.layerGroup().addTo(mapInstance);
+    } else {
+        markersLayer.clearLayers(); // Remove previous markers before adding new ones
+    }
 
-    const allProperties = JSON.parse(localStorage.getItem("properties")) || [];
+    const allProperties = JSON.parse(localStorage.getItem("filteredProperties")) || [];
     const addresses = allProperties.map(p => p.address);
 
-    // Function to geocode and place markers
     async function geocodeAddress(address) {
         try {
-                        
             const data = await api_geocodeAddress(address);
-
             if (data && data.length > 0) {
                 const { lat, lon, display_name } = data[0];
-                const marker = L.marker([+lat, +lon]).addTo(map).bindPopup(display_name || address);
+                L.marker([+lat, +lon])
+                    .bindPopup(display_name || address)
+                    .addTo(markersLayer);
                 return [+lat, +lon];
-            } else {
-                console.warn(`Geocoding failed for: ${address}`);
-                return null;
             }
         } catch (error) {
             console.error(`Error geocoding '${address}':`, error);
-            return null;
         }
+        return null;
     }
 
-    // Add markers for all property addresses
     async function loadAddressesOnMap() {
         const coords = [];
-
         for (const address of addresses) {
             const coord = await geocodeAddress(address);
             if (coord) coords.push(coord);
-            await new Promise(res => setTimeout(res, 1000)); // Respect Nominatim's 1 request/sec rule
+            await new Promise(res => setTimeout(res, 1000)); // Nominatim rate limit
         }
-
         if (coords.length > 0) {
-            map.fitBounds(coords);
-        } else {
-            map.setView([51.0447, -114.0719], 10); // Fallback to Calgary view
+            mapInstance.fitBounds(coords);
         }
     }
 
     loadAddressesOnMap();
+};
+
+
+$(document).ready(() => {
+    renderMap();
 });
+
