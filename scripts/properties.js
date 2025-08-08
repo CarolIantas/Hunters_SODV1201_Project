@@ -99,7 +99,7 @@ async function startEditProperty(index) {
   newSqft.value = property.SQ_foot;
   parking.checked = property.parking;
   publicTransportation.checked = property.Public_transport;
-  listingStatus.value = 1;
+  listingStatus.value = property.status;
 
   document?.getElementById("addPropertyForm").setAttribute("property_id", property.property_id);  
 }

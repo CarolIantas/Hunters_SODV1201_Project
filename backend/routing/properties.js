@@ -66,7 +66,8 @@ router.post('/properties', (req, res) => {
     images: newProperty.images,
     type_of_properties: newProperty.type_of_properties,
     parking: newProperty.parking,
-    date: newProperty.date.slice(0, 10)
+    date: newProperty.date.slice(0, 10),
+    status: newProperty.status
   };
 
   properties.push(FormattedProperties);

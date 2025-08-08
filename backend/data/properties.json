@@ -26,7 +26,7 @@
     "date": "2025-08-07"
   },
   {
-    "property_id": 5,
+    "property_id": "5",
     "user_id": 6,
     "title": "NEW PROPERTY",
     "Public_transport": true,
@@ -36,7 +36,9 @@
     "images": "Generic.jpg",
     "type_of_properties": "house",
     "parking": true,
-    "date": "2025-08-07"
+    "date": "2025-08-08T02:52:14.630Z",
+    "smoking": true,
+    "status": "not-listed"
   },
   {
     "property_id": "6",
