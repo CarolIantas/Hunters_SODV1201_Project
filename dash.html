@@ -299,8 +299,9 @@
       <!-- Type of Room -->
       <select id="workspaceType" class="w-full p-2 border rounded">
         <option value="">Type of Room</option>
-        <option value="private">Private</option>
-        <option value="shared">Shared</option>
+        <option value="meeting">Meeting Room</option>
+        <option value="room">Room</option>
+        <option value="desk">Desk</option>
       </select>
 
       <!-- Capacity -->
@@ -328,10 +329,10 @@
 
     <!-- Date Picker -->
     <div class="mb-3 flex items-center space-x-2">
-      <span>📅</span>
-      <input type="date" id="workspaceDate" class="p-2 border rounded w-full" />
+      <span class="whitespace-nowrap font-semibold">📅 Available from</span>
+      <input type="date" id="workspaceDate" class="p-2 border rounded flex-grow" />
     </div>
-
+    
     <!-- Lease Term -->
     <div class="mb-3">
       <input id="workspaceLeaseTerm" type="text" class="w-full p-2 border rounded" placeholder="Lease term" />
