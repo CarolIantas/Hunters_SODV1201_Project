@@ -132,7 +132,7 @@ function loadSearchResults(filteredList = null) {
 
                 <!-- Price + Button -->
                 <div class="mt-4 flex justify-between items-center">
-                    <div class="text-2xl font-bold text-gray-900">$${ws.price}</div>
+                    <div class="text-2xl font-bold text-gray-900">$${ws.price}/${ws.term}</div>
                     <button onclick="viewWorkspaceDetail('${ws.workspace_id}')"
                         class="bg-gray-800 text-white text-sm px-4 py-2 rounded hover:bg-gray-900 transition">
                         Book

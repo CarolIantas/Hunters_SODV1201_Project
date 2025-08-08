@@ -332,11 +332,18 @@
       <span class="whitespace-nowrap font-semibold">📅 Available from</span>
       <input type="date" id="workspaceDate" class="p-2 border rounded flex-grow" />
     </div>
-    
+
     <!-- Lease Term -->
     <div class="mb-3">
-      <input id="workspaceLeaseTerm" type="text" class="w-full p-2 border rounded" placeholder="Lease term" />
+      <select id="workspaceLeaseTerm" class="w-full p-2 border rounded">
+        <option value="">Select lease term</option>
+        <option value="Day">Day</option>
+        <option value="Week">Week</option>
+        <option value="Month">Month</option>
+        <option value="Year">Year</option>
+      </select>
     </div>
+
 
     <!-- Price -->
     <div class="mb-3">

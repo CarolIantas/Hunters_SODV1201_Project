@@ -214,7 +214,7 @@ async function viewPropertyDetails(propertyId) {
         <p class="text-sm text-gray-600 mb-4">${work?.description.substr(0, 35) || 'No description provided.'}${work?.description.length > 35 ? "..." : ""}</p>
         <p class="text-sm text-gray-600 mb-4">${work?.type_of_room.toUpperCase()} (${work?.capacity})</p>
         <p className="text-sm text-gray-600 mb-4">
-          ${work?.price != null ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'CAD' }).format(work.price) : '—'}
+          ${work?.price != null ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'CAD' }).format(work.price) : '—'}/${work?.term}
         </p>
         <div class="flex items-center justify-end  mt-4">
           <!-- Edit + Delete Icons -->
