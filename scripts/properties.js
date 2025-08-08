@@ -11,7 +11,7 @@
 
 //FUNCTIONS
 function renderProperties() {
-  const properties = JSON.parse(localStorage.getItem('properties')) || [];
+  const properties = JSON.parse(localStorage.getItem('filteredProperties')) || [];
   const container = document.getElementById('propertyList');
   container.innerHTML = '';
 
@@ -226,7 +226,59 @@ async function viewPropertyDetails(propertyId){
 
 }
 
+function applyFiltersProperties(e) {
+    e.preventDefault();
+
+    const allProperties = JSON.parse(localStorage.getItem("properties")) || [];
+
+    // Filters
+    const location = $("#locationFilter").val()?.toLowerCase();
+    const name = $("#nameFilter").val()?.toLowerCase();
+    const sortBy = $("#sortFilter").val(); // <-- NEW
+
+    const filteredProp = allProperties.filter(prop => {
+        
+        if (
+            location &&
+            !prop.neighborhood?.toLowerCase().includes(location) &&
+            !prop.address?.toLowerCase().includes(location)
+        ) return false;
+
+        if (name && !prop.title?.toLowerCase().includes(name)) return false;
+        
+        return true;
+    });
+
+    // Sort results
+    if (sortBy) {
+        filteredProp.sort((a, b) => {
+            const propA = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == a.property_id);
+            const propB = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == b.property_id);
+
+            if (sortBy === "name") {
+                return a.name.localeCompare(b.name);
+            } else if (sortBy === "address") {
+                return propA.address.localeCompare(propB.address);
+            } else if (sortBy === "neighborhood") {
+                return propA.neighborhood.localeCompare(propB.neighborhood);
+            } else if (sortBy === "available_from") {
+                return new Date(a.available_from) - new Date(b.available_from);
+            }
+            return 0;
+        });
+    }
+
+    localStorage.setItem("filteredProperties", JSON.stringify(filteredProp));
+    renderProperties();
+}
+
 //EVENTS
+
+$(document).ready(function () {    
+    // Add applyFilters button click listener
+    $('#applyFiltersProperties').on('click', applyFiltersProperties);
+});
+
 document?.addEventListener('DOMContentLoaded', renderProperties);
 
 document?.getElementById("addPropertyForm")?.addEventListener("submit", async function (e) {  

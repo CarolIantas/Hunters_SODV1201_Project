@@ -28,6 +28,7 @@ $(document).ready(function () {
                 //store user and properties on local storage
                 localStorage.setItem('currentUser', JSON.stringify(user.user));
                 localStorage.setItem('properties', JSON.stringify(properties));                                
+                localStorage.setItem('filteredProperties', JSON.stringify(properties));                                
                 
                 //get workspaces if the user is coworker
                 if (user.user.role == "coworker") {

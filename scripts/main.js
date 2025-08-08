@@ -126,6 +126,7 @@ function loadSearchResults(filteredList = null) {
                     <li>${ws.type_of_room || "Room"}</li>                    
                     <li>Capacity: ${ws.capacity} people</li>
                     <li>Located in ${property.neighborhood}</li>
+                    <li>Available from ${property.date}</li>
                     <li>${ws.description.substr(0, 35) || 'No description provided.'}${ws.description.length > 35 ? "..." : ""}</li>
                 </ul>
 
@@ -230,50 +231,57 @@ window.viewWorkspaceDetail = function (workspaceId) {
 function applyFilters(e) {
     e.preventDefault();
 
-    // Get original unfiltered workspaces
     const allWorkspaces = JSON.parse(localStorage.getItem("workspaces")) || [];
 
-    // Get filters
+    // Filters
     const location = $("#locationFilter").val()?.toLowerCase();
     const type = $("#typeFilter").val()?.toLowerCase();
     const capacity = parseInt($("#capacityFilter").val());
     const price = parseFloat($("#priceFilter").val());
-    const smoking = $("#smokingFilter").is(":checked"); // <-- NEW
+    const smoking = $("#smokingFilter").is(":checked");
+    const sortBy = $("#sortFilter").val(); // <-- NEW
 
-    // Apply filters
     const filteredWS = allWorkspaces.filter(ws => {
         const prop = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == ws.property_id);
         if (!prop) return false;
 
-        // Location filter
         if (
             location &&
             !prop.neighborhood?.toLowerCase().includes(location) &&
             !prop.address?.toLowerCase().includes(location)
         ) return false;
 
-        // Workspace type filter
         if (type && ws.type_of_room?.toLowerCase() !== type) return false;
-
-        // Capacity filter
         if (!isNaN(capacity) && ws.capacity < capacity) return false;
-
-        // Price filter
         if (!isNaN(price) && parseFloat(ws.price) > price) return false;
-
-        console.log(smoking)
-        // Smoking filter
-        if (smoking && !(ws.smoking == smoking)) return false;
+        if (smoking && !prop.smoking_allowed) return false;
 
         return true;
     });
 
-    // Store filtered list
-    localStorage.setItem("filteredWorkspaces", JSON.stringify(filteredWS));
+    // Sort results
+    if (sortBy) {
+        filteredWS.sort((a, b) => {
+            const propA = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == a.property_id);
+            const propB = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == b.property_id);
 
-    // Update UI
+            if (sortBy === "name") {
+                return a.name.localeCompare(b.name);
+            } else if (sortBy === "address") {
+                return propA.address.localeCompare(propB.address);
+            } else if (sortBy === "neighborhood") {
+                return propA.neighborhood.localeCompare(propB.neighborhood);
+            } else if (sortBy === "available_from") {
+                return new Date(a.available_from) - new Date(b.available_from);
+            }
+            return 0;
+        });
+    }
+
+    localStorage.setItem("filteredWorkspaces", JSON.stringify(filteredWS));
     loadSearchResults(filteredWS);
 }
+
 
 
 
