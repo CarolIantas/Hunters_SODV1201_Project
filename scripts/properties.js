@@ -1,3 +1,15 @@
+//FIELDS
+  //form fields
+  const newPropertyName = document?.getElementById("newPropertyName");
+  const newPropertyAddress = document?.getElementById("newPropertyAddress");
+  const newPropertyNeighborhood = document?.getElementById("newPropertyNeighborhood");
+  const propertyImage = document?.getElementById("propertyImage");
+  const newSqft = document?.getElementById("newSqft");
+  const parking = document?.getElementById("parking");
+  const publicTransportation = document?.getElementById("publicTransportation");
+  const listingStatus = document?.getElementById("listingStatus");
+
+//FUNCTIONS
 function renderProperties() {
   const properties = JSON.parse(localStorage.getItem('properties')) || [];
   const container = document.getElementById('propertyList');
@@ -67,6 +79,8 @@ async function startEditProperty(index) {
     //GET property by id
     property = await api_getPropertyById(index);
   }
+  //open form
+  showForm();
 
   //form fields
   const newPropertyName = document?.getElementById("newPropertyName");
@@ -83,13 +97,11 @@ async function startEditProperty(index) {
   newPropertyNeighborhood.value = property.neighborhood;
   //propertyImage.value = property.images;
   newSqft.value = property.SQ_foot;
-  parking.value = property.parking;
-  publicTransportation.value = property.Public_transport;
+  parking.checked = property.parking;
+  publicTransportation.checked = property.Public_transport;
   listingStatus.value = 1;
 
-  document?.getElementById("addPropertyForm").setAttribute("property_id", property.property_id);
-
-  showForm();
+  document?.getElementById("addPropertyForm").setAttribute("property_id", property.property_id);  
 }
 
 function startDeleteProperty(idProperty) {
@@ -116,89 +128,17 @@ async function confirmPropertyDelete() {
   }  
 }
 
-document?.addEventListener('DOMContentLoaded', renderProperties);
-
-document?.getElementById("addPropertyForm")?.addEventListener("submit", async function (e) {  
-  e.preventDefault();
-
-  //form fields
-  const newPropertyName = document?.getElementById("newPropertyName");
-  const newPropertyAddress = document?.getElementById("newPropertyAddress");
-  const newPropertyNeighborhood = document?.getElementById("newPropertyNeighborhood");
-  const propertyImage = document?.getElementById("propertyImage");
-  const newSqft = document?.getElementById("newSqft");
-  const parking = document?.getElementById("parking");
-  const publicTransportation = document?.getElementById("publicTransportation");
-  const listingStatus = document?.getElementById("listingStatus");
-
-  //Set the object:
-  const propertyObj = {    
-    "user_id": JSON.parse(localStorage.getItem("currentUser")).user_id,
-    "title": newPropertyName.value,
-    "Public_transport": publicTransportation.value === "on",
-    "image": propertyImage.files[0],
-    "smoking": true,
-    "SQ_foot": newSqft.value,
-    "address": newPropertyAddress.value,
-    "neighborhood": newPropertyNeighborhood.value,
-    "images": "Generic.jpg",
-    "type_of_properties": "house",
-    "parking": parking.value === "on",
-    "status": listingStatus.value,
-    "date": new Date(),    
-  };
-
-  //check if it is an update or an insert
-  const property_id = this.getAttribute("property_id");  
-  console.log(property_id)
-  let newOrUpdateProperty;
-  if (property_id === null) {
-    //insert in the database    
-    newOrUpdateProperty = await api_createProperty(propertyObj);    
-  } else {
-    //update in the database
-    propertyObj.property_id = property_id;
-    newOrUpdateProperty = await api_updateProperty(property_id, propertyObj); 
-  };
-
-  //update local storage
-  const propertyLS = JSON.parse(localStorage.getItem("properties"));
-  const indexPropLS = propertyLS?.findIndex(f => f.property_id == propertyObj.property_id);
-  if (indexPropLS > -1) {
-    propertyLS[indexPropLS] = newOrUpdateProperty.property;
-  } else {
-    propertyLS.push(newOrUpdateProperty.property);    
-  };
-
-  localStorage.setItem('properties', JSON.stringify(propertyLS));
-    
-  //remove id attribute
-  this.removeAttribute("property_id");
-
-  //reset screen
-  document?.getElementById("addPropertyForm").reset();
-  document?.getElementById("addNewPropertyButton").classList.remove("hidden")
-  const propertyList = document?.getElementById("propertyList");
-  propertyList.classList.remove("hidden");
-  this.classList.add("hidden")
-
-  renderProperties();
-});
-
-document?.getElementById("addNewPropertyButton").addEventListener("click", function (e) {
-  showForm();
-});
-
-document?.getElementById("cancelButton").addEventListener("click", function (e) {
-  const propertyForm = document?.getElementById("addPropertyForm");
-  const propertyList = document?.getElementById("propertyList");
-  const addNewPropertyButton = document?.getElementById("addNewPropertyButton");
-  propertyForm.classList.add("hidden");
-  propertyList.classList.remove("hidden");
-  addNewPropertyButton.classList.remove("hidden");
-});
-
 function showForm(){
+
+  $("#newPropertyName").val("");
+  $("#newPropertyAddress").val("");
+  $("#newPropertyNeighborhood").val("");
+  $("#propertyImage").val("");
+  $("#newSqft").val("");
+  $("#parking").val("");
+  $("#publicTransportation").val("");
+  $("#listingStatus").val("");
+  
   const propertyForm = document?.getElementById("addPropertyForm");
   const propertyList = document?.getElementById("propertyList");
   const addNewPropertyButton = document?.getElementById("addNewPropertyButton");
@@ -266,6 +206,80 @@ async function viewPropertyDetails(propertyId){
   });
 
 }
+
+//EVENTS
+document?.addEventListener('DOMContentLoaded', renderProperties);
+
+document?.getElementById("addPropertyForm")?.addEventListener("submit", async function (e) {  
+  e.preventDefault();
+
+  //Set the object:
+  const propertyObj = {    
+    "user_id": JSON.parse(localStorage.getItem("currentUser")).user_id,
+    "title": newPropertyName.value,
+    "Public_transport": publicTransportation.checked,
+    "image": propertyImage.files[0],
+    "smoking": true,
+    "SQ_foot": newSqft.value,
+    "address": newPropertyAddress.value,
+    "neighborhood": newPropertyNeighborhood.value,
+    "images": "Generic.jpg",
+    "type_of_properties": "house",
+    "parking": parking.checked,
+    "status": listingStatus.value,
+    "date": new Date(),    
+  };
+
+  //check if it is an update or an insert
+  const property_id = this.getAttribute("property_id");  
+  console.log(property_id)
+  let newOrUpdateProperty;
+  if (property_id === null) {
+    //insert in the database    
+    newOrUpdateProperty = await api_createProperty(propertyObj);    
+  } else {
+    //update in the database
+    propertyObj.property_id = property_id;
+    newOrUpdateProperty = await api_updateProperty(property_id, propertyObj); 
+  };
+
+  //update local storage
+  const propertyLS = JSON.parse(localStorage.getItem("properties"));
+  const indexPropLS = propertyLS?.findIndex(f => f.property_id == propertyObj.property_id);
+  if (indexPropLS > -1) {
+    propertyLS[indexPropLS] = newOrUpdateProperty.property;
+  } else {
+    propertyLS.push(newOrUpdateProperty.property);    
+  };
+
+  localStorage.setItem('properties', JSON.stringify(propertyLS));
+    
+  //remove id attribute
+  this.removeAttribute("property_id");
+
+  //reset screen
+  document?.getElementById("addPropertyForm").reset();
+  document?.getElementById("addNewPropertyButton").classList.remove("hidden")
+  const propertyList = document?.getElementById("propertyList");
+  propertyList.classList.remove("hidden");
+  this.classList.add("hidden")
+
+  renderProperties();
+});
+
+document?.getElementById("addNewPropertyButton").addEventListener("click", function (e) {
+  showForm();
+});
+
+document?.getElementById("cancelButton").addEventListener("click", function (e) {
+  const propertyForm = document?.getElementById("addPropertyForm");
+  const propertyList = document?.getElementById("propertyList");
+  const addNewPropertyButton = document?.getElementById("addNewPropertyButton");
+  propertyForm.classList.add("hidden");
+  propertyList.classList.remove("hidden");
+  addNewPropertyButton.classList.remove("hidden");
+});
+
 
 document?.getElementById("cancelWorkspaceBtn").addEventListener("click", function (e) {
   e.preventDefault();

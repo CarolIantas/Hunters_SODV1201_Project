@@ -1,5 +1,4 @@
-//fields
-//fill form
+//FIELDS
 const workspaceName = document?.getElementById('workspaceName');
 const workspaceDescription = document?.getElementById('workspaceDescription');
 const workspaceType = document?.getElementById('workspaceType');
@@ -10,6 +9,28 @@ const workspaceLeaseTerm = document?.getElementById('workspaceLeaseTerm');
 const workspacePrice = document?.getElementById('workspacePrice');
 const workspacePhoto = document?.getElementById('workspacePhoto');
 const imageWorkspacePreview = document?.getElementById('imageWorkspacePreview');
+
+//EVENTS
+document?.getElementById("addWorkspaceBtn").addEventListener("click", function (e) {
+  e.preventDefault();
+  addNewWorkspace();
+});
+
+
+document?.getElementById('workspacePhoto').addEventListener('change', function (event) {
+  const file = event.target.files[0];
+  const preview = document.getElementById("imageWorkspacePreview");
+
+  if (file) {
+    preview.src = URL.createObjectURL(file);
+    preview.classList.remove('hidden');
+  } else {
+    preview.src = '';
+    preview.classList.add('hidden');
+  }
+});
+
+//FUNCTIONS
 
 //Attempting to make updates render instead of refreshing
 function addNewWorkspace() {
@@ -123,25 +144,6 @@ async function confirmWorkspaceDelete() {
   //update workspaces
   viewPropertyDetails(document?.getElementById("addPropertyForm").getAttribute("property_id"));
 }
-
-document?.getElementById("addWorkspaceBtn").addEventListener("click", function (e) {
-  e.preventDefault();
-  addNewWorkspace();
-});
-
-
-document?.getElementById('workspacePhoto').addEventListener('change', function (event) {
-  const file = event.target.files[0];
-  const preview = document.getElementById("imageWorkspacePreview");
-
-  if (file) {
-    preview.src = URL.createObjectURL(file);
-    preview.classList.remove('hidden');
-  } else {
-    preview.src = '';
-    preview.classList.add('hidden');
-  }
-});
 
 function handleDelist() {
   // Replace with your delist logic
