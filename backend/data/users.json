@@ -9,7 +9,7 @@
     "password": "123",
     "role": "owner"
   },
-    {
+  {
     "user_id": 2,
     "Fullname": "Pedro Molina",
     "firstName": "Pedro",
@@ -18,5 +18,15 @@
     "phone": "3688896793",
     "password": "123",
     "role": "coworker"
+  },
+  {
+    "user_id": 3,
+    "Fullname": "Owner Last Name",
+    "firstName": "Owner",
+    "lastName": "Last Name",
+    "email": "owner@1.com",
+    "phone": "(222) 222-2222",
+    "password": "1234@Owner",
+    "role": "owner"
   }
 ]
