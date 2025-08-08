@@ -110,7 +110,7 @@ function loadSearchResults(filteredList = null) {
         const property = properties.find(p => p.property_id == ws.property_id);
         if (!property) return;
 
-        const imgUrl = property.image || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=600&q=80';
+        const imgUrl = ws.image || property.image || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=600&q=80';
 
         $('#workspaceGrid').append(`
             <div class="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition p-4 flex flex-col justify-between">
@@ -126,7 +126,7 @@ function loadSearchResults(filteredList = null) {
                     <li>${ws.type_of_room || "Room"}</li>                    
                     <li>Capacity: ${ws.capacity} people</li>
                     <li>Located in ${property.neighborhood}</li>
-                    <li>${ws.decription || 'No description provided.'}</li>
+                    <li>${ws.decription.substr(0,35) || 'No description provided.'}${ws.decription.length > 35 ? "..." : ""}</li>
                 </ul>
 
                 <!-- Price + Button -->
@@ -166,6 +166,9 @@ $(document).ready(function () {
 });
 
 function closeBookDetailsModal() {
+    $('#bookContactName')?.remove();
+    $('#bookContactEmail')?.remove();
+    $('#bookContactPhone')?.remove();
     $('#workspaceDetailModal').addClass('hidden');
     $("#contactOwnerBtn").removeClass("hidden");
 }
@@ -181,19 +184,19 @@ async function showOwnerContact() {
     const formattedPhone = ownerInfo.phone.replace(/(\d{3})(\d{3})(\d{4})/, '($1) $2-$3');
 
     const newElement = $(`
-        <li class="flex items-center text-sm text-gray-700 mb-2">
+        <li id="bookContactName" class="flex items-center text-sm text-gray-700 mb-2">
             <svg class="h-4 w-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
             <path d="M5.05 3.636A9 9 0 0116.364 14.95l-2.121-2.122a1 1 0 00-1.414 0l-1.414 1.414a8 8 0 01-6.364-6.364l1.414-1.414a1 1 0 000-1.414L5.05 3.636z" />
             </svg>
             <span><strong>Name:</strong> ${ownerInfo.firstName} ${ownerInfo.lastName}</span>
         </li>
-        <li class="flex items-center text-sm text-gray-700 mb-2">
+        <li id="bookContactPhone" class="flex items-center text-sm text-gray-700 mb-2">
             <svg class="h-4 w-4 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M2.003 5.884a1.5 1.5 0 012.121 0l1.795 1.794a1.5 1.5 0 010 2.122l-.586.586a1 1 0 00-.293.707c0 3.18 2.58 5.76 5.76 5.76a1 1 0 00.707-.293l.586-.586a1.5 1.5 0 012.122 0l1.794 1.795a1.5 1.5 0 010 2.121l-1.058 1.059a3 3 0 01-3.708.293c-4.237-2.648-6.886-5.297-9.535-9.535a3 3 0 01.293-3.708l1.059-1.058z" clip-rule="evenodd"/>
             </svg>
             <span><strong>Phone:</strong> ${formattedPhone}</span>
             </li>
-        <li class="flex items-center text-sm text-gray-700 mb-2">
+        <li id="bookContactEmail" class="flex items-center text-sm text-gray-700 mb-2">
             <svg class="h-4 w-4 mr-2 text-red-500" fill="currentColor" viewBox="0 0 20 20">
             <path d="M2.94 6.94A2 2 0 014.5 6h11a2 2 0 011.56.94L10 12.414 2.94 6.94z" />
             <path d="M18 8.118V14a2 2 0 01-2 2H4a2 2 0 01-2-2V8.118l7.293 5.64a1 1 0 001.414 0L18 8.118z" />

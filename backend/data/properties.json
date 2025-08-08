@@ -1,18 +1,5 @@
 [
   {
-    "property_id": 3,
-    "user_id": 6,
-    "title": "PEDRO 3",
-    "Public_transport": true,
-    "SQ_foot": "1",
-    "address": "PEDRO 3",
-    "neighborhood": "PEDRO 3",
-    "images": "Generic.jpg",
-    "type_of_properties": "house",
-    "parking": true,
-    "date": "2025-08-07"
-  },
-  {
     "property_id": 4,
     "user_id": 8,
     "title": "RAM RANCH",
@@ -26,19 +13,17 @@
     "date": "2025-08-07"
   },
   {
-    "property_id": "5",
+    "property_id": 5,
     "user_id": 6,
     "title": "NEW PROPERTY",
-    "Public_transport": true,
-    "SQ_foot": "1200",
+    "Public_transport": false,
+    "SQ_foot": "12",
     "address": "1212 4th St SE",
     "neighborhood": "Downton",
-    "images": "Generic.jpg",
+    "image": "https://res.cloudinary.com/dl6a1uj4h/image/upload/v1754626289/rgv1qbmhys86yzspuprw.jpg",
     "type_of_properties": "house",
     "parking": true,
-    "date": "2025-08-08T04:04:49.183Z",
-    "smoking": true,
-    "status": "not-listed",
-    "image": "https://res.cloudinary.com/dl6a1uj4h/image/upload/v1754626071/dsfhpclwxsjfj9dfua6t.jpg"
+    "date": "2025-08-08",
+    "status": "listed"
   }
 ]

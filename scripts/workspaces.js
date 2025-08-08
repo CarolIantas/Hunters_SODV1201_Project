@@ -71,6 +71,11 @@ async function startEditWorkspace(index, propertyId) {
 
 async function saveWorkspaceEdit() {
 
+  const file = workspacePhoto.files[0];  
+  const res = await api_saveImage(file); 
+  const imageUrl = res.secure_url;
+
+
   //updated object 
   wsObject = {    
     property_id: document?.getElementById("addPropertyForm").getAttribute("property_id"),
@@ -81,7 +86,8 @@ async function saveWorkspaceEdit() {
     //smoking: smoking.value,
     date: workspaceDate.date,
     term: workspaceLeaseTerm.value, 
-    price: workspacePrice.value
+    price: workspacePrice.value,
+    image: imageUrl
   }
 
   //get workspaces id
