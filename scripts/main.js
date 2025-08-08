@@ -213,7 +213,7 @@ async function showOwnerContact() {
 // Make functions available globally for HTML onclick attributes
 window.Logout = Logout;
 window.viewWorkspaceDetail = function (workspaceId) {
-    console.log(workspaceId)
+    
     const workspace = JSON.parse(localStorage.getItem('workspaces')).find(ws => ws.workspace_id == workspaceId);
     const property = JSON.parse(localStorage.getItem('properties')).find(p => p.property_id == workspace.property_id);
 
@@ -223,7 +223,7 @@ window.viewWorkspaceDetail = function (workspaceId) {
     $('#workspacePrice').text(workspace.price + "/" + workspace.term);
     $('#workspaceDescription').text(workspace.description || 'No description provided.');
     const imgUrl = workspace.image || property.image || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=600&q=80';
-    console.log(imgUrl);
+    
     $('#workspaceImage').attr('src', imgUrl);
 
     $("#contactOwnerBtn").attr("userId", property.user_id);
