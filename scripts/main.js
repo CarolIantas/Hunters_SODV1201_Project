@@ -126,7 +126,7 @@ function loadSearchResults(filteredList = null) {
                     <li>${ws.type_of_room || "Room"}</li>                    
                     <li>Capacity: ${ws.capacity} people</li>
                     <li>Located in ${property.neighborhood}</li>
-                    <li>Available from ${property.date}</li>
+                    <li>Available from ${new Date(property.date).toLocaleDateString()}</li>
                     <li>${ws.description.substr(0, 35) || 'No description provided.'}${ws.description.length > 35 ? "..." : ""}</li>
                 </ul>
 
