@@ -232,7 +232,7 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
 
   //check if it is an update or an insert
   const property_id = this.getAttribute("property_id");  
-  console.log(property_id)
+  
   let newOrUpdateProperty;
   if (property_id === null) {
     //insert in the database    
@@ -260,6 +260,7 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
   //reset screen
   document?.getElementById("addPropertyForm").reset();
   document?.getElementById("addNewPropertyButton").classList.remove("hidden")
+  
   const propertyList = document?.getElementById("propertyList");
   propertyList.classList.remove("hidden");
   this.classList.add("hidden")
@@ -268,6 +269,7 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
 });
 
 document?.getElementById("addNewPropertyButton").addEventListener("click", function (e) {
+  document?.getElementById("addPropertyForm").removeAttribute("property_id");  
   showForm();
 });
 
