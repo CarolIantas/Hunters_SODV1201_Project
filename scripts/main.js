@@ -230,7 +230,7 @@ window.viewWorkspaceDetail = function (workspaceId) {
 function applyFilters(e) {
     e.preventDefault();
 
-    // Get original unfiltered workspaces and properties
+    // Get original unfiltered workspaces
     const allWorkspaces = JSON.parse(localStorage.getItem("workspaces")) || [];
 
     // Get filters
@@ -238,28 +238,43 @@ function applyFilters(e) {
     const type = $("#typeFilter").val()?.toLowerCase();
     const capacity = parseInt($("#capacityFilter").val());
     const price = parseFloat($("#priceFilter").val());
+    const smoking = $("#smokingFilter").is(":checked"); // <-- NEW
 
     // Apply filters
     const filteredWS = allWorkspaces.filter(ws => {
         const prop = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == ws.property_id);
-
         if (!prop) return false;
 
-        // Apply each filter if it has a value
-        if (location && !prop.neighborhood?.toLowerCase().includes(location)) return false;
+        // Location filter
+        if (
+            location &&
+            !prop.neighborhood?.toLowerCase().includes(location) &&
+            !prop.address?.toLowerCase().includes(location)
+        ) return false;
+
+        // Workspace type filter
         if (type && ws.type_of_room?.toLowerCase() !== type) return false;
+
+        // Capacity filter
         if (!isNaN(capacity) && ws.capacity < capacity) return false;
+
+        // Price filter
         if (!isNaN(price) && parseFloat(ws.price) > price) return false;
+
+        console.log(smoking)
+        // Smoking filter
+        if (smoking && !(ws.smoking == smoking)) return false;
 
         return true;
     });
 
-    // Optional: store filtered list separately (don’t overwrite original!)
+    // Store filtered list
     localStorage.setItem("filteredWorkspaces", JSON.stringify(filteredWS));
 
-    // Update UI with filtered results (pass data directly or modify loadSearchResults to use filtered data)
+    // Update UI
     loadSearchResults(filteredWS);
 }
+
 
 
 //MAP
@@ -281,16 +296,8 @@ $(document).ready(() => {
     // Function to geocode and place markers
     async function geocodeAddress(address) {
         try {
-            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`;
-
-            const response = await fetch(url, {
-                headers: {
-                    'Accept-Language': 'en',
-                    'User-Agent': 'WorkSpaceWebApp (p.kuchakmolina@mybvc.ca)'
-                }
-            });
-
-            const data = await response.json();
+                        
+            const data = await api_geocodeAddress(address);
 
             if (data && data.length > 0) {
                 const { lat, lon, display_name } = data[0];

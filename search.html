@@ -1,11 +1,12 @@
 <!--ADD MAP-->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find Workspaces | WorkSpace</title>
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -24,35 +25,38 @@
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    
+
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <!-- Scripts -->
-    <script src="./scripts/main.js" defer></script>    
-    <script src="./services/apiService.js" defer></script>    
+    <script src="./scripts/main.js" defer></script>
+    <script src="./services/apiService.js" defer></script>
 
 </head>
+
 <body class="min-h-screen bg-gray-50">
-   <header class="bg-white shadow-sm sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-            <div class="flex items-center">
-                <a href="index.html" class="flex items-center">
-                    <svg class="h-8 w-8 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                    </svg>
-                    <span class="text-2xl font-bold text-gray-900">WorkSpace</span>
-                </a>
-            </div>
-            <div class="flex items-center space-x-4 auth-buttons">
-                <!-- Dynamic buttons will be inserted here by main.js -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center">
+                        <svg class="h-8 w-8 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                            </path>
+                        </svg>
+                        <span class="text-2xl font-bold text-gray-900">WorkSpace</span>
+                    </a>
+                </div>
+                <div class="flex items-center space-x-4 auth-buttons">
+                    <!-- Dynamic buttons will be inserted here by main.js -->
+                </div>
             </div>
         </div>
-    </div>
-</header>
+    </header>
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 py-8">
@@ -65,46 +69,55 @@
             <!-- Filters Section -->
             <div class="bg-white p-4 rounded-lg shadow-sm sticky top-24 h-fit">
                 <h2 class="font-bold text-lg mb-4">Filters</h2>
-                
+
                 <div class="space-y-4">
                     <!-- Location Filter -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
-                        <input type="text" id="locationFilter" placeholder="City or neighborhood" 
-                               class="w-full p-2 border border-gray-300 rounded-md">
+                        <input type="text" id="locationFilter" placeholder="City or neighborhood"
+                            class="w-full p-2 border border-gray-300 rounded-md">
                     </div>
-                    
+
                     <!-- Workspace Type -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Workspace Type</label>
                         <select id="typeFilter" class="w-full p-2 border border-gray-300 rounded-md">
-                            <option value="">All Types</option>                            
+                            <option value="">All Types</option>
                             <option value="private">Private Office</option>
                             <option value="shared">Shared</option>
                         </select>
                     </div>
-                    
+
                     <!-- Capacity -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Minimum Capacity</label>
-                        <input type="number" id="capacityFilter" min="1" value="1" 
-                               class="w-full p-2 border border-gray-300 rounded-md">
+                        <input type="number" id="capacityFilter" min="1" value="1"
+                            class="w-full p-2 border border-gray-300 rounded-md">
                     </div>
-                    
+
                     <!-- Price Range -->
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-1">Max Price ($/day)</label>
-                        <input type="number" id="priceFilter" min="0" placeholder="No limit" 
-                               class="w-full p-2 border border-gray-300 rounded-md">
+                        <input type="number" id="priceFilter" min="0" placeholder="No limit"
+                            class="w-full p-2 border border-gray-300 rounded-md">
                     </div>
-                    
+
+                    <!-- Smoking Allowed -->
+                    <div class="flex items-center">
+                        <input type="checkbox" id="smokingFilter" class="h-4 w-4 text-blue-600 border-gray-300 rounded">
+                        <label for="smokingFilter" class="ml-2 block text-sm text-gray-700">
+                            Smoking Allowed
+                        </label>
+                    </div>
+
                     <!-- Apply Filters Button -->
-                    <button id="applyFilters" 
-                            class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors">
+                    <button id="applyFilters"
+                        class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors">
                         Apply Filters
                     </button>
                 </div>
             </div>
+
 
             <!-- Results Section -->
             <div class="lg:col-span-3">
@@ -112,8 +125,10 @@
                 <div id="searchResults" class="grid grid-cols-1 md:grid-cols-1 gap-4">
                     <!-- Workspaces will be dynamically inserted here -->
                     <div class="text-center py-12">
-                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <h3 class="mt-2 text-lg font-medium text-gray-900">No workspaces found</h3>
                         <p class="mt-1 text-sm text-gray-500">Try adjusting your search filters</p>
@@ -122,10 +137,11 @@
             </div>
         </div>
     </main>
-    
+
 
     <!-- Workspace Detail Modal -->
-    <div id="workspaceDetailModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div id="workspaceDetailModal"
+        class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
             <div class="p-6">
                 <div class="flex justify-between items-start mb-4">
@@ -135,15 +151,16 @@
                     </div>
                     <button id="closeDetailModal" class="text-gray-400 hover:text-gray-500">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
-                
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                     <div>
-                        <img id="workspaceImage" src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267" 
-                             alt="Workspace" class="w-full h-48 object-cover rounded-lg">
+                        <img id="workspaceImage" src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267"
+                            alt="Workspace" class="w-full h-48 object-cover rounded-lg">
                     </div>
                     <div>
                         <div class="mb-4">
@@ -151,32 +168,37 @@
                             <ul id="bookInformationList" class="mt-2 space-y-1 text-sm text-gray-600">
                                 <li class="flex items-center">
                                     <svg class="h-4 w-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+                                        <path fill-rule="evenodd"
+                                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                            clip-rule="evenodd" />
                                     </svg>
                                     <span id="workspaceCapacity"></span>
                                 </li>
                                 <li class="flex items-center">
                                     <svg class="h-4 w-4 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+                                        <path fill-rule="evenodd"
+                                            d="M4 4a2 2 0 00-2 2v4a2 2 0 002 2V6h10a2 2 0 00-2-2H4zm2 6a2 2 0 012-2h8a2 2 0 012 2v4a2 2 0 01-2 2H8a2 2 0 01-2-2v-4zm6 4a2 2 0 100-4 2 2 0 000 4z"
+                                            clip-rule="evenodd" />
                                     </svg>
                                     $<span id="workspacePrice"></span>/day
                                 </li>
                             </ul>
                         </div>
-                        
-                        <button id="contactOwnerBtn" 
-                                class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors">
+
+                        <button id="contactOwnerBtn"
+                            class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors">
                             Contact Owner
                         </button>
                     </div>
                 </div>
-                
+
                 <div class="border-t pt-4">
                     <h4 class="font-semibold mb-2">Description</h4>
                     <p id="workspaceDescription" class="text-gray-600"></p>
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 </body>
+
 </html>

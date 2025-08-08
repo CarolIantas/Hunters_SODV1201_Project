@@ -36,6 +36,26 @@ async function api_saveImage(file) {
   return data;
 }
 
+// Function to geocode and place markers
+  async function api_geocodeAddress(address) {
+      try {
+          const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`;
+
+          const response = await fetch(url, {
+              headers: {
+                  'Accept-Language': 'en',
+                  'User-Agent': 'WorkSpaceWebApp (p.kuchakmolina@mybvc.ca)'
+              }
+          });
+
+          return await response.json();
+          
+      } catch (error) {
+          console.error(`Error geocoding '${address}':`, error);
+          return null;
+      }
+  }
+
 // USERS
 const api_getUsers = () => request('/users');
 const api_getUserById = (id) => request(`/users/${id}`);

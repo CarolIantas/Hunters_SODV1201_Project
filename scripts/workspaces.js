@@ -62,7 +62,8 @@ async function startEditWorkspace(index, propertyId) {
   workspaceCapacity.value = ws.capacity ? ws.capacity : 1;  
   // Set from data
   if (ws?.smoking) {
-    document.querySelector(`input[name="smoking"][value="${ws.smoking}"]`).checked = true;
+    const radio = ws.smoking == true ? "yes" : "no";
+    document.querySelector(`input[name="smoking"][value="${radio}"]`).checked = true;
   }
   workspaceDate.value = ws.date
   ? new Date(ws.date).toISOString().split('T')[0]
@@ -88,7 +89,7 @@ async function saveWorkspaceEdit() {
   const imageUrl = res.secure_url;
 
   const smokingInput = document.querySelector('input[name="smoking"]:checked');
-  const smokingValue = smokingInput ? smokingInput.value : null;
+  const smokingValue = smokingInput ? (smokingInput.value == "no" ? false : true) : false;
 
   //updated object 
   wsObject = {    
