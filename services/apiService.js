@@ -2,6 +2,10 @@
 //const API_BASE_URL = 'http://localhost:3001';
 const API_BASE_URL = 'https://hunters-sodv1201-project.onrender.com';
 
+//file settings
+const cloudName = "dl6a1uj4h";
+const unsignedPreset = "SODV1201_Hunters";
+
 async function request(url, method = 'GET', data) {
   const options = {
     method,
@@ -17,6 +21,19 @@ async function request(url, method = 'GET', data) {
   }
   
   return response.json();
+}
+
+//file handle
+async function api_saveImage(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", unsignedPreset);
+  res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+    method: "POST",
+    body: formData
+  });  
+  const data = await res.json();
+  return data;
 }
 
 // USERS

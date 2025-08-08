@@ -36,23 +36,9 @@
     "images": "Generic.jpg",
     "type_of_properties": "house",
     "parking": true,
-    "date": "2025-08-08T02:52:14.630Z",
+    "date": "2025-08-08T04:04:49.183Z",
     "smoking": true,
-    "status": "not-listed"
-  },
-  {
-    "property_id": "6",
-    "user_id": 6,
-    "title": "NEW PROPERTY 22",
-    "Public_transport": false,
-    "SQ_foot": "1200",
-    "address": "123 SW",
-    "neighborhood": "Bel",
-    "images": "Generic.jpg",
-    "type_of_properties": "house",
-    "parking": false,
-    "date": "2025-08-07T19:33:54.027Z",
-    "smoking": true,
-    "status": ""
+    "status": "not-listed",
+    "image": "https://res.cloudinary.com/dl6a1uj4h/image/upload/v1754626071/dsfhpclwxsjfj9dfua6t.jpg"
   }
 ]

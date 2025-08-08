@@ -21,9 +21,16 @@ function renderProperties() {
 
     card.innerHTML = `
       <div class="bg-gray-200 h-40 flex items-center justify-center">
-        <svg class="w-16 h-16 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
-        </svg>
+        ${prop?.image ? 
+          `
+            <img src=${prop.image} alt="Workspace Image" class="w-full h-full object-cover"/>
+
+          `
+          : 
+          `<svg class="w-16 h-16 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
+           </svg>`
+          }        
       </div>
       <div class="p-4">
         <h3 class="font-semibold text-gray-800 mb-2">${prop?.title}</h3>
@@ -86,7 +93,8 @@ async function startEditProperty(index) {
   const newPropertyName = document?.getElementById("newPropertyName");
   const newPropertyAddress = document?.getElementById("newPropertyAddress");
   const newPropertyNeighborhood = document?.getElementById("newPropertyNeighborhood");
-  const propertyImage = document?.getElementById("propertyImage");
+  const imagePreviewContainer = document?.getElementById("imagePreviewContainer");
+  const imagePreview = document?.getElementById("imagePreview");
   const newSqft = document?.getElementById("newSqft");
   const parking = document?.getElementById("parking");
   const publicTransportation = document?.getElementById("publicTransportation");
@@ -95,7 +103,11 @@ async function startEditProperty(index) {
   newPropertyName.value = property.title;
   newPropertyAddress.value = property.address;
   newPropertyNeighborhood.value = property.neighborhood;
-  //propertyImage.value = property.images;
+  imagePreview.src = property.image;
+  console.log(property.image)
+  if (property.image != undefined) {
+    imagePreviewContainer.classList.remove("hidden");
+  }
   newSqft.value = property.SQ_foot;
   parking.checked = property.parking;
   publicTransportation.checked = property.Public_transport;
@@ -213,17 +225,21 @@ document?.addEventListener('DOMContentLoaded', renderProperties);
 document?.getElementById("addPropertyForm")?.addEventListener("submit", async function (e) {  
   e.preventDefault();
 
+  //save image
+  const file = propertyImage.files[0];  
+  const res = await api_saveImage(file); 
+  const imageUrl = res.secure_url;
+
   //Set the object:
   const propertyObj = {    
     "user_id": JSON.parse(localStorage.getItem("currentUser")).user_id,
     "title": newPropertyName.value,
     "Public_transport": publicTransportation.checked,
-    "image": propertyImage.files[0],
+    "image": imageUrl,
     "smoking": true,
     "SQ_foot": newSqft.value,
     "address": newPropertyAddress.value,
-    "neighborhood": newPropertyNeighborhood.value,
-    "images": "Generic.jpg",
+    "neighborhood": newPropertyNeighborhood.value,    
     "type_of_properties": "house",
     "parking": parking.checked,
     "status": listingStatus.value,

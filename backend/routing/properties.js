@@ -53,7 +53,6 @@ router.post('/properties', (req, res) => {
     return res.status(409).json({ message: "Property with this ID already exists" });
   }
 
-  console.log(maxId);
   // Formatting data save to database
   const FormattedProperties = {
     property_id: maxId,
@@ -63,7 +62,7 @@ router.post('/properties', (req, res) => {
     SQ_foot: newProperty.SQ_foot,
     address: newProperty.address,
     neighborhood: newProperty.neighborhood,
-    images: newProperty.images,
+    image: newProperty.image,
     type_of_properties: newProperty.type_of_properties,
     parking: newProperty.parking,
     date: newProperty.date.slice(0, 10),
