@@ -1,13 +1,13 @@
 //FIELDS
-  //form fields
-  const newPropertyName = document?.getElementById("newPropertyName");
-  const newPropertyAddress = document?.getElementById("newPropertyAddress");
-  const newPropertyNeighborhood = document?.getElementById("newPropertyNeighborhood");
-  const propertyImage = document?.getElementById("propertyImage");
-  const newSqft = document?.getElementById("newSqft");
-  const parking = document?.getElementById("parking");
-  const publicTransportation = document?.getElementById("publicTransportation");
-  const listingStatus = document?.getElementById("listingStatus");
+//form fields
+const newPropertyName = document?.getElementById("newPropertyName");
+const newPropertyAddress = document?.getElementById("newPropertyAddress");
+const newPropertyNeighborhood = document?.getElementById("newPropertyNeighborhood");
+const propertyImage = document?.getElementById("propertyImage");
+const newSqft = document?.getElementById("newSqft");
+const parking = document?.getElementById("parking");
+const publicTransportation = document?.getElementById("publicTransportation");
+const listingStatus = document?.getElementById("listingStatus");
 
 //FUNCTIONS
 function renderProperties() {
@@ -21,20 +21,37 @@ function renderProperties() {
 
     card.innerHTML = `
       <div class="bg-gray-200 h-40 flex items-center justify-center">
-        ${prop?.image ? 
-          `
+        ${prop?.image ?
+        `
             <img src=${prop.image} alt="Workspace Image" class="w-full h-full object-cover"/>
 
           `
-          : 
-          `<svg class="w-16 h-16 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+        :
+        `<svg class="w-16 h-16 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
            </svg>`
-          }        
+      }        
       </div>
       <div class="p-4">
         <h3 class="font-semibold text-gray-800 mb-2">${prop?.title}</h3>
         <p class="text-sm text-gray-600 mb-4">${prop?.address} - ${prop?.neighborhood || 'No Neighborhood'}</p>
+        <p class="text-sm text-gray-600 mb-4">${prop?.SQ_foot} sqft</p>
+        <p class="text-sm text-gray-600 mb-4 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="w-5 h-5 text-gray-500">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M3 13h18M5 13l1.5-4.5A1.5 1.5 0 018 7h8a1.5 1.5 0 011.5 1.5L19 13m-1 4a1 1 0 100-2 1 1 0 000 2zm-12 0a1 1 0 100-2 1 1 0 000 2zm0 0H6a2 2 0 01-2-2v-2h16v2a2 2 0 01-2 2h-.5" />
+          </svg>
+          ${prop?.parking ? "Parking Available" : "No Parking"}
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+            class="w-5 h-5 text-gray-500">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="M8.25 18.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm9 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM3.75 6.75h16.5m-16.5 0A2.25 2.25 0 016 4.5h12a2.25 2.25 0 012.25 2.25m-16.5 0v9.75A2.25 2.25 0 005.25 18h13.5a2.25 2.25 0 002.25-2.25V6.75m-16.5 0h16.5" />
+          </svg>
+          ${prop?.Public_transport ? "Near Public Transport" : "No Public Transport"}
+        </p>
         <div class="flex items-center justify-between mt-4">
           <!-- Edit + Delete Icons -->
           <div class="flex gap-2">
@@ -113,7 +130,7 @@ async function startEditProperty(index) {
   publicTransportation.checked = property.Public_transport;
   listingStatus.value = property.status;
 
-  document?.getElementById("addPropertyForm").setAttribute("property_id", property.property_id);  
+  document?.getElementById("addPropertyForm").setAttribute("property_id", property.property_id);
 }
 
 function startDeleteProperty(idProperty) {
@@ -123,8 +140,8 @@ function startDeleteProperty(idProperty) {
 
 async function confirmPropertyDelete() {
 
-  const idProperty = document.getElementById('deletePropertyId').value;  
-    
+  const idProperty = document.getElementById('deletePropertyId').value;
+
   //delete from database
   const resDel = await api_deleteProperty(idProperty);
 
@@ -135,12 +152,13 @@ async function confirmPropertyDelete() {
     properties.splice(indexProperty, 1);
 
     localStorage.setItem('properties', JSON.stringify(properties));
+    applyFiltersProperties();
     closeModal('deletePropertyModal');
     renderProperties();
-  }  
+  }
 }
 
-function showForm(){
+function showForm() {
 
   $("#newPropertyName").val("");
   $("#newPropertyAddress").val("");
@@ -150,7 +168,7 @@ function showForm(){
   $("#parking").val("");
   $("#publicTransportation").val("");
   $("#listingStatus").val("");
-  
+
   const propertyForm = document?.getElementById("addPropertyForm");
   const propertyList = document?.getElementById("propertyList");
   const addNewPropertyButton = document?.getElementById("addNewPropertyButton");
@@ -160,10 +178,10 @@ function showForm(){
 
 }
 
-async function viewPropertyDetails(propertyId){
+async function viewPropertyDetails(propertyId) {
   //show modal
-  const workspaceModal = document?.getElementById("workspaceModal");  
-  
+  const workspaceModal = document?.getElementById("workspaceModal");
+
   document?.getElementById("addPropertyForm").setAttribute("property_id", propertyId);
 
   //get workspace list container
@@ -171,7 +189,7 @@ async function viewPropertyDetails(propertyId){
   workspaceConatiner.innerHTML = "";
 
   //get workspaces from database  
-  const workspaces = await api_getWorkspaceByPropertyId(propertyId);  
+  const workspaces = await api_getWorkspaceByPropertyId(propertyId);
 
   workspaceModal.classList.remove("hidden");
   workspaces.forEach((work, index) => {
@@ -180,20 +198,20 @@ async function viewPropertyDetails(propertyId){
 
     card.innerHTML = `
       <div class="bg-gray-200 h-40 flex items-center justify-center">
-        ${work?.image ? 
-          `
+        ${work?.image ?
+        `
             <img src=${work.image} alt="Workspace Image" class="w-full h-full object-cover"/>
 
           `
-          : 
-          `<svg class="w-16 h-16 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+        :
+        `<svg class="w-16 h-16 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/>
            </svg>`
-          }
+      }
       </div>
       <div class="p-4">
         <h3 class="font-semibold text-gray-800 mb-2">${work?.name || 'No Address'}</h3>        
-        <p class="text-sm text-gray-600 mb-4">${work?.description.substr(0,35) || 'No description provided.'}${work?.description.length > 35 ? "..." : ""}</p>
+        <p class="text-sm text-gray-600 mb-4">${work?.description.substr(0, 35) || 'No description provided.'}${work?.description.length > 35 ? "..." : ""}</p>
         <p class="text-sm text-gray-600 mb-4">${work?.type_of_room.toUpperCase()} (${work?.capacity})</p>
         <p className="text-sm text-gray-600 mb-4">
           ${work?.price != null ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'CAD' }).format(work.price) : '—'}
@@ -220,77 +238,77 @@ async function viewPropertyDetails(propertyId){
         
       </div>
     `;
-    
+
     workspaceConatiner.appendChild(card);
   });
 
 }
 
 function applyFiltersProperties(e) {
-    e.preventDefault();
+  e?.preventDefault();
 
-    const allProperties = JSON.parse(localStorage.getItem("properties")) || [];
+  const allProperties = JSON.parse(localStorage.getItem("properties")) || [];
 
-    // Filters
-    const location = $("#locationFilter").val()?.toLowerCase();
-    const name = $("#nameFilter").val()?.toLowerCase();
-    const sortBy = $("#sortFilter").val(); // <-- NEW
+  // Filters
+  const location = $("#locationFilter").val()?.toLowerCase();
+  const name = $("#nameFilter").val()?.toLowerCase();
+  const sortBy = $("#sortFilter").val(); // <-- NEW
 
-    const filteredProp = allProperties.filter(prop => {
-        
-        if (
-            location &&
-            !prop.neighborhood?.toLowerCase().includes(location) &&
-            !prop.address?.toLowerCase().includes(location)
-        ) return false;
+  const filteredProp = allProperties.filter(prop => {
 
-        if (name && !prop.title?.toLowerCase().includes(name)) return false;
-        
-        return true;
+    if (
+      location &&
+      !prop.neighborhood?.toLowerCase().includes(location) &&
+      !prop.address?.toLowerCase().includes(location)
+    ) return false;
+
+    if (name && !prop.title?.toLowerCase().includes(name)) return false;
+
+    return true;
+  });
+
+  // Sort results
+  if (sortBy) {
+    filteredProp.sort((a, b) => {
+      const propA = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == a.property_id);
+      const propB = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == b.property_id);
+
+      if (sortBy === "name") {
+        return a.title.localeCompare(b.title);
+      } else if (sortBy === "address") {
+        return propA.address.localeCompare(propB.address);
+      } else if (sortBy === "neighborhood") {
+        return propA.neighborhood.localeCompare(propB.neighborhood);
+      } else if (sortBy === "available_from") {
+        return new Date(a.available_from) - new Date(b.available_from);
+      }
+      return 0;
     });
+  }
 
-    // Sort results
-    if (sortBy) {
-        filteredProp.sort((a, b) => {
-            const propA = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == a.property_id);
-            const propB = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == b.property_id);
-
-            if (sortBy === "name") {
-                return a.name.localeCompare(b.name);
-            } else if (sortBy === "address") {
-                return propA.address.localeCompare(propB.address);
-            } else if (sortBy === "neighborhood") {
-                return propA.neighborhood.localeCompare(propB.neighborhood);
-            } else if (sortBy === "available_from") {
-                return new Date(a.available_from) - new Date(b.available_from);
-            }
-            return 0;
-        });
-    }
-
-    localStorage.setItem("filteredProperties", JSON.stringify(filteredProp));
-    renderProperties();
+  localStorage.setItem("filteredProperties", JSON.stringify(filteredProp));
+  renderProperties();
 }
 
 //EVENTS
 
-$(document).ready(function () {    
-    // Add applyFilters button click listener
-    $('#applyFiltersProperties').on('click', applyFiltersProperties);
+$(document).ready(function () {
+  // Add applyFilters button click listener
+  $('#applyFiltersProperties').on('click', applyFiltersProperties);
 });
 
 document?.addEventListener('DOMContentLoaded', renderProperties);
 
-document?.getElementById("addPropertyForm")?.addEventListener("submit", async function (e) {  
+document?.getElementById("addPropertyForm")?.addEventListener("submit", async function (e) {
   e.preventDefault();
 
   //save image
-  const file = propertyImage.files[0];  
-  const res = await api_saveImage(file); 
+  const file = propertyImage.files[0];
+  const res = await api_saveImage(file);
   const imageUrl = res.secure_url;
 
   //Set the object:
-  const propertyObj = {    
+  const propertyObj = {
     "user_id": JSON.parse(localStorage.getItem("currentUser")).user_id,
     "title": newPropertyName.value,
     "Public_transport": publicTransportation.checked,
@@ -298,24 +316,24 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
     "smoking": true,
     "SQ_foot": newSqft.value,
     "address": newPropertyAddress.value,
-    "neighborhood": newPropertyNeighborhood.value,    
+    "neighborhood": newPropertyNeighborhood.value,
     "type_of_properties": "house",
     "parking": parking.checked,
     "status": listingStatus.value,
-    "date": new Date(),    
+    "date": new Date(),
   };
 
   //check if it is an update or an insert
-  const property_id = this.getAttribute("property_id");  
-  
+  const property_id = this.getAttribute("property_id");
+
   let newOrUpdateProperty;
   if (property_id === null) {
     //insert in the database    
-    newOrUpdateProperty = await api_createProperty(propertyObj);    
+    newOrUpdateProperty = await api_createProperty(propertyObj);
   } else {
     //update in the database
     propertyObj.property_id = property_id;
-    newOrUpdateProperty = await api_updateProperty(property_id, propertyObj); 
+    newOrUpdateProperty = await api_updateProperty(property_id, propertyObj);
   };
 
   //update local storage
@@ -324,18 +342,21 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
   if (indexPropLS > -1) {
     propertyLS[indexPropLS] = newOrUpdateProperty.property;
   } else {
-    propertyLS.push(newOrUpdateProperty.property);    
+    propertyLS.push(newOrUpdateProperty.property);
   };
 
   localStorage.setItem('properties', JSON.stringify(propertyLS));
-    
+
+  //update local storage
+  applyFiltersProperties();
+
   //remove id attribute
   this.removeAttribute("property_id");
 
   //reset screen
   document?.getElementById("addPropertyForm").reset();
   document?.getElementById("addNewPropertyButton").classList.remove("hidden")
-  
+
   const propertyList = document?.getElementById("propertyList");
   propertyList.classList.remove("hidden");
   this.classList.add("hidden")
@@ -344,7 +365,7 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
 });
 
 document?.getElementById("addNewPropertyButton").addEventListener("click", function (e) {
-  document?.getElementById("addPropertyForm").removeAttribute("property_id");  
+  document?.getElementById("addPropertyForm").removeAttribute("property_id");
   showForm();
 });
 
@@ -362,23 +383,23 @@ document?.getElementById("cancelWorkspaceBtn").addEventListener("click", functio
   e.preventDefault();
   const workspaceModal = document?.getElementById("workspaceModal");
   const workspaceConatiner = document?.getElementById("workspaceList");
-  workspaceModal.classList.add("hidden"); 
+  workspaceModal.classList.add("hidden");
   workspaceConatiner.innerHTML = '';
 });
 
 document?.getElementById('propertyImage')?.addEventListener('change', function (event) {
-    const file = event.target.files[0];
-    if (!file) return;
+  const file = event.target.files[0];
+  if (!file) return;
 
-    const reader = new FileReader();
+  const reader = new FileReader();
 
-    reader.onload = function (e) {
-      const previewImg = document.getElementById('imagePreview');
-      previewImg.src = e.target.result;
+  reader.onload = function (e) {
+    const previewImg = document.getElementById('imagePreview');
+    previewImg.src = e.target.result;
 
-      // Show the preview container
-      document.getElementById('imagePreviewContainer').classList.remove('hidden');
-    };
+    // Show the preview container
+    document.getElementById('imagePreviewContainer').classList.remove('hidden');
+  };
 
-    reader.readAsDataURL(file);
-  });
+  reader.readAsDataURL(file);
+});
