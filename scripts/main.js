@@ -261,14 +261,12 @@ function applyFilters(e) {
 
         return true;
     });
-
-    console.log(sortBy)
+    
     // Sort results
     if (sortBy) {
         filteredWS.sort((a, b) => {
             const propA = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == a.property_id);
-            const propB = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == b.property_id);
-            console.log(a, b, propA, propB)
+            const propB = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == b.property_id);            
             if (sortBy === "name") {
                 return a.name.localeCompare(b.name);
             } else if (sortBy === "address") {

@@ -10,6 +10,32 @@
     "term": "3 months",
     "price": "120",
     "image": "https://res.cloudinary.com/dl6a1uj4h/image/upload/v1754668186/spzcc7iyc8xcy2nkcoen.png",
-    "date": "2025-08-08"
+    "date": "2025-12-07"
+  },
+  {
+    "workspace_id": "2",
+    "property_id": "1",
+    "name": "Creative Studio",
+    "description": "Great for designers",
+    "type_of_room": "private",
+    "capacity": "6",
+    "smoking": true,
+    "date": "2025-09-09",
+    "term": "3 months",
+    "price": "120",
+    "image": "https://res.cloudinary.com/dl6a1uj4h/image/upload/v1754668489/flczsdtxq1wasnb0t784.png"
+  },
+  {
+    "workspace_id": 3,
+    "property_id": "1",
+    "name": "NEW WORKSPACE",
+    "description": "For creators",
+    "type_of_room": "shared",
+    "capacity": "6",
+    "smoking": true,
+    "date": "2025-10-11",
+    "term": "3 months",
+    "price": "1500",
+    "image": "https://res.cloudinary.com/dl6a1uj4h/image/upload/v1754668539/w9y8m8jf3mkdjf5dkm6z.jpg"
   }
 ]
