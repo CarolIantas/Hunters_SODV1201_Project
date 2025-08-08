@@ -281,7 +281,7 @@ $(document).ready(() => {
     // Function to geocode and place markers
     async function geocodeAddress(address) {
         try {
-            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`;
+            const url = `https://corsproxy.io/?https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`;
 
             const response = await fetch(url, {
                 headers: {
