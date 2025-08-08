@@ -29,6 +29,12 @@
     <script src="./scripts/main.js" defer></script>
     <script src="./scripts/search.js" defer></script>
     <script src="./services/apiService.js" defer></script>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
 </head>
 <body class="min-h-screen bg-gray-50">
    <header class="bg-white shadow-sm sticky top-0 z-50">
@@ -103,6 +109,7 @@
 
             <!-- Results Section -->
             <div class="lg:col-span-3">
+                <div id="map" class="w-full h-96 rounded-lg shadow mb-6"></div>
                 <div id="searchResults" class="grid grid-cols-1 md:grid-cols-1 gap-4">
                     <!-- Workspaces will be dynamically inserted here -->
                     <div class="text-center py-12">
@@ -116,13 +123,7 @@
             </div>
         </div>
     </main>
-
-    <!-- Footer (Reused from index.html) -->
-    <footer class="bg-gray-900 text-white mt-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <!-- ... (same footer content as index.html) ... -->
-        </div>
-    </footer>
+    
 
     <!-- Workspace Detail Modal -->
     <div id="workspaceDetailModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -177,6 +178,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>    
 </body>
 </html>

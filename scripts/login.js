@@ -30,10 +30,11 @@ $(document).ready(function () {
                 localStorage.setItem('properties', JSON.stringify(properties));                                
                 
                 //get workspaces if the user is coworker
-                //if (user.role === "coworker") {
+                if (user.user.role == "coworker") {
                     const workspaces = await api_getWorkspaces();
                     localStorage.setItem('workspaces', JSON.stringify(workspaces));       
-                //}                             
+                    localStorage.setItem('filteredWorkspaces', JSON.stringify(workspaces));       
+                }                             
                 
                 const target = user.user.role === 'owner' ? 'dash.html' : 'search.html';
                 if (getCurrentPage() !== target) {

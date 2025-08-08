@@ -8,5 +8,15 @@
     "phone": "3688896793",
     "password": "123",
     "role": "owner"
+  },
+    {
+    "user_id": 2,
+    "Fullname": "Pedro Molina",
+    "firstName": "Pedro",
+    "lastName": "Molina",
+    "email": "co@worker.com",
+    "phone": "3688896793",
+    "password": "123",
+    "role": "coworker"
   }
 ]

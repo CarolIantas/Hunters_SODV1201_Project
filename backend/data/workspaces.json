@@ -10,5 +10,56 @@
     "price": "123",
     "capacity": "6",
     "term": "3 months"
+  },
+  {
+    "workspace_id": "2",
+    "property_id": "2",
+    "name": "WORKSPACE 2",
+    "description": "Great for designers",
+    "smoking": "no",
+    "image": "https://res.cloudinary.com/dl6a1uj4h/image/upload/v1754629657/mcd587bjvlf9mdjowau3.jpg",
+    "type_of_room": "private",
+    "price": "123",
+    "capacity": "6",
+    "term": "3 months"
+  },
+  {
+    "workspace_id": "3",
+    "property_id": "1",
+    "name": "WORKSPACE 1",
+    "description": "Great for designers",
+    "smoking": "no",
+    "image": "https://res.cloudinary.com/dl6a1uj4h/image/upload/v1754629657/mcd587bjvlf9mdjowau3.jpg",
+    "type_of_room": "private",
+    "price": "123",
+    "capacity": "6",
+    "term": "3 months"
   }
+  ,
+  {
+    "workspace_id": "4",
+    "property_id": "1",
+    "name": "WORKSPACE 1",
+    "description": "Great for designers",
+    "smoking": "no",
+    "image": "https://res.cloudinary.com/dl6a1uj4h/image/upload/v1754629657/mcd587bjvlf9mdjowau3.jpg",
+    "type_of_room": "private",
+    "price": "123",
+    "capacity": "6",
+    "term": "3 months"
+  }
+  ,
+  {
+    "workspace_id": "5",
+    "property_id": "1",
+    "name": "WORKSPACE 1",
+    "description": "Great for designers",
+    "smoking": "no",
+    "image": "https://res.cloudinary.com/dl6a1uj4h/image/upload/v1754629657/mcd587bjvlf9mdjowau3.jpg",
+    "type_of_room": "private",
+    "price": "123",
+    "capacity": "6",
+    "term": "3 months"
+  }
+
 ]

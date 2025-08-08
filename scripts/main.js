@@ -126,7 +126,7 @@ function loadSearchResults(filteredList = null) {
                     <li>${ws.type_of_room || "Room"}</li>                    
                     <li>Capacity: ${ws.capacity} people</li>
                     <li>Located in ${property.neighborhood}</li>
-                    <li>${ws.description.substr(0,35) || 'No description provided.'}${ws.description.length > 35 ? "..." : ""}</li>
+                    <li>${ws.description.substr(0, 35) || 'No description provided.'}${ws.description.length > 35 ? "..." : ""}</li>
                 </ul>
 
                 <!-- Price + Button -->
@@ -260,3 +260,68 @@ function applyFilters(e) {
     // Update UI with filtered results (pass data directly or modify loadSearchResults to use filtered data)
     loadSearchResults(filteredWS);
 }
+
+
+//MAP
+
+$(document).ready(() => {
+    const mapContainer = $('#map');
+    if (!mapContainer.length) return; // Exit if there's no map div on the page
+
+    const map = L.map('map').setView([51.0447, -114.0719], 10); // Default to Calgary
+
+    // Add OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const allProperties = JSON.parse(localStorage.getItem("properties")) || [];
+    const addresses = allProperties.map(p => p.address);
+
+    // Function to geocode and place markers
+    async function geocodeAddress(address) {
+        try {
+            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`;
+
+            const response = await fetch(url, {
+                headers: {
+                    'Accept-Language': 'en',
+                    'User-Agent': 'WorkSpaceWebApp (p.kuchakmolina@mybvc.ca)'
+                }
+            });
+
+            const data = await response.json();
+
+            if (data && data.length > 0) {
+                const { lat, lon, display_name } = data[0];
+                const marker = L.marker([+lat, +lon]).addTo(map).bindPopup(display_name || address);
+                return [+lat, +lon];
+            } else {
+                console.warn(`Geocoding failed for: ${address}`);
+                return null;
+            }
+        } catch (error) {
+            console.error(`Error geocoding '${address}':`, error);
+            return null;
+        }
+    }
+
+    // Add markers for all property addresses
+    async function loadAddressesOnMap() {
+        const coords = [];
+
+        for (const address of addresses) {
+            const coord = await geocodeAddress(address);
+            if (coord) coords.push(coord);
+            await new Promise(res => setTimeout(res, 1000)); // Respect Nominatim's 1 request/sec rule
+        }
+
+        if (coords.length > 0) {
+            map.fitBounds(coords);
+        } else {
+            map.setView([51.0447, -114.0719], 10); // Fallback to Calgary view
+        }
+    }
+
+    loadAddressesOnMap();
+});
