@@ -179,8 +179,3 @@ async function confirmWorkspaceDelete() {
   //update workspaces
   viewPropertyDetails(document?.getElementById("addPropertyForm").getAttribute("property_id"));
 }
-
-function handleDelist() {
-  // Replace with your delist logic
-  alert('Delisting workspace...');
-}

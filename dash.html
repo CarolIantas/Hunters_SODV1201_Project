@@ -174,11 +174,7 @@
             </div>
           </div>
 
-          <!-- Dropdown -->
-          <select id="listingStatus" class="w-48 p-3 border border-gray-300 rounded">
-            <option value="listed">Listed</option>
-            <option value="not-listed">Not Listed</option>
-          </select>
+          <!-- Dropdown -->          
 
           <div class="flex justify-end gap-4 mt-6">
             <button id="cancelButton" type="button"
@@ -363,13 +359,7 @@
     </div>
 
     <!-- Actions -->
-    <div class="flex justify-between items-center mt-6">
-      <div class="flex space-x-2">
-        <button type="button" onclick="handleDelist()"
-          class="px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600">
-          Delist
-        </button>
-      </div>
+    <div class="flex justify-end items-center mt-6">      
       <div class="flex space-x-2">
         <button type="button" onclick="clearWorkspaceModalData()" class="px-4 py-2 bg-gray-300 rounded">Cancel</button>
         <button type="button" onclick="saveWorkspaceEdit()"
