@@ -29,6 +29,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     <!-- Import scripts of this application -->
+    <script src="./scripts/utils.js" defer></script> 
     <script src="./scripts/main.js" defer></script>
     <script src="./scripts/registration.js" defer></script>
     <script src="./services/apiService.js" defer></script>
@@ -58,24 +59,29 @@
   <form id="registrationForm" class="space-y-4">
     <!-- Input fields -->
      <div>
-  <label class="block mb-1">First Name</label>
-  <input type="text" id="firstName" class="w-full p-2 border rounded-md" required>  
-</div>
-<div>
-    <label class="block mb-1">Last Name</label>
-    <input type="text" id="lastName" class="w-full p-2 border rounded-md" required>
-</div>
-<div>
-  <label class="block mb-1">Email</label>
-  <input type="email" id="email" class="w-full p-2 border rounded-md" required>
-</div>
-<div>
-  <label class="block mb-1">Phone</label>
-  <input type="tel" id="phone" class="w-full p-2 border rounded-md">
-</div>
-<label class="block mb-1">Password</label>
-  <input type="password" id="loginPassword" class="w-full p-2 border rounded-md">
-</div>
+        <label for="firstName" class="block mb-1">First Name</label>
+        <input type="text" id="firstName" class="w-full p-2 border rounded-md" required maxlength="50" pattern="^[A-Za-z ,.'-]{2,50}$" title="Letters and basic punctuation only">
+    </div>
+
+    <div>
+        <label for="lastName" class="block mb-1">Last Name</label>
+        <input type="text" id="lastName" class="w-full p-2 border rounded-md" required maxlength="50" pattern="^[A-Za-z ,.'-]{2,50}$">
+    </div>
+
+    <div>
+        <label for="email" class="block mb-1">Email</label>
+        <input type="email" id="email" class="w-full p-2 border rounded-md" placeholder="garygray@email.com" required>
+    </div>
+
+    <div>
+        <label for="phone" class="block mb-1">Phone</label>
+        <input type="tel" id="phone" class="w-full p-2 border rounded-md" inputmode="tel" maxlength="14" placeholder="(555) 555-5555" pattern="^\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}$">
+    </div>
+
+    <div>
+        <label for="loginPassword" class="block mb-1">Password</label>
+        <input type="password" id="loginPassword" class="w-full p-2 border rounded-md" required minlength="8" title="At least 8 characters, including upper and lower case, number, and special character">
+    </div>
     <div>
       <label class="block mb-1">Role</label>
       <div class="flex space-x-4">
