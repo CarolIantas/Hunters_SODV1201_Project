@@ -38,21 +38,21 @@ router.post('/workspaces', (req, res) => {
     maxId = 0;
   };
   maxId++;
-
+  console.log(newWorkspace.date)
   // Formatting data save to database
   const FormattedWorkSpaces = {
     workspace_id: maxId,
     property_id: newWorkspace.property_id,
-    name: newWorkspace.name,
+    name: newWorkspace.name,    
     description: newWorkspace.description,
-    smoking: newWorkspace.smoking,
-    image: newWorkspace.image,
     type_of_room: newWorkspace.type_of_room,
-    price: newWorkspace.price,
     capacity: newWorkspace.capacity,
-    availability_status: newWorkspace.availability_status,
+    smoking: newWorkspace.smoking,
+    date: newWorkspace.date,
     term: newWorkspace.term,
-    date: newWorkspace.date
+    price: newWorkspace.price,    
+    image: newWorkspace.image,        
+    availability_status: newWorkspace.availability_status,        
   };
 
   workspaces.push(FormattedWorkSpaces);

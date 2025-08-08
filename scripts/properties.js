@@ -311,16 +311,14 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
   const propertyObj = {
     "user_id": JSON.parse(localStorage.getItem("currentUser")).user_id,
     "title": newPropertyName.value,
-    "Public_transport": publicTransportation.checked,
-    "image": imageUrl,
-    "smoking": true,
+    "address": newPropertyAddress.value,    
+    "neighborhood": newPropertyNeighborhood.value,   
+    "image": imageUrl,     
     "SQ_foot": newSqft.value,
-    "address": newPropertyAddress.value,
-    "neighborhood": newPropertyNeighborhood.value,
-    "type_of_properties": "house",
     "parking": parking.checked,
+    "public_transport": publicTransportation.checked,            
     "status": listingStatus.value,
-    "date": new Date(),
+    "create_date": new Date(),
   };
 
   //check if it is an update or an insert

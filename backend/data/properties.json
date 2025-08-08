@@ -3,28 +3,12 @@
     "property_id": 1,
     "user_id": 1,
     "title": "NEW PROPERTY",
-    "Public_transport": true,
-    "SQ_foot": "123",
-    "address": "'1212 4 St SE, Calgary, AB'",
+    "address": "1212 4th St SE, Calgary, AB",
     "neighborhood": "Downton",
-    "image": "https://res.cloudinary.com/dl6a1uj4h/image/upload/v1754629474/umlhhrvp92ks8im6kj94.jpg",
-    "type_of_properties": "house",
+    "image": "https://res.cloudinary.com/dl6a1uj4h/image/upload/v1754668155/pi5efmu4xfjtaatssn10.png",
+    "SQ_foot": "120",
     "parking": true,
-    "date": "2025-08-08",
-    "status": "listed"
-  },
-  {
-    "property_id": 2,
-    "user_id": 1,
-    "title": "NEW PROPERTY 2",
-    "Public_transport": true,
-    "SQ_foot": "123",
-    "address": "'1212 9 St SW, Calgary, AB'",
-    "neighborhood": "Downton",
-    "image": "https://res.cloudinary.com/dl6a1uj4h/image/upload/v1754629474/umlhhrvp92ks8im6kj94.jpg",
-    "type_of_properties": "house",
-    "parking": true,
-    "date": "2025-08-08",
+    "public_transport": true,
     "status": "listed"
   }
 ]

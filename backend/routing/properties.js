@@ -61,15 +61,14 @@ router.post('/properties', (req, res) => {
     property_id: maxId,
     user_id: newProperty.user_id,
     title: newProperty.title,
-    Public_transport: newProperty.Public_transport,
-    SQ_foot: newProperty.SQ_foot,
     address: newProperty.address,
-    neighborhood: newProperty.neighborhood,
-    image: newProperty.image,
-    type_of_properties: newProperty.type_of_properties,
+    neighborhood: newProperty.neighborhood,    
+    image: newProperty.image,    
+    SQ_foot: newProperty.SQ_foot,            
     parking: newProperty.parking,
-    date: newProperty.date.slice(0, 10),
-    status: newProperty.status
+    public_transport: newProperty.public_transport,
+    status: newProperty.status,
+    create_date: newProperty.date
   };
 
   properties.push(FormattedProperties);

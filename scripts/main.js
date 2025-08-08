@@ -125,8 +125,8 @@ function loadSearchResults(filteredList = null) {
                     <li>${ws.name}</li>
                     <li>${ws.type_of_room || "Room"}</li>                    
                     <li>Capacity: ${ws.capacity} people</li>
-                    <li>Located in ${property.neighborhood}</li>
-                    <li>Available from ${new Date(property.date).toLocaleDateString()}</li>
+                    <li>${property.address} - ${property.neighborhood}</li>                    
+                    <li>Available from ${new Date(ws.date).toLocaleDateString()}</li>
                     <li>${ws.description.substr(0, 35) || 'No description provided.'}${ws.description.length > 35 ? "..." : ""}</li>
                 </ul>
 
@@ -262,12 +262,13 @@ function applyFilters(e) {
         return true;
     });
 
+    console.log(sortBy)
     // Sort results
     if (sortBy) {
         filteredWS.sort((a, b) => {
             const propA = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == a.property_id);
             const propB = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == b.property_id);
-
+            console.log(a, b, propA, propB)
             if (sortBy === "name") {
                 return a.name.localeCompare(b.name);
             } else if (sortBy === "address") {
@@ -275,8 +276,10 @@ function applyFilters(e) {
             } else if (sortBy === "neighborhood") {
                 return propA.neighborhood.localeCompare(propB.neighborhood);
             } else if (sortBy === "available_from") {
-                return new Date(a.available_from) - new Date(b.available_from);
-            }
+                const dateA = new Date(a.date || "2100-01-01"); // fallback to far future
+                const dateB = new Date(b.date || "2100-01-01");
+                return dateA - dateB;
+            }            
             return 0;
         });
     }

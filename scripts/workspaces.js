@@ -92,6 +92,7 @@ async function saveWorkspaceEdit() {
   const smokingValue = smokingInput ? (smokingInput.value == "no" ? false : true) : false;
 
   //updated object 
+  console.log(workspaceDate.value)
   wsObject = {    
     property_id: document?.getElementById("addPropertyForm").getAttribute("property_id"),
     name: workspaceName.value,
@@ -99,10 +100,10 @@ async function saveWorkspaceEdit() {
     type_of_room: workspaceType.value,
     capacity: workspaceCapacity.value,
     smoking: smokingValue,
-    date: workspaceDate.date,
+    date: workspaceDate.value,
     term: workspaceLeaseTerm.value, 
     price: workspacePrice.value,
-    image: imageUrl
+    image: imageUrl    
   }
 
   //get workspaces id
