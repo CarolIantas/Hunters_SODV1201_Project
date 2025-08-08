@@ -39,6 +39,9 @@ router.post('/users', (req, res) => {
   const sortedProp = users.sort((a, b) => a.user_id - b.users_id);
   
   let maxId = sortedProp[sortedProp.length-1]?.user_id;
+  if (maxId == undefined) {
+    maxId = 0;
+  };
   maxId++;
 
   // Formatting data save to database

@@ -34,6 +34,9 @@ router.post('/workspaces', (req, res) => {
   const sortedProp = workspaces.sort((a, b) => a.workspace_id - b.workspace_id);
   
   let maxId = sortedProp[sortedProp.length-1]?.workspace_id;
+  if (maxId == undefined) {
+    maxId = 0;
+  };
   maxId++;
 
   // Formatting data save to database
@@ -41,13 +44,15 @@ router.post('/workspaces', (req, res) => {
     workspace_id: maxId,
     property_id: newWorkspace.property_id,
     name: newWorkspace.name,
-    decription: newWorkspace.decription,
+    description: newWorkspace.description,
     smoking: newWorkspace.smoking,
-    images: newWorkspace.images,
+    image: newWorkspace.image,
     type_of_room: newWorkspace.type_of_room,
     price: newWorkspace.price,
     capacity: newWorkspace.capacity,
-    availability_status: newWorkspace.availability_status
+    availability_status: newWorkspace.availability_status,
+    term: newWorkspace.term,
+    date: newWorkspace.date
   };
 
   workspaces.push(FormattedWorkSpaces);

@@ -126,7 +126,7 @@ function loadSearchResults(filteredList = null) {
                     <li>${ws.type_of_room || "Room"}</li>                    
                     <li>Capacity: ${ws.capacity} people</li>
                     <li>Located in ${property.neighborhood}</li>
-                    <li>${ws.decription.substr(0,35) || 'No description provided.'}${ws.decription.length > 35 ? "..." : ""}</li>
+                    <li>${ws.description.substr(0,35) || 'No description provided.'}${ws.description.length > 35 ? "..." : ""}</li>
                 </ul>
 
                 <!-- Price + Button -->
@@ -220,7 +220,7 @@ window.viewWorkspaceDetail = function (workspaceId) {
     $('#workspaceLocation').text(property.neighborhood);
     $('#workspaceCapacity').text(workspace.capacity);
     $('#workspacePrice').text(workspace.price);
-    $('#workspaceDescription').text(workspace.decription || 'No description provided.');
+    $('#workspaceDescription').text(workspace.description || 'No description provided.');
 
     $("#contactOwnerBtn").attr("userId", property.user_id);
     $('#workspaceDetailModal').removeClass('hidden');

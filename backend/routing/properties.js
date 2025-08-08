@@ -46,6 +46,9 @@ router.post('/properties', (req, res) => {
   const sortedProp = properties.sort((a, b) => a.property_id - b.property_id);
   
   let maxId = sortedProp[sortedProp.length-1]?.property_id;
+  if (maxId == undefined) {
+    maxId = 0;
+  };
   maxId++;
 
   // Check for duplicate ID

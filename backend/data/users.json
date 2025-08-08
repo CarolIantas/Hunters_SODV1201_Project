@@ -1,81 +1,12 @@
 [
   {
     "user_id": 1,
-    "Fullname": "Alice Johnson",
-    "first_name": "Alice",
-    "last_name": "Johnson",
-    "email": "alice@example.com",
-    "password": "hashed_password_1",
-    "phone": "123-456-7890",
-    "role": "coworker"
-  },
-  {
-    "user_id": 2,
-    "Fullname": "Bob Smith",
-    "first_name": "Bob",
-    "last_name": "Smith",
-    "email": "bob@example.com",
-    "password": "hashed_password_2",
-    "phone": "234-567-8901",
-    "role": "owner"
-  },
-  {
-    "user_id": 3,
-    "Fullname": "Carol Davis",
-    "first_name": "Carol",
-    "last_name": "Davis",
-    "email": "carol@example.com",
-    "password": "hashed_password_3",
-    "phone": "345-678-9012",
-    "role": "owner"
-  },
-  {
-    "user_id": 4,
-    "Fullname": "David Lee",
-    "first_name": "David",
-    "last_name": "Lee",
-    "email": "david@example.com",
-    "password": "hashed_password_4",
-    "phone": "456-789-0123",
-    "role": "coworker"
-  },
-  {
-    "user_id": 5,
-    "Fullname": "Eva Green",
-    "first_name": "Eva",
-    "last_name": "Green",
-    "email": "eva@example.com",
-    "password": "hashed_password_5",
-    "phone": "567-890-1234",
-    "role": "owner"
-  },
-  {
-    "user_id": 6,
+    "Fullname": "Pedro Molina",
     "firstName": "Pedro",
     "lastName": "Molina",
     "email": "pedro.kuchak@gmail.com",
     "phone": "3688896793",
     "password": "123",
-    "role": "owner"
-  },
-  {
-    "user_id": 7,
-    "Fullname": "pedro coworker",
-    "firstName": "pedro",
-    "lastName": "coworker",
-    "phone": "3688896793",
-    "email": "pedro.kuchakcoworker@gmail.com",
-    "password": "123",
-    "role": "coworker"
-  },
-  {
-    "user_id": 8,
-    "Fullname": "MO MO",
-    "firstName": "MO",
-    "lastName": "MO",
-    "email": "bigboss333@gmail.com",
-    "phone": "44444444444444444444444",
-    "password": "D1XR4K1DZ",
     "role": "owner"
   }
 ]

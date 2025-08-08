@@ -193,7 +193,7 @@ async function viewPropertyDetails(propertyId){
       </div>
       <div class="p-4">
         <h3 class="font-semibold text-gray-800 mb-2">${work?.name || 'No Address'}</h3>        
-        <p class="text-sm text-gray-600 mb-4">${work?.decription.substr(0,35) || 'No description provided.'}${work?.decription.length > 35 ? "..." : ""}</p>
+        <p class="text-sm text-gray-600 mb-4">${work?.description.substr(0,35) || 'No description provided.'}${work?.description.length > 35 ? "..." : ""}</p>
         <p class="text-sm text-gray-600 mb-4">${work?.type_of_room.toUpperCase()} (${work?.capacity})</p>
         <p className="text-sm text-gray-600 mb-4">
           ${work?.price != null ? new Intl.NumberFormat('en-US', { style: 'currency', currency: 'CAD' }).format(work.price) : '—'}

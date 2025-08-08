@@ -57,14 +57,16 @@ async function startEditWorkspace(index, propertyId) {
 
 
   workspaceName.value = ws.name ? ws.name : "";
-  workspaceDescription.value = ws.decription ? ws.decription : "";
+  workspaceDescription.value = ws.description ? ws.description : "";
   workspaceType.value = ws.type_of_room ? ws.type_of_room : 0;
-  workspaceCapacity.value = ws.capacity ? ws.capacity : 1;
+  workspaceCapacity.value = ws.capacity ? ws.capacity : 1;  
   // Set from data
   if (ws?.smoking) {
     document.querySelector(`input[name="smoking"][value="${ws.smoking}"]`).checked = true;
   }
-  workspaceDate.date  = ws.date ? ws.date : new Date();
+  workspaceDate.value = ws.date
+  ? new Date(ws.date).toISOString().split('T')[0]
+  : new Date().toISOString().split('T')[0];
   workspaceLeaseTerm.value = ws.term ? ws.term : "";
   workspacePrice.value = ws.price ? ws.price : 0;
   if (ws.image) {
@@ -92,7 +94,7 @@ async function saveWorkspaceEdit() {
   wsObject = {    
     property_id: document?.getElementById("addPropertyForm").getAttribute("property_id"),
     name: workspaceName.value,
-    decription: workspaceDescription.value,
+    description: workspaceDescription.value,
     type_of_room: workspaceType.value,
     capacity: workspaceCapacity.value,
     smoking: smokingValue,
@@ -128,13 +130,26 @@ async function saveWorkspaceEdit() {
   //update  
   localStorage.setItem('workspaces', JSON.stringify(workspaces));
   
-  //clear form
-
-  //close modal
-  closeModal('editWorkspaceModal');
-
+  //clear form and close modal
+  clearWorkspaceModalData();
+  
   //update workspaces
   viewPropertyDetails(document?.getElementById("addPropertyForm").getAttribute("property_id"));
+}
+
+function clearWorkspaceModalData() {
+   //clear data
+  workspaceName.value = "";
+  workspaceDescription.value = "";
+  workspaceType.value = "";
+  workspaceCapacity.value = "";  
+  workspaceDate.value = "";
+  workspaceLeaseTerm.value = "";
+  workspacePrice.value = "";
+  workspacePhoto.value = "";
+  imageWorkspacePreview.src = "";
+  imageWorkspacePreview.classList.add("hidden");
+  closeModal('editWorkspaceModal');
 }
 
 function startDeleteWorkspace(index) {
