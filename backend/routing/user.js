@@ -93,7 +93,7 @@ router.get('/users', (req, res) => {
 });
 
 // READ - Get a user by ID
-router.get('/users/:id', (req, res) => {
+router.get('/users/:id', (req, res) => {  
   const users = readUsers();
   const user = users.find(u => u.user_id == req.params.id);
 

@@ -110,13 +110,15 @@
     "term": ""
   },
   {
-    "workspace_id": 12,
+    "workspace_id": "12",
     "property_id": "5",
     "name": "NEW WORKSPACE2",
     "decription": "Great for designers",
     "type_of_room": "private",
     "price": "12",
-    "capacity": "1"
+    "capacity": "1",
+    "date": "2025-08-08T02:12:10.410Z",
+    "term": ""
   },
   {
     "workspace_id": 13,
