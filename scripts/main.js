@@ -220,7 +220,7 @@ window.viewWorkspaceDetail = function (workspaceId) {
     $('#workspaceTitle').text(`${workspace.type_of_room} at ${property.address}`);
     $('#workspaceLocation').text(property.neighborhood);
     $('#workspaceCapacity').text(workspace.capacity);
-    $('#workspacePrice').text(workspace.price);
+    $('#workspacePrice').text(workspace.price + "/" + workspace.term);
     $('#workspaceDescription').text(workspace.description || 'No description provided.');
     const imgUrl = workspace.image || property.image || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=600&q=80';
     console.log(imgUrl);
