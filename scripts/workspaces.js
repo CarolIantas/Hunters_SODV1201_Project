@@ -60,10 +60,20 @@ async function startEditWorkspace(index, propertyId) {
   workspaceDescription.value = ws.decription ? ws.decription : "";
   workspaceType.value = ws.type_of_room ? ws.type_of_room : 0;
   workspaceCapacity.value = ws.capacity ? ws.capacity : 1;
-  //smoking.value = ws.smoking ? ws.smoking : false;
+  // Set from data
+  if (ws?.smoking) {
+    document.querySelector(`input[name="smoking"][value="${ws.smoking}"]`).checked = true;
+  }
   workspaceDate.date  = ws.date ? ws.date : new Date();
   workspaceLeaseTerm.value = ws.term ? ws.term : "";
   workspacePrice.value = ws.price ? ws.price : 0;
+  if (ws.image) {
+    imageWorkspacePreview.src = ws.image;
+    imageWorkspacePreview.classList.remove("hidden");
+  } else {
+    imageWorkspacePreview.src = "";
+    imageWorkspacePreview.classList.add("hidden");
+  }
   
 
   openModal('editWorkspaceModal');
@@ -75,6 +85,8 @@ async function saveWorkspaceEdit() {
   const res = await api_saveImage(file); 
   const imageUrl = res.secure_url;
 
+  const smokingInput = document.querySelector('input[name="smoking"]:checked');
+  const smokingValue = smokingInput ? smokingInput.value : null;
 
   //updated object 
   wsObject = {    
@@ -83,7 +95,7 @@ async function saveWorkspaceEdit() {
     decription: workspaceDescription.value,
     type_of_room: workspaceType.value,
     capacity: workspaceCapacity.value,
-    //smoking: smoking.value,
+    smoking: smokingValue,
     date: workspaceDate.date,
     term: workspaceLeaseTerm.value, 
     price: workspacePrice.value,
