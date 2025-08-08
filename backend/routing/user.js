@@ -58,10 +58,18 @@ router.post('/users', (req, res) => {
     role: newUser.role
   };
 
+  const sanitizeUser = {
+    user_id: FormattedUser.user_id,
+    Fullname: FormattedUser.Fullname,
+    email: FormattedUser.email,
+    phone: FormattedUser.phone,
+    role: FormattedUser.role,
+  }
+
   users.push(FormattedUser);
   writeUsers(users);
 
-  res.status(201).json({ message: "User created", user: newUser });
+  res.status(201).json({ message: "User created", user: sanitizeUser });
 });
 
 // Login - user
