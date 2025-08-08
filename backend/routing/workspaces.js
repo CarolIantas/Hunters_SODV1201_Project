@@ -38,7 +38,7 @@ router.post('/workspaces', (req, res) => {
     maxId = 0;
   };
   maxId++;
-  console.log(newWorkspace.date)
+  
   // Formatting data save to database
   const FormattedWorkSpaces = {
     workspace_id: maxId,
