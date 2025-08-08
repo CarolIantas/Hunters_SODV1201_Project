@@ -91,55 +91,57 @@ function checkAuthState() {
     }
 }
 
-function loadSearchResults() {
-    const workspaces = JSON.parse(localStorage.getItem('filteredWorkspaces')) || JSON.parse(localStorage.getItem('workspaces')) || [];
+function loadSearchResults(filteredList = null) {
+    const workspaces = filteredList || JSON.parse(localStorage.getItem('workspaces')) || [];
     const properties = JSON.parse(localStorage.getItem('properties')) || [];
 
-    $('#searchResults').empty();
+    const $results = $('#searchResults');
+    $results.empty();
+
+    if (workspaces.length === 0) {
+        $results.append('<p class="text-gray-500 text-center mt-10">No workspaces found.</p>');
+        return;
+    }
+
+    // Create grid container
+    $results.append('<div id="workspaceGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>');
 
     workspaces.forEach(ws => {
         const property = properties.find(p => p.property_id == ws.property_id);
-        if (property) {
-            const imgUrl = property.image || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=600&q=80';
+        if (!property) return;
 
-            $('#searchResults').append(`
-                <div class="flex bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow mb-6 overflow-hidden" style="height: 160px;">
-                    
-                    <!-- Left Image Section -->
-                    <div class="w-1/3 h-full flex-shrink-0 bg-gray-100">
-                        <img src="${imgUrl}" 
-                             alt="Workspace Image" 
-                             class="object-cover w-full h-full">
-                    </div>
-                    
-                    <!-- Right Content Section -->
-                    <div class="w-2/3 p-5 flex flex-col justify-between h-full">
-                        <div>
-                            <h3 class="text-2xl font-semibold text-gray-900 truncate">${property.title}</h3>
-                            <p class="text-gray-700 mt-2">${ws.type_of_room} &bull; Capacity: ${ws.capacity} people</p>
-                            <p class="text-indigo-600 font-medium mt-2 text-lg">$${ws.price}</p>
-                        </div>
-                        <div class="mt-4 text-right">
-                            <button onclick="viewWorkspaceDetail('${ws.id}')" 
-                                    class="inline-flex items-center text-indigo-600 hover:text-indigo-800 focus:outline-none focus:ring-2 focus:ring-indigo-400 rounded"
-                                    title="View Details">
-                                <svg xmlns="http://www.w3.org/2000/svg" 
-                                     fill="none" viewBox="0 0 24 24" stroke-width="1.5" 
-                                     stroke="currentColor" class="w-6 h-6">
-                                  <path stroke-linecap="round" stroke-linejoin="round" 
-                                        d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12s-3.75 6.75-9.75 6.75S2.25 12 2.25 12z" />
-                                  <path stroke-linecap="round" stroke-linejoin="round" 
-                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                                <span class="sr-only">View workspace details</span>
-                            </button>
-                        </div>
-                    </div>
+        const imgUrl = property.image || 'https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=600&q=80';
+
+        $('#workspaceGrid').append(`
+            <div class="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition p-4 flex flex-col justify-between">
+                
+                <!-- Image -->
+                <div class="h-40 bg-gray-100 rounded overflow-hidden">
+                    <img src="${imgUrl}" alt="Workspace Image" class="w-full h-full object-cover">
                 </div>
-            `);
-        }
+
+                <!-- Features -->
+                <ul class="text-sm text-gray-700 mt-4 space-y-1 list-disc list-inside">
+                    <li>${ws.name}</li>
+                    <li>${ws.type_of_room || "Room"}</li>                    
+                    <li>Capacity: ${ws.capacity} people</li>
+                    <li>Located in ${property.neighborhood}</li>
+                    <li>${ws.decription || 'No description provided.'}</li>
+                </ul>
+
+                <!-- Price + Button -->
+                <div class="mt-4 flex justify-between items-center">
+                    <div class="text-2xl font-bold text-gray-900">$${ws.price}</div>
+                    <button onclick="viewWorkspaceDetail('${ws.workspace_id}')"
+                        class="bg-gray-800 text-white text-sm px-4 py-2 rounded hover:bg-gray-900 transition">
+                        Book
+                    </button>
+                </div>
+            </div>
+        `);
     });
 }
+
 
 
 // Document ready handler
@@ -157,20 +159,43 @@ $(document).ready(function () {
 
     // Add applyFilters button click listener
     $('#applyFilters').on('click', applyFilters);
+
+    $('#closeDetailModal').on('click', closeBookDetailsModal);
+
+    $('#contactOwnerBtn').on('click', showOwnerContact);
 });
+
+function closeBookDetailsModal() {    
+    $('#workspaceDetailModal').addClass('hidden');    
+    $("#contactOwnerBtn").removeClass("hidden");
+}
+
+async function showOwnerContact() {
+ $("#contactOwnerBtn").addClass("hidden");
+
+
+ //get user information
+ const ownerId = $("#contactOwnerBtn").attr("userId");
+ const ownerInfo = await api_getUserById(ownerId);
+ console.log(ownerInfo);
+
+ //$("#bookInformationList").append();
+}
 
 // Make functions available globally for HTML onclick attributes
 window.Logout = Logout;
 window.viewWorkspaceDetail = function (workspaceId) {
-    const workspace = JSON.parse(localStorage.getItem('workspaces')).find(ws => ws.id === workspaceId);
-    const property = JSON.parse(localStorage.getItem('properties')).find(p => p.id === workspace.propertyId);
+    console.log(workspaceId)
+    const workspace = JSON.parse(localStorage.getItem('workspaces')).find(ws => ws.workspace_id == workspaceId);
+    const property = JSON.parse(localStorage.getItem('properties')).find(p => p.property_id == workspace.property_id);
 
-    $('#workspaceTitle').text(`${workspace.type} at ${property.address}`);
+    $('#workspaceTitle').text(`${workspace.type_of_room} at ${property.address}`);
     $('#workspaceLocation').text(property.neighborhood);
     $('#workspaceCapacity').text(workspace.capacity);
     $('#workspacePrice').text(workspace.price);
-    $('#workspaceDescription').text(workspace.description || 'No description provided.');
+    $('#workspaceDescription').text(workspace.decription || 'No description provided.');
 
+    $("#contactOwnerBtn").attr("userId", property.user_id);
     $('#workspaceDetailModal').removeClass('hidden');
 };
 
@@ -189,7 +214,7 @@ function applyFilters(e) {
 
     // Apply filters
     const filteredWS = allWorkspaces.filter(ws => {
-        const prop = JSON.parse(localStorage.getItem("properties")).find(p => p.id === ws.propertyId);
+        const prop = JSON.parse(localStorage.getItem("properties")).find(p => p.property_id == ws.property_id);
 
         if (!prop) return false;
 

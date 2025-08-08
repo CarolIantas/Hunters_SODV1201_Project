@@ -95,7 +95,7 @@ router.get('/users', (req, res) => {
 // READ - Get a user by ID
 router.get('/users/:id', (req, res) => {
   const users = readUsers();
-  const user = users.find(u => u.id == req.params.id);
+  const user = users.find(u => u.user_id == req.params.id);
 
   if (!user) return res.status(404).json({ message: "User not found" });
   res.json(user);
@@ -104,7 +104,7 @@ router.get('/users/:id', (req, res) => {
 // UPDATE - Update a user by ID
 router.put('/users/:id', (req, res) => {
   const users = readUsers();
-  const index = users.findIndex(u => u.id == req.params.id);
+  const index = users.findIndex(u => u.user_id == req.params.id);
 
   if (index === -1) return res.status(404).json({ message: "User not found" });
 
