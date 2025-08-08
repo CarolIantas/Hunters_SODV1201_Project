@@ -12,10 +12,17 @@ $(document).ready(function () {
         const email = $('#loginEmail').val().trim();
         const password = $('#loginPassword').val().trim();
 
-        if (!email || !password) {
-            alert('Please enter both email and password');
-            return;
+      
+        //Better val check
+        if (!appUtils.validateEmail(email)) {
+        alert('Please enter a valid email');
+        return;
         }
+        if (password.length < 8) {
+        alert('Password must be at least 8 characters');
+        return;
+        }
+
 
         try {
             const user_obj = { email: email, password: password };
