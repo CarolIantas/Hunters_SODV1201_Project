@@ -11,6 +11,19 @@ $(() => {
     $('#getStartedButton').on('click', () => {
         window.location.href = 'registration.html';
     });
+    $('#findWorkspaceButton').on('click', () => {
+        window.location.href = 'registration.html';
+    });
+    $('#listWorkspaceButton').on('click', () => {
+        window.location.href = 'registration.html';
+    });
+    $('#findYourWorkspaceButton').on('click', () => {
+        window.location.href = 'registration.html';
+    });
+    $('#listYourWorkspaceButton').on('click', () => {
+        window.location.href = 'registration.html';
+    });
+    
 });
 
 // Global helper functions
