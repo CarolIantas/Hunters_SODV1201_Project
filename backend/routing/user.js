@@ -3,6 +3,8 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const router = express.Router();
+const crypto = require('crypto')
+const jwt = require('jsonwebtoken')
 
 // File configuration
 const FILENAME = "users.json";
@@ -18,6 +20,11 @@ function readUsers() {
 // Helper: write users to file
 function writeUsers(users) {
   fs.writeFileSync(FILEPATH, JSON.stringify(users, null, 2), 'utf8');
+}
+
+// Helper: hashing password
+function hashUserPassword(password, salt){
+  return crypto.pbkdf2Sync(password, salt, 20, 64, 'sha512')
 }
 
 // CREATE - Sign up a new user
@@ -45,20 +52,22 @@ router.post('/users', (req, res) => {
   maxId++;
 
   // Formatting data save to database
-  const ObjectName = {
+  const CleaningAndCreatingData = {
     firstName: newUser.firstName.replace(/[^\w\s]/gi, ''),
-    lastName: newUser.lastName.replace(/[^\w\s]/gi, '')
+    lastName: newUser.lastName.replace(/[^\w\s]/gi, ''),
+    salt: crypto.randomBytes(32).toString('hex')
   }
 
   const FormattedUser = {
     user_id: maxId,
-    Fullname: `${ObjectName.firstName} ${ObjectName.lastName}`,
-    firstName: ObjectName.firstName,
-    lastName: ObjectName.lastName,
+    Fullname: `${CleaningAndCreatingData.firstName} ${CleaningAndCreatingData.lastName}`,
+    firstName: CleaningAndCreatingData.firstName,
+    lastName: CleaningAndCreatingData.lastName,
     email: newUser.email,
     phone: newUser.phone,
-    password: newUser.password,
-    role: newUser.role
+    Hashpassword: hashUserPassword(newUser.password, CleaningAndCreatingData.salt),
+    role: newUser.role,
+    Salt: CleaningAndCreatingData.salt
   };
 
   const sanitizeUser = {
@@ -89,9 +98,22 @@ router.post('/users/login', (req, res) => {
   }
 
   // Check for valid login
-  const index = users.findIndex(user => user.email === login.email && user.password === login.password)
+  const index = users.findIndex(user => user.email === login.email && user.Hashpassword === hashUserPassword(login.password, user.Salt))
+
+  const user = {
+    user_id: users[index].user_id,
+    Fullname: users[index].Fullname,
+    email: users[index].email,
+    phone: users[index].phone,
+    role: users[index].role, 
+  }
+
+  const token = jwt.sign(users[index], process.env.JWT, {
+    expiresIn: 86400
+  })
+
   if (index > -1) {
-    return res.status(201).json({ message: "Authorized", user: users[index] }); 
+    return res.status(201).json({ message: "Authorized", user: user, token: token }); 
   }
 
   return res.status(401).json({ message: "Login not valid." });
