@@ -18,6 +18,7 @@ https://dbdiagram.io/d/687b346df413ba3508a452ee
 3. run npm install express
 4. run npm install cors
 5. run npm install jsonwebtoken
+6. run node app.js
 
 ## frontend
 1. select index.html
