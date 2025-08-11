@@ -101,7 +101,11 @@ router.post('/users/login', (req, res) => {
 
   // Check for valid login
   const index = users.findIndex(user => user.email === login.email && Buffer.from(user.Hashpassword).equals(hashUserPassword(login.password, user.Salt || "")))
-  
+
+  if (index < 0) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
   const user = {
     user_id: users[index].user_id,
     Fullname: users[index].Fullname,
