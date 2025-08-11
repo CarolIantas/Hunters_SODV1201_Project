@@ -103,7 +103,7 @@ router.post('/users/login', (req, res) => {
   const index = users.findIndex(user => user.email === login.email && Buffer.from(user.Hashpassword).equals(hashUserPassword(login.password, user.Salt || "")))
 
   if (index < 0) {
-    return res.status(404).json({ error: "User not found" });
+    return res.status(404).json({ error: "User not found 1" });
   }
 
   const user = {
@@ -141,7 +141,7 @@ router.get('/users/:id', verifyToken, (req, res) => {
   const users = readUsers();
   const user = users.find(u => u.user_id == req.params.id);
 
-  if (!user) return res.status(404).json({ message: "User not found" });
+  if (!user) return res.status(404).json({ message: "User not found 2" });
   res.json(user);
 });
 
@@ -150,7 +150,7 @@ router.put('/users/:id', verifyToken, (req, res) => {
   const users = readUsers();
   const index = users.findIndex(u => u.user_id == req.params.id);
 
-  if (index === -1) return res.status(404).json({ message: "User not found" });
+  if (index === -1) return res.status(404).json({ message: "User not found 3" });
 
   const updatedUser = { ...users[index], ...req.body };
   users[index] = updatedUser;
@@ -165,7 +165,7 @@ router.delete('/users/:id', verifyToken, (req, res) => {
   const filteredUsers = users.filter(u => u.id != req.params.id);
 
   if (users.length === filteredUsers.length) {
-    return res.status(404).json({ message: "User not found" });
+    return res.status(404).json({ message: "User not found 4" });
   }
 
   writeUsers(filteredUsers);

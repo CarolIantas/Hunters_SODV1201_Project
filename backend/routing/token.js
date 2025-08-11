@@ -13,14 +13,12 @@ const verifyToken = (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT);
         const email = decoded.email;
-        console.log(email)
         const user = users.filter(f => f.email === email);
-        console.log(email)
 
         if (user.length > 0) {
             req.user = user[0];
         } else {
-            return res.status(404).json({ error: "User not found" });
+            return res.status(404).json({ error: "User token not found" });
         }
 
         next();
