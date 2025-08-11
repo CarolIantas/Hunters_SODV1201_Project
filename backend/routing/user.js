@@ -98,7 +98,7 @@ router.post('/users/login', (req, res) => {
   }
 
   // Check for valid login
-  const index = users.findIndex(user => user.email === login.email && user.Hashpassword === hashUserPassword(login.password, user.Salt))
+  const index = users.findIndex(user => user.email === login.email && Buffer.from(user.Hashpassword).equals(hashUserPassword(login.password, user.Salt || "")))
 
   const user = {
     user_id: users[index].user_id,

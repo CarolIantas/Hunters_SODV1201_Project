@@ -35,5 +35,17 @@
     "parking": true,
     "public_transport": false,
     "status": ""
+  },
+  {
+    "property_id": "4",
+    "user_id": 4,
+    "title": "NEW PROPERTY",
+    "address": "123 SW",
+    "neighborhood": "Bel",
+    "SQ_foot": "123",
+    "parking": false,
+    "public_transport": false,
+    "image": "https://res.cloudinary.com/dl6a1uj4h/image/upload/v1754935343/eoxxpp2trak82nkbwz6k.jpg",
+    "create_date": "2025-08-11T17:59:16.846Z"
   }
 ]
