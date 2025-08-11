@@ -22,9 +22,6 @@ const verifyToken = (req, res, next) => {
 
         const user = users.find(u => u.email === email);
 
-        console.log(users);
-        console.log("email", email);
-
         if (user) {
             req.user = user;
         } else {
