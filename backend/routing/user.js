@@ -3,8 +3,9 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const router = express.Router();
-const crypto = require('crypto')
-const jwt = require('jsonwebtoken')
+const crypto = require('crypto');
+const jwt = require('jsonwebtoken');
+const verifyToken = require("./token");
 
 // File configuration
 const FILENAME = "users.json";
@@ -28,6 +29,7 @@ function hashUserPassword(password, salt){
 }
 
 // CREATE - Sign up a new user
+//NO JWT VALIDATION FOR CREATING AN USER
 router.post('/users', (req, res) => {
   const users = readUsers();
   const newUser = req.body;
@@ -99,7 +101,7 @@ router.post('/users/login', (req, res) => {
 
   // Check for valid login
   const index = users.findIndex(user => user.email === login.email && Buffer.from(user.Hashpassword).equals(hashUserPassword(login.password, user.Salt || "")))
-
+  
   const user = {
     user_id: users[index].user_id,
     Fullname: users[index].Fullname,
@@ -131,7 +133,7 @@ router.get('/users', (req, res) => {
 });
 
 // READ - Get a user by ID
-router.get('/users/:id', (req, res) => {  
+router.get('/users/:id', verifyToken, (req, res) => {  
   const users = readUsers();
   const user = users.find(u => u.user_id == req.params.id);
 
@@ -140,7 +142,7 @@ router.get('/users/:id', (req, res) => {
 });
 
 // UPDATE - Update a user by ID
-router.put('/users/:id', (req, res) => {
+router.put('/users/:id', verifyToken, (req, res) => {
   const users = readUsers();
   const index = users.findIndex(u => u.user_id == req.params.id);
 
@@ -154,7 +156,7 @@ router.put('/users/:id', (req, res) => {
 });
 
 // DELETE - Remove a user by ID
-router.delete('/users/:id', (req, res) => {
+router.delete('/users/:id', verifyToken, (req, res) => {
   const users = readUsers();
   const filteredUsers = users.filter(u => u.id != req.params.id);
 

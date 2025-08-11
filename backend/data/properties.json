@@ -39,13 +39,13 @@
   {
     "property_id": "4",
     "user_id": 4,
-    "title": "NEW PROPERTY",
+    "title": "NEW PROPERTY JWT",
     "address": "123 SW",
     "neighborhood": "Bel",
     "SQ_foot": "123",
     "parking": false,
     "public_transport": false,
     "image": "https://res.cloudinary.com/dl6a1uj4h/image/upload/v1754935343/eoxxpp2trak82nkbwz6k.jpg",
-    "create_date": "2025-08-11T18:44:33.747Z"
+    "create_date": "2025-08-11T19:35:06.301Z"
   }
 ]

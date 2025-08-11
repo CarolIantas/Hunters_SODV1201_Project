@@ -7,13 +7,13 @@ const cloudName = "dl6a1uj4h";
 const unsignedPreset = "SODV1201_Hunters";
 
 async function request(url, method = 'GET', data) {
-  const user = JSON.stringify(localStorage.getItem('currentUser')); // or however you store it
-
+  const user = JSON.parse(localStorage.getItem('currentUser'));
+  
   const options = {
     method,
     headers: {
       'Content-Type': 'application/json',
-      ...(user.token && { Authorization: `Bearer ${user.token}` }) // only add if token exists
+      ...(user?.token && { Authorization: `Bearer ${user.token}` })
     },
     ...(data && { body: JSON.stringify(data) }),
   };

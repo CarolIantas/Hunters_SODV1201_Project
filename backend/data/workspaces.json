@@ -50,5 +50,18 @@
     "term": "Month",
     "price": "1800",
     "image": "https://res.cloudinary.com/dl6a1uj4h/image/upload/v1754682735/xxvn0immjzcnome9yhgy.jpg"
+  },
+  {
+    "workspace_id": 5,
+    "property_id": "4",
+    "name": "WORKSPACE JWT",
+    "description": "Great for designers",
+    "type_of_room": "meeting",
+    "capacity": "1",
+    "smoking": true,
+    "date": "2025-08-27",
+    "term": "Day",
+    "price": "123",
+    "image": "https://res.cloudinary.com/dl6a1uj4h/image/upload/v1754941122/xfcgvogxme3npvskpwdy.jpg"
   }
 ]

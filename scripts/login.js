@@ -24,12 +24,12 @@ $(document).ready(function () {
             const user_obj = { email: email, password: password };
             const user = await api_login(user_obj);
             if (user.user) {                
+                //store user and properties on local storage                
+                localStorage.setItem('currentUser', JSON.stringify(user.user));
                 //get data base on user role and store all important data in local storage    
                 //get properties
-                const properties = await api_getPropertiesByUser(user.user);                         
-                
-                //store user and properties on local storage
-                localStorage.setItem('currentUser', JSON.stringify(user.user));
+
+                const properties = await api_getPropertiesByUser(user.user);                                                     
                 localStorage.setItem('properties', JSON.stringify(properties));                                
                 localStorage.setItem('filteredProperties', JSON.stringify(properties));                                
                 

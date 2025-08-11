@@ -3,6 +3,7 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 const router = express.Router();
+const verifyToken = require("./token");
 
 // File configuration
 const FILENAME = "workspaces.json";
@@ -21,7 +22,7 @@ function writeWorkspaces(workspaces) {
 }
 
 // CREATE - Add a new workspace
-router.post('/workspaces', (req, res) => {
+router.post('/workspaces', verifyToken, (req, res) => {
   const workspaces = readWorkspaces();
   const newWorkspace = req.body;
 
@@ -62,13 +63,13 @@ router.post('/workspaces', (req, res) => {
 });
 
 // READ - Get all workspaces
-router.get('/workspaces', (req, res) => {
+router.get('/workspaces', verifyToken, (req, res) => {
   const workspaces = readWorkspaces();
   res.json(workspaces);
 });
 
 // READ - Get a workspace by ID
-router.get('/workspaces/:id', (req, res) => {
+router.get('/workspaces/:id', verifyToken, (req, res) => {
   const workspaces = readWorkspaces();
   const workspace = workspaces.find(w => w.workspace_id == req.params.id);
 
@@ -77,7 +78,7 @@ router.get('/workspaces/:id', (req, res) => {
 });
 
 // READ - Get a workspace by properties Id
-router.get('/workspaces/property/:propID', (req, res) => {
+router.get('/workspaces/property/:propID', verifyToken, (req, res) => {
   const workspaces = readWorkspaces();
   const workspace = workspaces.filter(w => w.property_id == req.params.propID);
 
@@ -87,7 +88,7 @@ router.get('/workspaces/property/:propID', (req, res) => {
 
 
 // UPDATE - Update a workspace by ID
-router.put('/workspaces/:id', (req, res) => {
+router.put('/workspaces/:id', verifyToken, (req, res) => {
   const workspaces = readWorkspaces();
   
   const index = workspaces.findIndex(w => w.workspace_id == req.params.id);  
@@ -102,7 +103,7 @@ router.put('/workspaces/:id', (req, res) => {
 });
 
 // DELETE - Remove a workspace by ID
-router.delete('/workspaces/:id', (req, res) => {
+router.delete('/workspaces/:id', verifyToken, (req, res) => {
   const workspaces = readWorkspaces();
   const filteredWorkspaces = workspaces.filter(w => w.workspace_id != req.params.id);
 

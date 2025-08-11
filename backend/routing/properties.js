@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const { title } = require('process');
 const router = express.Router();
+const verifyToken = require("./token");
 
 // File configuration
 const FILENAME = "properties.json";
@@ -33,7 +34,7 @@ function writeProperties(properties) {
 }
 
 // CREATE - Add a new property
-router.post('/properties', (req, res) => {
+router.post('/properties', verifyToken, (req, res) => {
   const properties = readProperties();
   const newProperty = req.body;
 
@@ -78,20 +79,20 @@ router.post('/properties', (req, res) => {
 });
 
 // READ - Get all properties
-router.get('/properties', (req, res) => {
+router.get('/properties', verifyToken, (req, res) => {
   const properties = readProperties();
   res.json(properties);
 });
 
 // READ - Get all properties
-router.post('/properties/user', (req, res) => {
+router.post('/properties/user', verifyToken, (req, res) => {
   const user = req.body;
   const properties = readProperties(user);  
   res.json(properties);
 });
 
 // READ - Get a property by ID
-router.get('/properties/:id', (req, res) => {
+router.get('/properties/:id', verifyToken, (req, res) => {
   const properties = readProperties();
   const property = properties.find(p => p.property_id == req.params.id);
 
@@ -100,7 +101,7 @@ router.get('/properties/:id', (req, res) => {
 });
 
 // UPDATE - Update a property by ID
-router.put('/properties/:id', (req, res) => {
+router.put('/properties/:id', verifyToken, (req, res) => {
   const properties = readProperties();
   const index = properties.findIndex(p => p.property_id == req.params.id);
 
@@ -114,7 +115,7 @@ router.put('/properties/:id', (req, res) => {
 });
 
 // DELETE - Remove a property by ID
-router.delete('/properties/:id', (req, res) => {
+router.delete('/properties/:id', verifyToken, (req, res) => {
   const properties = readProperties();
   const filteredProperties = properties.filter(p => p.property_id != req.params.id);
 
