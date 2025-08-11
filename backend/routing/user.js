@@ -108,7 +108,9 @@ router.post('/users/login', (req, res) => {
     role: users[index].role, 
   }
 
-  const token = jwt.sign(users[index], process.env.JWT, {
+  //user node -e "console.log(require('crypto').randomBytes(32).toString('hex'))" to generate a random secret
+  //check if there is no secret on env utilize thi random one
+  const token = jwt.sign(users[index], process.env.JWT || "58f2263fb976a945792151b18f7e234377225059e3d3f4b2ad1c1c59a0ebdbd2", {
     expiresIn: 86400
   })
 
