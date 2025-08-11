@@ -15,6 +15,9 @@ const verifyToken = (req, res, next) => {
         const email = decoded.email;
         const user = users.filter(f => f.email === email);
 
+        console.log(users)
+        console.log("email", email)
+
         if (user.length > 0) {
             req.user = user[0];
         } else {

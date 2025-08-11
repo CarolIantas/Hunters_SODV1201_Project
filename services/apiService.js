@@ -8,6 +8,7 @@ const unsignedPreset = "SODV1201_Hunters";
 
 async function request(url, method = 'GET', data) {
   const user = JSON.parse(localStorage.getItem('currentUser'));
+  console.log(user)
   
   const options = {
     method,
