@@ -12,7 +12,9 @@ const publicTransportation = document?.getElementById("publicTransportation");
 function renderProperties() {
   const properties = JSON.parse(localStorage.getItem('filteredProperties')) || [];
   const container = document.getElementById('propertyList');
-  container.innerHTML = '';
+  if (container) {
+    container.innerHTML = '';
+  };  
 
   properties.forEach((prop, index) => {
     const card = document.createElement('div');
@@ -82,8 +84,8 @@ function renderProperties() {
         
       </div>
     `;
-
-    container.appendChild(card);
+    
+    container?.appendChild(card);
   });
 
 }
@@ -357,12 +359,12 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
   renderProperties();
 });
 
-document?.getElementById("addNewPropertyButton").addEventListener("click", function (e) {
+document?.getElementById("addNewPropertyButton")?.addEventListener("click", function (e) {
   document?.getElementById("addPropertyForm").removeAttribute("property_id");
   showForm();
 });
 
-document?.getElementById("cancelButton").addEventListener("click", function (e) {
+document?.getElementById("cancelButton")?.addEventListener("click", function (e) {
   const propertyForm = document?.getElementById("addPropertyForm");
   const propertyList = document?.getElementById("propertyList");
   const addNewPropertyButton = document?.getElementById("addNewPropertyButton");
@@ -372,7 +374,7 @@ document?.getElementById("cancelButton").addEventListener("click", function (e) 
 });
 
 
-document?.getElementById("cancelWorkspaceBtn").addEventListener("click", function (e) {
+document?.getElementById("cancelWorkspaceBtn")?.addEventListener("click", function (e) {
   e.preventDefault();
   const workspaceModal = document?.getElementById("workspaceModal");
   const workspaceConatiner = document?.getElementById("workspaceList");

@@ -1,25 +1,29 @@
 // src/services/apiService.js
-//const API_BASE_URL = 'http://localhost:3001';
-const API_BASE_URL = 'https://hunters-sodv1201-project.onrender.com';
+const API_BASE_URL = 'http://localhost:3001';
+//const API_BASE_URL = 'https://hunters-sodv1201-project.onrender.com';
 
 //file settings
 const cloudName = "dl6a1uj4h";
 const unsignedPreset = "SODV1201_Hunters";
 
 async function request(url, method = 'GET', data) {
+  const user = JSON.stringify(localStorage.getItem('currentUser')); // or however you store it
+
   const options = {
     method,
     headers: {
       'Content-Type': 'application/json',
+      ...(user.token && { Authorization: `Bearer ${user.token}` }) // only add if token exists
     },
     ...(data && { body: JSON.stringify(data) }),
   };
 
   const response = await fetch(`${API_BASE_URL}${url}`, options);
+
   if (!response.ok) {
     throw new Error(`Error ${response.status}: ${response.statusText}`);
   }
-  
+
   return response.json();
 }
 

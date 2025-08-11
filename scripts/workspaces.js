@@ -11,13 +11,13 @@ const workspacePhoto = document?.getElementById('workspacePhoto');
 const imageWorkspacePreview = document?.getElementById('imageWorkspacePreview');
 
 //EVENTS
-document?.getElementById("addWorkspaceBtn").addEventListener("click", function (e) {
+document?.getElementById("addWorkspaceBtn")?.addEventListener("click", function (e) {
   e.preventDefault();
   addNewWorkspace();
 });
 
 
-document?.getElementById('workspacePhoto').addEventListener('change', function (event) {
+document?.getElementById('workspacePhoto')?.addEventListener('change', function (event) {
   const file = event.target.files[0];
   const preview = document.getElementById("imageWorkspacePreview");
 

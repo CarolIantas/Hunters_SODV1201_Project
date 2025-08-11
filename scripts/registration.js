@@ -3,7 +3,11 @@ function getCurrentPage() {
     return window.location.pathname.split('/').pop().toLowerCase();
 }
 
-appUtils.attachPhoneFormatter('phone');
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.appUtils) {
+    window.appUtils.attachPhoneFormatter('phone');
+  }
+});
 
 // Registration form submit handler
 document?.getElementById("registrationForm")?.addEventListener("submit", async function(e) {
