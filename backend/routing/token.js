@@ -1,8 +1,11 @@
+const fs = require("fs");
+const path = require("path");
 const jwt = require("jsonwebtoken");
-const users = require("../data/users.json");
 
-const verifyToken = (req, res, next) => {        
-    const authHeader = req.headers.authorization;     
+const usersFilePath = path.join(__dirname, "../data/users.json");
+
+const verifyToken = (req, res, next) => {
+    const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
         return res.status(403).json({ error: "Unauthorized" });
@@ -13,13 +16,17 @@ const verifyToken = (req, res, next) => {
     try {
         const decoded = jwt.verify(token, process.env.JWT);
         const email = decoded.email;
-        const user = users.filter(f => f.email === email);
 
-        console.log(users)
-        console.log("email", email)
+        // Read fresh users.json each time
+        const users = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
 
-        if (user.length > 0) {
-            req.user = user[0];
+        const user = users.find(u => u.email === email);
+
+        console.log(users);
+        console.log("email", email);
+
+        if (user) {
+            req.user = user;
         } else {
             return res.status(404).json({ error: "User token not found" });
         }
