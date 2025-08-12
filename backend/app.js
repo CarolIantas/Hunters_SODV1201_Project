@@ -3,7 +3,6 @@ const express = require('express')
 //const { MongoClient } = require('mongodb')
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
-const mongo = require("./data/mongo.js");
 
 const app = express()
 
