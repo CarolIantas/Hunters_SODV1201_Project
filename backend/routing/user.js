@@ -120,7 +120,7 @@ router.post('/users/login', (req, res) => {
     expiresIn: 86400
   })
 
-  //add toke in the object
+  //add token in the object
   user.token = token;
 
   if (index > -1) {
