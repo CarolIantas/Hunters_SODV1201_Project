@@ -2,69 +2,28 @@
 // First, let's import the mongoclient. Make sure to run "npm i mongodb" in this folder first.
 const { MongoClient, ObjectId } = require('mongodb'); 
 // Please enter the password your instructor shared with you:
-const project = process.env.username; // Please enter your username here.
+const userName = process.env.MongoDbUserName; // Please enter your username here.
 const password =  process.env.password;  // Please enter your password here.
 
 // Dear INSTRUCTOR, please adjust this to your own cluster's connection string (the part after the @):
-const connectionString = "cluster0.xs6ufcl.mongodb.net/?retryWrites=true&w=majority&appName=cluster0"
+const connectionString = "virendraop7.nkvyxlo.mongodb.net"
 
 // There's no need to change username and database:
-const Username = project.trim().toLowerCase('en-US');   // this is simply to normalize the string to lowercase
-const database = `gla6${project.toLowerCase()}`; // this is the database you'll be connecting to.
+const database = `workspace`; // this is the database you'll be connecting to.
 
-const uri = `mongodb+srv://${project}:${password}@${connectionString}`
+const uri = `mongodb+srv://${userName}:${password}@${connectionString}`
 
-async function runQueries() {
-    // We must create a MongoClient to connect to a MongoDB deployment on Atlas. 
-    const client = new MongoClient(uri);
-    
-    // Check the syntax. Ensure the operations run asynchronously.
-    try {
-        // Let's try to connect to our cluster:
-        await client.connect().then(console.log(`\nLogged in as ${project}:${password}`));
-       
+const client = new MongoClient(uri);
 
-        // Try to perform a read operation using the client connection. Just uncomment the next line to run it!
-        await readOperation(client);
-        
-        // Try to perform a create operation using the client connection:
-         await createOperation(client);
-        
-        // Try to perform an update operation using the client connection:
-         await updateOperation(client);
-        
-        // Try to perform a delete operation using the client connection:
-          await deleteOperation(client);
-
-    } catch (e) {
-        console.error(e);
-    } finally {
-        // We'll close the connection afterward.
-        await client.close().then(console.log(`${project} - Connection closed`));
-    }
-}
-// Let's run our queries:
-runQueries();
-
-// Fix the mistakes to make the CRUD operations work asynchronously.
-async function readOperation(collection,filter) {
-    const response = await client
-    .db(database)       // our database
-    .collection(collection)     // the correct collection for the readOperation function is "read".
-    filter.findOne(filter);         // This will return the first match (empty query = any match). Try it.
-    console.log(response);
-}
 // CREATE
 async function createOperation(collection,newObject){
-  
-
   
     const response = await client
     .db(database)           // our database
     .collection(collection)   // the collection for the createOperation function is "create".
     .insertOne(newObject);           // this method needs an object as an argument. Which object goes here?
-
-    verifyIfDocumentWasCreated(response, project);
+    console.log("response");
+    verifyIfDocumentWasCreated(response, newObject);
 }
 
 
