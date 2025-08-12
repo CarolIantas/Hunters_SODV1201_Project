@@ -1,6 +1,26 @@
 {
   "dependencies": {
     "cors": "^2.8.5",
-    "express": "^5.1.0"
-  }
+    "express": "^5.1.0",
+    "mongo": "^0.1.0",
+    "mongodb": "^6.18.0"
+  },
+  "name": "hunters_sodv1201_project",
+  "version": "1.0.0",
+  "description": "low-fi",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CarolIantas/Hunters_SODV1201_Project.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CarolIantas/Hunters_SODV1201_Project/issues"
+  },
+  "homepage": "https://github.com/CarolIantas/Hunters_SODV1201_Project#readme"
 }
