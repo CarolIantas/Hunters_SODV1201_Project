@@ -303,7 +303,12 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
   //save image
   const file = propertyImage.files[0];
   const res = await api_saveImage(file);
-  const imageUrl = res.secure_url;
+  console.log(imagePreview.src);
+  let imageUrl = imagePreview.src;
+  if (!res.error) {
+    imageUrl = res.secure_url;
+  }
+  
 
   //Set the object:
   const propertyObj = {

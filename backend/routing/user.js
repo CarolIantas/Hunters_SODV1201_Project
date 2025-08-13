@@ -18,7 +18,7 @@ async function readUsers(filters = {}) {
     const users = await readMongo("users",filters); // reads all users
     return(users);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to read users', message: err.message });
+    console.log({ error: 'Failed to read users', message: err.message });
   }
 }
 
@@ -104,7 +104,7 @@ router.post('/users/login', async (req, res) => {
     
     const storedHash = users[0].Hashpassword; // string from DB
     const providedHash = hashUserPassword(password, users[0].Salt).toString("base64");  
-    console.log(storedHash, providedHash, storedHash === providedHash)
+    
     if (users[0].email !== email || storedHash != providedHash) {
       return res.status(404).json({ error: "User not found" });
     }
@@ -154,19 +154,6 @@ router.get('/users/:id', verifyToken, async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to get user" });
-  }
-});
-
-// UPDATE - Update a user by ID
-router.put('/users/:id', verifyToken, async (req, res) => {
-  try {
-    
-    await updateMongo("users", users); 
-
-    res.json({ message: "User updated", user: updatedUser });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Failed to update user", message: err.message });
   }
 });
 
