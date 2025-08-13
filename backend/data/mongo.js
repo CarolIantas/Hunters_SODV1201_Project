@@ -15,8 +15,24 @@ const uri = `mongodb+srv://${userName}:${password}@${connectionString}`
 
 const client = new MongoClient(uri);
 
+// READ
+async function readMongo(collection, filter = {}) {
+  try {
+    const response = await client
+      .db(database)            // select the database
+      .collection(collection)  // select the collection
+      .find(filter)             // apply the filter (empty object means "all documents")
+      .toArray();               // convert cursor to array
+
+    return response;
+  } catch (err) {
+    console.error("Error reading from MongoDB:", err);
+    throw err;
+  }
+}
+
 // CREATE
-async function createOperation(collection,newObject){
+async function createMongo(collection,newObject){
   
     const response = await client
     .db(database)           // our database
@@ -28,7 +44,7 @@ async function createOperation(collection,newObject){
 
 
 // UPDATE
-async function updateOperation(collection,newObject,filter) {
+async function updateMongo(collection,newObject,filter) {
     // This is the unique id of the document we will update. Get the id from the READ results.
 
     // Fix the following syntax:
@@ -41,7 +57,7 @@ async function updateOperation(collection,newObject,filter) {
 }
 
 // DELETE -- DO NOT DELETE FROM THE READ COLLECTION, no matter what!
-async function deleteOperation(collection,filter) {
+async function deleteMongo(collection,filter) {
     const response = await client
     .db(database)
     .collection(collection)             // The DELETE operation should use the "delete" collection.
@@ -71,3 +87,10 @@ function verifyIfDocumentWasCreated(response, project) {
         console.log("Document insertion failed.");
     }
 }
+
+module.exports = {
+    readMongo,
+    createMongo,
+    updateMongo,
+    deleteMongo
+};

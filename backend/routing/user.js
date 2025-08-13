@@ -6,21 +6,20 @@ const router = express.Router();
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const verifyToken = require("./token");
+const {readMongo, updateMongo, deleteMongo, createMongo} = require("../data/mongo.js");
 
 // File configuration
 const FILENAME = "users.json";
 const FILEPATH = path.join(__dirname.replace("routing","data"), FILENAME);
 
 // Helper: read users from file
-function readUsers() {  
-  if (!fs.existsSync(FILEPATH)) return [];  
-  const data = fs.readFileSync(FILEPATH, 'utf8');
-  return data ? JSON.parse(data) : [];
-}
-
-// Helper: write users to file
-function writeUsers(users) {
-  fs.writeFileSync(FILEPATH, JSON.stringify(users, null, 2), 'utf8');
+async function readUsers(filters = {}) {  
+  try {
+    const users = await readMongo("users",filters); // reads all users
+    return(users);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to read users', message: err.message });
+  }
 }
 
 // Helper: hashing password
@@ -30,146 +29,161 @@ function hashUserPassword(password, salt){
 
 // CREATE - Sign up a new user
 //NO JWT VALIDATION FOR CREATING AN USER
-router.post('/users', (req, res) => {
-  const users = readUsers();
-  const newUser = req.body;
-  
-  // Optional: Validate required fields
-  if (!newUser.password || !newUser.firstName || !newUser.lastName || !newUser.email) {
-    return res.status(400).json({ message: "Missing required fields" });
+// CREATE - Sign up a new user (no JWT validation for creating a user)
+router.post('/users', async (req, res) => {
+  try {
+    const users = await readUsers(); // ✅ wait for data
+    const newUser = req.body;
+    
+    // Optional: Validate required fields
+    if (!newUser.password || !newUser.firstName || !newUser.lastName || !newUser.email) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    // Check for duplicate Email
+    if (users.some(user => user.email === newUser.email)) {
+      return res.status(409).json({ message: "User with this Email already exists" });
+    }
+
+    // Get max id to add +1
+    const sortedProp = users.sort((a, b) => a.user_id - b.user_id); // ✅ fixed typo (b.user_id)
+    let maxId = sortedProp[sortedProp.length - 1]?.user_id ?? 0;
+    maxId++;
+
+    // Formatting data save to database
+    const CleaningAndCreatingData = {
+      firstName: newUser.firstName.replace(/[^\w\s]/gi, ''),
+      lastName: newUser.lastName.replace(/[^\w\s]/gi, ''),
+      salt: crypto.randomBytes(32).toString('hex')
+    };
+
+    const hash = hashUserPassword(newUser.password, CleaningAndCreatingData.salt);
+    const hashString = hash.toString("base64"); 
+
+    const FormattedUser = {
+      user_id: maxId,
+      Fullname: `${CleaningAndCreatingData.firstName} ${CleaningAndCreatingData.lastName}`,
+      firstName: CleaningAndCreatingData.firstName,
+      lastName: CleaningAndCreatingData.lastName,
+      email: newUser.email,
+      phone: newUser.phone,
+      Hashpassword: hashString, 
+      role: newUser.role,
+      Salt: CleaningAndCreatingData.salt
+    };
+
+    const sanitizeUser = {
+      user_id: FormattedUser.user_id,
+      Fullname: FormattedUser.Fullname,
+      email: FormattedUser.email,
+      phone: FormattedUser.phone,
+      role: FormattedUser.role,
+    };
+        
+    await createMongo("users", FormattedUser); // ✅ ensure we wait for file/db write
+
+    res.status(201).json({ message: "User created", user: sanitizeUser });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to create user", message: err.message });
   }
-
-  // Check for duplicate Email
-  if (users.some(user => user.email === newUser.email)) {
-    return res.status(409).json({ message: "User with this Email already exists" });
-  }
-
-  //get maxid to add + 1
-  const sortedProp = users.sort((a, b) => a.user_id - b.users_id);
-  
-  let maxId = sortedProp[sortedProp.length-1]?.user_id;
-  if (maxId == undefined) {
-    maxId = 0;
-  };
-  maxId++;
-
-  // Formatting data save to database
-  const CleaningAndCreatingData = {
-    firstName: newUser.firstName.replace(/[^\w\s]/gi, ''),
-    lastName: newUser.lastName.replace(/[^\w\s]/gi, ''),
-    salt: crypto.randomBytes(32).toString('hex')
-  }
-
-  const FormattedUser = {
-    user_id: maxId,
-    Fullname: `${CleaningAndCreatingData.firstName} ${CleaningAndCreatingData.lastName}`,
-    firstName: CleaningAndCreatingData.firstName,
-    lastName: CleaningAndCreatingData.lastName,
-    email: newUser.email,
-    phone: newUser.phone,
-    Hashpassword: hashUserPassword(newUser.password, CleaningAndCreatingData.salt),
-    role: newUser.role,
-    Salt: CleaningAndCreatingData.salt
-  };
-
-  const sanitizeUser = {
-    user_id: FormattedUser.user_id,
-    Fullname: FormattedUser.Fullname,
-    email: FormattedUser.email,
-    phone: FormattedUser.phone,
-    role: FormattedUser.role,
-  }
-
-  users.push(FormattedUser);
-  writeUsers(users);
-
-  res.status(201).json({ message: "User created", user: sanitizeUser });
 });
 
+
 // Login - user
-router.post('/users/login', (req, res) => {
-  const users = readUsers();
-  const login = req.body;
+router.post('/users/login', async (req, res) => {
+  try {    
+    
+    const { email, password } = req.body || {};
+    const users = await readUsers({email: email});
+    
+    // Validate required fields
+    if (!email || !password) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }        
+    
+    const storedHash = users[0].Hashpassword; // string from DB
+    const providedHash = hashUserPassword(password, users[0].Salt).toString("base64");  
+    console.log(storedHash, providedHash, storedHash === providedHash)
+    if (users[0].email !== email || storedHash != providedHash) {
+      return res.status(404).json({ error: "User not found" });
+    }
 
-  if (!login) {
-    return res.status(400).json({ message: "Missing required fields" });
+    // Prepare response user
+    const user = {
+      user_id: users[0].user_id,
+      Fullname: users[0].Fullname,
+      email: users[0].email,
+      phone: users[0].phone,
+      role: users[0].role,
+    };    
+
+    // Generate token (fallback if no secret in env)
+    const token = jwt.sign(
+      user,
+      process.env.JWT || crypto.randomBytes(32).toString("hex"),
+      { expiresIn: 86400 }
+    );    
+    
+    // Attach token to user object
+    user.token = token;
+    
+    return res.status(201).json({message: "Authorized", user: user});
+  } catch (err) {
+    console.error("Login error:", err);
+    res.status(500).json({ error: "Failed to login", message: err.message });
   }
-
-  if (!login.password || !login.email) {
-    return res.status(400).json({ message: "Missing required fields" });
-  }
-
-  // Check for valid login
-  const index = users.findIndex(user => user.email === login.email && Buffer.from(user.Hashpassword).equals(hashUserPassword(login.password, user.Salt || "")))
-
-  if (index < 0) {
-    return res.status(404).json({ error: "User not found" });
-  }
-
-  const user = {
-    user_id: users[index].user_id,
-    Fullname: users[index].Fullname,
-    email: users[index].email,
-    phone: users[index].phone,
-    role: users[index].role, 
-  }
-
-  //user node -e "console.log(require('crypto').randomBytes(32).toString('hex'))" to generate a random secret
-  //check if there is no secret on env utilize thi random one
-  const token = jwt.sign(users[index], process.env.JWT, {
-    expiresIn: 86400
-  })
-
-  //add token in the object
-  user.token = token;
-
-  if (index > -1) {
-    return res.status(201).json({ message: "Authorized", user: user }); 
-  }
-
-  return res.status(401).json({ message: "Login not valid." });
 });
 
 // READ - Get all users
-router.get('/users', (req, res) => {  
-  const users = readUsers();
-  res.json(users);
+router.get('/users', async (req, res) => {
+  res.json(await readUsers());
 });
 
 // READ - Get a user by ID
-router.get('/users/:id', verifyToken, (req, res) => {  
-  const users = readUsers();
-  const user = users.find(u => u.user_id == req.params.id);
+router.get('/users/:id', verifyToken, async (req, res) => {
+  try {
+    const users = await readUsers(); // wait for the async read
+    const user = users.find(u => u.user_id == req.params.id);
 
-  if (!user) return res.status(404).json({ message: "User not found" });
-  res.json(user);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to get user" });
+  }
 });
 
 // UPDATE - Update a user by ID
-router.put('/users/:id', verifyToken, (req, res) => {
-  const users = readUsers();
-  const index = users.findIndex(u => u.user_id == req.params.id);
+router.put('/users/:id', verifyToken, async (req, res) => {
+  try {
+    
+    await updateMongo("users", users); 
 
-  if (index === -1) return res.status(404).json({ message: "User not found" });
-
-  const updatedUser = { ...users[index], ...req.body };
-  users[index] = updatedUser;
-  writeUsers(users);
-
-  res.json({ message: "User updated", user: updatedUser });
+    res.json({ message: "User updated", user: updatedUser });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to update user", message: err.message });
+  }
 });
 
-// DELETE - Remove a user by ID
-router.delete('/users/:id', verifyToken, (req, res) => {
-  const users = readUsers();
-  const filteredUsers = users.filter(u => u.id != req.params.id);
+// DELETE - Remove a user by ID (MongoDB)
+router.delete('/users/:id', verifyToken, async (req, res) => {
+  try {    
+      deleteMongo("users",{ user_id: req.params.id });
 
-  if (users.length === filteredUsers.length) {
-    return res.status(404).json({ message: "User not found" });
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ message: "User deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to delete user", message: err.message });
   }
-
-  writeUsers(filteredUsers);
-  res.json({ message: "User deleted" });
 });
 
 // Export the route
