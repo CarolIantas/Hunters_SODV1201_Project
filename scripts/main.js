@@ -345,12 +345,29 @@ async function renderMap() {
 
     async function loadAddressesOnMap() {
         const coords = [];
+        let cache = JSON.parse(localStorage.getItem("coords") || "[]");
+
         for (const address of addresses) {
-            const coord = await geocodeAddress(address);
+            const indexCoord = cache.findIndex(f => f.address === address);
+            let coord;
+
+            //if (indexCoord > -1) {                
+            //    coord = cache[indexCoord].coord;
+            //    console.log(coord);
+            //} else {
+                coord = await geocodeAddress(address);
+            //    console.log(coord);
+            //    cache.push({ address, coord });
+            //    localStorage.setItem("coords", JSON.stringify(cache));
+            //}
+
             if (coord) coords.push(coord);
-            await new Promise(res => setTimeout(res, 1000)); // Nominatim rate limit
+
+            // Respect Nominatim's rate limit
+            await new Promise(res => setTimeout(res, 1000));
         }
-        if (coords.length > 0) {
+
+        if (coords.length > 0) {            
             mapInstance.fitBounds(coords);
         }
     }
