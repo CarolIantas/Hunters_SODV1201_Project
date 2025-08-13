@@ -6,6 +6,8 @@ const router = express.Router();
 const verifyToken = require("./token");
 const {readMongo, updateMongo, deleteMongo, createMongo} = require("../data/mongo.js");
 
+let mapCache = [];
+
 // Helper: read workspaces from file
 async function readWorkspaces(filters = {}) {    
 
@@ -117,6 +119,55 @@ router.delete('/workspaces/:id', verifyToken, async (req, res) => {
     res.status(500).json({ error: "Failed to delete workspace", message: err.message });
   }
 });
+
+router.get('/workspaces/map/:address', verifyToken, async (req, res) => {  
+  const address = req.params.address;
+  const indexMap = mapCache.findIndex(f => f.address == address);
+  if (indexMap > -1) {        
+    res.status(201).json(JSON.parse(mapCache[indexMap].ret));
+  } else {    
+    const response = await api_geocodeAddress(req.params.address);    
+    res.status(201).json(response);
+  }  
+})
+
+
+// Function to geocode and place markers (with caching and throttling)
+async function api_geocodeAddress(address) {
+  
+
+  try {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${address}&limit=1`;
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept-Language': 'en',
+        'User-Agent': 'WorkSpaceWebApp (pedro.kuchak@gmail.com)',
+        'Content-Type': 'application/json; charset=utf-8',        
+      }
+    });
+
+    // Read response as text first to detect blocked pages
+    const text = await response.text();
+
+    // Detect if Nominatim blocked the request
+    if (text.includes('Access blocked') || text.startsWith('<!DOCTYPE html>')) {
+      console.warn(`Nominatim blocked request for address: ${address}`);
+      return null;
+    }
+
+    const data = JSON.parse(text);
+
+    // Cache the result to localStorage
+    mapCache.push({address: address, ret: JSON.stringify(data)});
+    
+    return data;
+  } catch (error) {
+    console.error(`Error geocoding '${address}':`, error);
+    return null;
+  }
+}
 
 // Export the route method
 module.exports = router;

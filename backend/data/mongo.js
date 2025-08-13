@@ -17,7 +17,7 @@ const client = new MongoClient(uri);
 
 // READ
 async function readMongo(collection, filter = {}) {
-  try {        
+  try {           
     const response = await client
       .db(database)            // select the database
       .collection(collection)  // select the collection

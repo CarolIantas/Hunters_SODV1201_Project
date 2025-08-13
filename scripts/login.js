@@ -25,19 +25,27 @@ $(document).ready(function () {
             const user = await api_login(user_obj);
             if (user.user) {                
                 //store user and properties on local storage                
-                localStorage.setItem('currentUser', JSON.stringify(user.user));
-                //get data base on user role and store all important data in local storage    
-                //get properties
-
-                const properties = await api_getPropertiesByUser(user.user);                                                     
-                localStorage.setItem('properties', JSON.stringify(properties));                                
-                localStorage.setItem('filteredProperties', JSON.stringify(properties));                                
+                localStorage.setItem('currentUser', JSON.stringify(user.user));                
                 
                 //get workspaces if the user is coworker
                 if (user.user.role == "coworker") {
-                    const workspaces = await api_getWorkspaces();
+
+                    const properties = await api_getProperties();         
+                    
+                    localStorage.setItem('properties', JSON.stringify(properties));                                
+                    localStorage.setItem('filteredProperties', JSON.stringify(properties));
+
+                    const workspaces = await api_getWorkspaces();                    
                     localStorage.setItem('workspaces', JSON.stringify(workspaces));       
                     localStorage.setItem('filteredWorkspaces', JSON.stringify(workspaces));       
+                } else {
+                    //get data base on user role and store all important data in local storage    
+                    //get properties
+
+                    const properties = await api_getPropertiesByUser(user.user);         
+                    
+                    localStorage.setItem('properties', JSON.stringify(properties));                                
+                    localStorage.setItem('filteredProperties', JSON.stringify(properties));                                
                 }                             
                 
                 const target = user.user.role === 'owner' ? 'dash.html' : 'search.html';

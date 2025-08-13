@@ -106,7 +106,7 @@ function checkAuthState() {
 
 function loadSearchResults(filteredList = null) {
     const workspaces = filteredList || JSON.parse(localStorage.getItem('workspaces')) || [];
-    const properties = JSON.parse(localStorage.getItem('properties')) || [];
+    const properties = JSON.parse(localStorage.getItem('properties')) || [];    
 
     const $results = $('#searchResults');
     $results.empty();
@@ -329,7 +329,7 @@ async function renderMap() {
 
     async function geocodeAddress(address) {
         try {
-            const data = await api_geocodeAddress(address);
+            const data = await api_getWorkspaceByAddress(encodeURIComponent(address));
             if (data && data.length > 0) {
                 const { lat, lon, display_name } = data[0];
                 L.marker([+lat, +lon])

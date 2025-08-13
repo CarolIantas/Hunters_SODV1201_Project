@@ -71,6 +71,7 @@ router.get('/properties', verifyToken, async (req, res) => {
 // READ - Get all properties
 router.post('/properties/user', verifyToken, async (req, res) => {
   const user = req.body;
+  console.log(user)
   const properties = await readProperties({user_id: parseInt(user.user_id)});  
   res.json(properties);
 });

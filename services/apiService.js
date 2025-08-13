@@ -40,26 +40,6 @@ async function api_saveImage(file) {
   return data;
 }
 
-// Function to geocode and place markers
-  async function api_geocodeAddress(address) {
-      try {
-          const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`;
-
-          const response = await fetch(url, {
-              headers: {
-                  'Accept-Language': 'en',
-                  'User-Agent': 'WorkSpaceWebApp (p.kuchakmolina@mybvc.ca)'
-              }
-          });
-
-          return await response.json();
-          
-      } catch (error) {
-          console.error(`Error geocoding '${address}':`, error);
-          return null;
-      }
-  }
-
 // USERS
 const api_getUsers = () => request('/users');
 const api_getUserById = (id) => request(`/users/${id}`);
@@ -79,6 +59,7 @@ const api_deleteProperty = (id) => request(`/properties/${id}`, 'DELETE');
 // WORKSPACES
 const api_getWorkspaces = () => request('/workspaces');
 const api_getWorkspaceById = (id) => request(`/workspaces/${id}`);
+const api_getWorkspaceByAddress = (address) => request(`/workspaces/map/${address}`);
 const api_getWorkspaceByPropertyId = (id) => request(`/workspaces/property/${id}`);
 const api_createWorkspace = (workspace) => request('/workspaces', 'POST', workspace);
 const api_updateWorkspace = (id, workspace) => request(`/workspaces/${id}`, 'PUT', workspace);
