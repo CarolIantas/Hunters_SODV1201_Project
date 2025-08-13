@@ -12,6 +12,7 @@ const connectionString = "virendraop7.nkvyxlo.mongodb.net"
 const database = `workspace`; // this is the database you'll be connecting to.
 
 const uri = `mongodb+srv://${userName}:${password}@${connectionString}`
+console.log(uri);
 
 const client = new MongoClient(uri);
 
