@@ -121,7 +121,7 @@ async function startEditProperty(index) {
   newPropertyAddress.value = property.address;
   newPropertyNeighborhood.value = property.neighborhood;
   imagePreview.src = property.image;
-  console.log(property.image)
+  
   if (property.image != undefined) {
     imagePreviewContainer.classList.remove("hidden");
   }
@@ -303,7 +303,6 @@ document?.getElementById("addPropertyForm")?.addEventListener("submit", async fu
   //save image
   const file = propertyImage.files[0];
   const res = await api_saveImage(file);
-  console.log(imagePreview.src);
   let imageUrl = imagePreview.src;
   if (!res.error) {
     imageUrl = res.secure_url;

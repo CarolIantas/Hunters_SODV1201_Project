@@ -17,12 +17,13 @@ const client = new MongoClient(uri);
 
 // READ
 async function readMongo(collection, filter = {}) {
-  try {    
+  try {        
     const response = await client
       .db(database)            // select the database
       .collection(collection)  // select the collection
       .find(filter)             // apply the filter (empty object means "all documents")
       .toArray();               // convert cursor to array
+      
 
     return response;
   } catch (err) {
@@ -37,7 +38,7 @@ async function createMongo(collection,newObject){
     const response = await client
     .db(database)           // our database
     .collection(collection)   // the collection for the createOperation function is "create".
-    .insertOne(newObject);           // this method needs an object as an argument. Which object goes here?
+    .insertOne(newObject);           // this method needs an object as an argument. Which object goes here?    
     
 }
 

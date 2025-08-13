@@ -6,11 +6,6 @@ const { title } = require('process');
 const router = express.Router();
 const verifyToken = require("./token");
 const {readMongo, updateMongo, deleteMongo, createMongo} = require("../data/mongo.js");
-const { ObjectId } = require('mongodb'); 
-
-// File configuration
-const FILENAME = "properties.json";
-const FILEPATH = path.join(__dirname.replace("routing","data"), FILENAME);
 
 // Helper: read properties from file
 async function readProperties(filters = {}) {    
@@ -21,11 +16,6 @@ async function readProperties(filters = {}) {
   } catch (err) {
     console.log({ error: 'Failed to read properties', message: err.message });
   }
-}
-
-// Helper: write properties to file
-function writeProperties(properties) {
-  fs.writeFileSync(FILEPATH, JSON.stringify(properties, null, 2), 'utf8');
 }
 
 // CREATE - Add a new property
@@ -51,7 +41,7 @@ router.post('/properties', verifyToken, async (req, res) => {
     // Formatting data save to database
     const FormattedProperties = {
       property_id: maxId,
-      user_id: newProperty.user_id,
+      user_id: parseInt(newProperty.user_id),
       title: newProperty.title,
       address: newProperty.address,
       neighborhood: newProperty.neighborhood,    

@@ -86,13 +86,15 @@ async function saveWorkspaceEdit() {
 
   const file = workspacePhoto.files[0];  
   const res = await api_saveImage(file); 
-  const imageUrl = res.secure_url;
+  let imageUrl = imageWorkspacePreview.src;
+  if (!res.error) {
+    imageUrl = res.secure_url;
+  }
 
   const smokingInput = document.querySelector('input[name="smoking"]:checked');
   const smokingValue = smokingInput ? (smokingInput.value == "no" ? false : true) : false;
 
-  //updated object 
-  console.log(workspaceDate.value)
+  //updated object   
   wsObject = {    
     property_id: document?.getElementById("addPropertyForm").getAttribute("property_id"),
     name: workspaceName.value,

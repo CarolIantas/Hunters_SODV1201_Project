@@ -8,10 +8,6 @@ const jwt = require('jsonwebtoken');
 const verifyToken = require("./token");
 const {readMongo, updateMongo, deleteMongo, createMongo} = require("../data/mongo.js");
 
-// File configuration
-const FILENAME = "users.json";
-const FILEPATH = path.join(__dirname.replace("routing","data"), FILENAME);
-
 // Helper: read users from file
 async function readUsers(filters = {}) {  
   try {

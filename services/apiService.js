@@ -1,6 +1,6 @@
 // src/services/apiService.js
-const API_BASE_URL = 'http://localhost:3001';
-//const API_BASE_URL = 'https://hunters-sodv1201-project.onrender.com';
+//const API_BASE_URL = 'http://localhost:3001';
+const API_BASE_URL = 'https://hunters-sodv1201-project.onrender.com';
 
 //file settings
 const cloudName = "dl6a1uj4h";
@@ -8,7 +8,6 @@ const unsignedPreset = "SODV1201_Hunters";
 
 async function request(url, method = 'GET', data) {
   const user = JSON.parse(localStorage.getItem('currentUser'));
-  console.log(user)
   
   const options = {
     method,
