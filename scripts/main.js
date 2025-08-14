@@ -271,7 +271,7 @@ function applyFilters(e) {
         if (type && ws.type_of_room?.toLowerCase() !== type) return false;
         if (!isNaN(capacity) && ws.capacity < capacity) return false;
         if (!isNaN(price) && parseFloat(ws.price) > price) return false;
-        if (smoking && !prop.smoking_allowed) return false;
+        if (smoking && !ws.smoking) return false;
 
         filteredProps.push(prop);
         return true;

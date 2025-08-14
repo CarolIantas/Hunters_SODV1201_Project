@@ -100,7 +100,7 @@ router.post('/users/login', async (req, res) => {
     
     const storedHash = users[0].Hashpassword; // string from DB
     const providedHash = hashUserPassword(password, users[0].Salt).toString("base64");  
-    
+    console.log(storedHash, providedHash, storedHash == providedHash)
     if (users[0].email !== email || storedHash != providedHash) {
       return res.status(404).json({ error: "User not found" });
     }
